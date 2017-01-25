@@ -1,8 +1,13 @@
 #+TITLE: General Problem Solver in Common Lisp
+* PREFACE
+**The computer code here is not original to me.** and this document reflects several of my ongoing projects:
+1. Learning 'classic' AI by working through Peter Norvig's *Paradigms of Artificial Intelligence: Case Studies in Common Lisp*.
+2. Learning more Emacs in general and org-mode in particular.
+3. Developing a work process around Literate Programming.
 * INTRODUCTION
 The General Problem Solver was developed in 1957 by Alan Newell and Herbert Simon. This version is based on Chapter 4 of *Paradigms of Artificial Intelligence: Case Studies in Common Lisp*.
 ** Using this file
-1. The output for this file is =tictactoe.el=.
+1. The output for this file is =general-problem-solver.lisp=.
 2. The web page for this file is =docs/index.html=. It is structured to work with Github pages.
 3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
 #+NAME: generate-files
@@ -17,6 +22,10 @@ The General Problem Solver was developed in 1957 by Alan Newell and Herbert Simo
     (kill-buffer))
   (concat "Files Generated: " (current-time-string))
 #+END_SRC 
+
+#+RESULTS: generate-files
+: Files Generated: Wed Jan 25 17:02:32 2017
+
 * PROCESS STAGES
 ** Description
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
