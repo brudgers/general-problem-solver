@@ -1,6 +1,10 @@
-**The computer code here is not original to me.** and this document reflects several of my ongoing projects:
+** Literate Programming
+This project uses literate programming and the annotated source code is availabe as a Github Page: https://brudgers.github.io/general-problem-solver/.
+
+** I did not author the Common Lisp Code here
+*The computer code here is not original to me.* and this document reflects several of my ongoing projects:
 1. Learning 'classic' AI by working through Peter Norvig's *Paradigms of Artificial Intelligence: Case Studies in Common Lisp*. http://norvig.com/paip.html Norvig's book is the source for the Lisp code in this project.
 2. Learning more Emacs in general and org-mode in particular.
 3. Developing a work process around Literate Programming.
 
-This project uses literate programming and the annotated source code is availabe as a Github Page: https://brudgers.github.io/general-problem-solver/.
+
