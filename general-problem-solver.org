@@ -1,11 +1,11 @@
 #+TITLE: General Problem Solver in Common Lisp
 * PREFACE
 **The computer code here is not original to me.** and this document reflects several of my ongoing projects:
-1. Learning 'classic' AI by working through Peter Norvig's *Paradigms of Artificial Intelligence: Case Studies in Common Lisp*.  http://norvig.com/paip.html Norvig's book is the source for the Lisp code in this project.
+1. Learning 'classic' AI by working through Peter Norvig's [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]].   Norvig's book is the source for the Lisp code in this project.
 2. Learning more Emacs in general and org-mode in particular.
 3. Developing a work process around Literate Programming.
 * INTRODUCTION
-The General Problem Solver was developed in 1957 by Alan Newell and Herbert Simon. The paper associated with their initial work is *A Report on a General Problem Solving Program* http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf However, the code in this version is based on Chapter 4 of *Paradigms of Artificial Intelligence: Case Studies in Common Lisp*.
+The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]].
 
 ** Using this file
 1. The output for this file is =general-problem-solver.lisp=.

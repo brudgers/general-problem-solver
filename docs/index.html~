@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>General Problem Solver in Common Lisp</title>
-<!-- 2017-01-25 Wed 17:25 -->
+<!-- 2017-01-25 Wed 17:31 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="benrudgers" />
@@ -172,7 +172,7 @@ for the JavaScript code in this tag.
 <b><b>The computer code here is not original to me.</b></b> and this document reflects several of my ongoing projects:
 </p>
 <ol class="org-ol">
-<li>Learning 'classic' AI by working through Peter Norvig's <b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b>.
+<li>Learning 'classic' AI by working through Peter Norvig's <b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b>.  <a href="http://norvig.com/paip.html">http://norvig.com/paip.html</a> Norvig's book is the source for the Lisp code in this project.
 </li>
 <li>Learning more Emacs in general and org-mode in particular.
 </li>
@@ -408,7 +408,7 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-01-25 Wed 17:25</p>
+<p class="date">Created: 2017-01-25 Wed 17:31</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
