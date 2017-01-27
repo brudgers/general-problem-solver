@@ -5,7 +5,9 @@
 2. Learning more Emacs in general and org-mode in particular.
 3. Developing a work process around Literate Programming.
 * INTRODUCTION
-The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]].
+The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]]. 
+
+Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinitorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic...it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
 * PROCESS STAGES
 ** Description
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
@@ -113,6 +115,11 @@ Note that =nil= is the default value for each field of the =op= structure.
     t)
 #+END_SRC
 ** Testing
+*** Parameterize knowledge base
+This is one of the techniques that Norvig introduces early in the book. The idea of parameters is that changing the parameters, creates a different program. For example, the school parameters here create a program that solves the problem of getting the son to school. A different set of parameters will create a 'different' problem solver.
+
+The parameter =*school-ops*= could be shorter by leaving out the fields that are =nil= since it is the default for the =op= structure and Norvig does so in the book.  However, being explicit has the advantage of requiring less local knowledge and the advantage of creating a more regular pattern within the code similar to the design recipes in *How to Design Programs*.
+
 #+BEGIN_SRC lisp :tangle yes
   (defparameter *school-ops*
     (list
@@ -166,4 +173,4 @@ Note that =nil= is the default value for each field of the =op= structure.
 #+END_SRC 
 
 #+RESULTS: generate-files
-: Files Generated: Thu Jan 26 18:08:16 2017
+: Files Generated: Thu Jan 26 20:41:51 2017
