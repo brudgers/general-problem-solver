@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>General Problem Solver in Common Lisp</title>
-<!-- 2017-01-26 Thu 20:59 -->
+<!-- 2017-01-27 Fri 19:32 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="benrudgers" />
@@ -198,8 +198,17 @@ The General Problem Solver was developed in 1957 by <a href="https://en.wikipedi
 <p>
 Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinitorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic&#x2026;it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
 </p>
+
+
+
+<div class="figure">
+<p><img src="img/gps-exec.svg" alt="gps-exec.svg" />
+</p>
+<p><span class="figure-number">Figure 1:</span> Executive Organization of GPS</p>
 </div>
 </div>
+</div>
+
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> PROCESS STAGES</h2>
 <div class="outline-text-2" id="text-3">
@@ -485,7 +494,8 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </ol>
 <div class="org-src-container">
 
-<pre class="src src-elisp" id="generate-files">;; generate general-problem-solver.lisp
+<pre class="src src-elisp" id="generate-files">;; label for search: qqz
+;; generate general-problem-solver.lisp
 (org-babel-tangle)
 ;; generate docs/index.html
 (org-html-export-as-html)
@@ -502,7 +512,7 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-01-26 Thu 20:59</p>
+<p class="date">Created: 2017-01-27 Fri 19:32</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

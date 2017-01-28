@@ -8,6 +8,31 @@
 The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]]. 
 
 Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinitorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic...it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
+
+
+#+BEGIN_SRC dot :file img/gps-exec.svg :exports results
+digraph G {
+ratio=1.1;
+a[label="Command to\nachieve goal", shape=plaintext];
+b[label="Evaluate Goal", shape=box];
+bb[label="Do not try\nto achieve", shape=plaintext];
+c[label="Select method\nfor this type of goal", shape=box];
+d[label="Execute method", shape=box];
+e[label="Goal achieved", shape=plaintext];
+splines=ortho;
+{
+a -> b -> c -> d -> e;
+}
+rank=same {b, bb}
+b:e -> bb:w [label="Reject"];
+d:w -> b:w [xlabel="Goal\nnot\nachieved", constraint=false];
+}
+#+END_SRC
+
+#+CAPTION: Executive Organization of GPS
+#+RESULTS:
+[[file:img/gps-exec.svg]]
+
 * PROCESS STAGES
 ** Description
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
@@ -161,6 +186,7 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
 #+NAME: generate-files
 #+BEGIN_SRC elisp
+  ;; label for search: qqz
   ;; generate general-problem-solver.lisp
   (org-babel-tangle)
   ;; generate docs/index.html
@@ -173,4 +199,4 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 #+END_SRC 
 
 #+RESULTS: generate-files
-: Files Generated: Thu Jan 26 20:41:51 2017
+: Files Generated: Fri Jan 27 19:32:21 2017
