@@ -10,7 +10,7 @@ The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/w
 Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinitorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic...it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
 
 
-#+BEGIN_SRC dot :file docs/img/gps-exec.svg :exports results
+#+BEGIN_SRC dot :file docs/gps-exec.svg :exports results
 digraph G {
 ratio=1.1;
 a[label="Command to\nachieve goal", shape=plaintext];
@@ -31,7 +31,7 @@ d:w -> b:w [xlabel="Goal\nnot\nachieved", constraint=false];
 
 #+CAPTION: Executive Organization of GPS
 #+RESULTS:
-[[file:docs/img/gps-exec.svg]]
+[[file:docs/gps-exec.svg]]
 
 
 
@@ -202,4 +202,4 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 #+END_SRC 
 
 #+RESULTS: generate-files
-: Files Generated: Fri Jan 27 19:46:11 2017
+: Files Generated: Fri Jan 27 19:47:03 2017
