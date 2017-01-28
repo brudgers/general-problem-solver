@@ -4,7 +4,7 @@
                                test-not
                                &allow-other-keys)
   "Find all those elements of sequence that match item.
-   according to tthe keywords. Does not alter sequence"
+   according to the keywords. Does not alter sequence"
   (if test-not
       (apply #'remove item sequence
              :test-not (complement test-not) keyword-args)
@@ -22,7 +22,7 @@
   (del-list nil))
 
 (defun GPS (*state* goals *ops*)
-  "General Problem Solver: acieve all goals using *ops*."
+  "General Problem Solver: achieve all goals using *ops*."
   (if (every #'achieve goals) 'solved))
 
 (defun achieve (goal)
