@@ -7,8 +7,21 @@
 * INTRODUCTION
 The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]]. 
 
-Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinitorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic...it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
+Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinatorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic...it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
 
+** GPS Main Components
+1. A vocabulary for talking about the task environment: operators, objects, difference, feature, etc.
+2. A vocabulary for dealing with the organization of problem-solving processes: goal, method, evaluation.
+3. Programs defining the terms of the problem solving vocabulary in terms of the task environment vocabulary.
+4. A set of correlative definitions applying the task-environment vocabulary to a particular domain environment.
+** Goal Types
+1. Transform =object a= into =object b= by applying operators from the task environment. An example is proof from axioms.
+2. Apply =operator q= to =object a= or an object obtained from a by admissible transformations. An example is integrating an expression.
+3. Reduce the difference (distance) between =object a= and =object b= by transforming =object a=.
+** Heuristics
+The main heuristic is the principle of sub-goal reduction: reduce hard goals to sets of easier goals. This assumes that the difference between the current state and the goal can be determined; operators have partial effects on the environment and some portions always remain unchanged by each operator; some differences are harder to effect than others and so it is good practice to eliminate hard differences at the cost of introducing easier differences so long as progress is made.
+
+** Executive Structure of GPS
 
 #+BEGIN_SRC dot :file gps-exec.svg :exports results
 digraph G {
@@ -33,15 +46,14 @@ d:w -> b:w [xlabel="Goal\nnot\nachieved", constraint=false];
 #+RESULTS:
 [[file:gps-exec.svg]]
 
-
-
+/Source code for this diagram is written in/ =graphviz= /and contained in the literate programming file./
 
 * PROCESS STAGES
 ** Description
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
 ** Specification
 The specification has seven parts.
-+ Repesent the current state of the world (environment) as a set of conditions. Represent the desired state of the world as a set of conditions.
++ Represent the current state of the world (environment) as a set of conditions. Represent the desired state of the world as a set of conditions.
 + A list of allowable operators.
 + Each operator is: a list of preconditions, an action, a list of effects.
 + A complete problem is a starting state, a goal state, a set of known operators.
@@ -69,11 +81,11 @@ The specification has seven parts.
   +---------------+----------------------------+
   |               |Functions: Achieve an       |
   |achieve        |individual goal, Decide if  |
-  |approprriate-p |an operator achieves a goal.|
+  |appropriate-p |an operator achieves a goal.|
   |apply-op       |Apply operator to the       |
   |               |current state.              |
   +---------------+----------------------------+
-  |member,        |Common Lisp Funtions        |
+  |member,        |Common Lisp Functions        |
   |set-difference,|                            |
   |union, every,  |                            |
   |some           |                            |
@@ -88,7 +100,7 @@ The specification has seven parts.
                                  test-not
                                  &allow-other-keys)
     "Find all those elements of sequence that match item.
-     according to tthe keywords. Does not alter sequence"
+     according to the keywords. Does not alter sequence"
     (if test-not
         (apply #'remove item sequence
                :test-not (complement test-not) keyword-args)
@@ -118,7 +130,7 @@ Note that =nil= is the default value for each field of the =op= structure.
 #+NAME: gps
 #+BEGIN_SRC lisp :tangle yes
   (defun GPS (*state* goals *ops*)
-    "General Problem Solver: acieve all goals using *ops*."
+    "General Problem Solver: achieve all goals using *ops*."
     (if (every #'achieve goals) 'solved))
 #+END_SRC
 *** Functions
@@ -202,4 +214,4 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 #+END_SRC 
 
 #+RESULTS: generate-files
-: Files Generated: Fri Jan 27 19:50:07 2017
+: Files Generated: Fri Jan 27 20:01:11 2017
