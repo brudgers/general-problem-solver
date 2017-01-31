@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>General Problem Solver in Common Lisp</title>
-<!-- 2017-01-27 Fri 20:30 -->
+<!-- 2017-01-31 Tue 17:25 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="benrudgers" />
@@ -403,7 +403,7 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 <div class="outline-text-4" id="text-3-3-4">
 <div class="org-src-container">
 
-<pre class="src src-lisp" id="gps">(defun GPS (*state* goals *ops*)
+<pre class="src src-lisp" id="gps">(defun gps (*state* goals *ops*)
   "General Problem Solver: achieve all goals using *ops*."
   (if (every #'achieve goals) 'solved))
 </pre>
@@ -418,9 +418,9 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 <pre class="src src-lisp">(defun achieve (goal)
   "A goal is achieved if it already holds. Or if there
    is an appropriate op for it that is applicable."
-  (or (member goal state)
+  (or (member goal *state*)
       (some #'apply-op
-            (find-all goal *ops* :test appropriate-p))))
+            (find-all goal *ops* :test #'appropriate-p))))
 
 (defun appropriate-p (goal op)
   "An op is appropriate to a goal if the goal is on the op's add-list."
@@ -431,8 +431,7 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
   (when (every #'achieve (op-preconds op))
     (print (list 'executing (op-action op)))
     (setf *state* (set-difference *state* (op-del-list op)))
-    (setf *state* (union *state* (op-add-list op))))
-  t)
+    (setf *state* (union *state* (op-add-list op)))))
 </pre>
 </div>
 </div>
@@ -501,7 +500,7 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 <ol class="org-ol">
 <li>The output for this file is <code>general-problem-solver.lisp</code>.
 </li>
-<li>The web page for this file is <code>docs/index.html</code>. It is structured to work with Github pages.
+<li>The web page for this file is <code>index.html</code>. It is structured to work with Github pages.
 </li>
 <li>To generate these files, navigate into the source block and use <code>M-x org-babel-execute-src-block</code>. 
 </li>
@@ -526,7 +525,7 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-01-27 Fri 20:30</p>
+<p class="date">Created: 2017-01-31 Tue 17:25</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
