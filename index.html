@@ -3,23 +3,30 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
+<!-- 2017-02-04 Sat 12:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>General Problem Solver in Common Lisp</title>
-<!-- 2017-02-01 Wed 11:06 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="benrudgers" />
+<meta name="generator" content="Org mode" />
+<meta name="author" content="benrudgers" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
   .todo   { font-family: monospace; color: red; }
-  .done   { color: green; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
   .tag    { background-color: #eee; font-family: monospace;
             padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
   .underline { text-decoration: underline; }
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
@@ -46,27 +53,110 @@
     border: 1px solid black;
   }
   pre.src:hover:before { display: inline;}
-  pre.src-sh:before    { content: 'sh'; }
-  pre.src-bash:before  { content: 'sh'; }
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
   pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-R:before     { content: 'R'; }
-  pre.src-perl:before  { content: 'Perl'; }
-  pre.src-java:before  { content: 'Java'; }
-  pre.src-sql:before   { content: 'SQL'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
 
   table { border-collapse:collapse; }
   caption.t-above { caption-side: top; }
   caption.t-bottom { caption-side: bottom; }
   td, th { vertical-align:top;  }
-  th.right  { text-align: center;  }
-  th.left   { text-align: center;   }
-  th.center { text-align: center; }
-  td.right  { text-align: right;  }
-  td.left   { text-align: left;   }
-  td.center { text-align: center; }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
   dt { font-weight: bold; }
-  .footpara:nth-child(2) { display: inline; }
-  .footpara { display: block; }
+  .footpara { display: inline; }
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
@@ -86,6 +176,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
 <script type="text/javascript">
@@ -142,61 +233,66 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. PREFACE</a></li>
-<li><a href="#sec-2">2. INTRODUCTION</a>
+<li><a href="#org4fd2fe4">1. PREFACE</a></li>
+<li><a href="#orge9fc534">2. INTRODUCTION</a>
 <ul>
-<li><a href="#sec-2-1">2.1. GPS Main Components</a></li>
-<li><a href="#sec-2-2">2.2. Goal Types</a></li>
-<li><a href="#sec-2-3">2.3. Heuristics</a></li>
-<li><a href="#sec-2-4">2.4. Executive Structure of GPS</a></li>
+<li><a href="#orga78f3ab">2.1. GPS Main Components</a></li>
+<li><a href="#org5a81515">2.2. Goal Types</a></li>
+<li><a href="#orgc120b89">2.3. Heuristics</a></li>
+<li><a href="#org67505e9">2.4. Executive Structure of GPS</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. PROCESS STAGES</a>
+<li><a href="#org550028b">3. PROCESS STAGES</a>
 <ul>
-<li><a href="#sec-3-1">3.1. Description</a></li>
-<li><a href="#sec-3-2">3.2. Specification</a></li>
-<li><a href="#sec-3-3">3.3. Implementation</a>
+<li><a href="#orgd25b57b">3.1. Description</a></li>
+<li><a href="#org25b46c1">3.2. Specification</a></li>
+<li><a href="#org49921c7">3.3. Implementation</a>
 <ul>
-<li><a href="#sec-3-3-1">3.3.1. Helper Functions</a></li>
-<li><a href="#sec-3-3-2">3.3.2. Special Variables</a></li>
-<li><a href="#sec-3-3-3">3.3.3. Operations</a></li>
-<li><a href="#sec-3-3-4">3.3.4. GPS</a></li>
-<li><a href="#sec-3-3-5">3.3.5. Functions</a></li>
-</ul>
-</li>
-<li><a href="#sec-3-4">3.4. Testing</a>
-<ul>
-<li><a href="#sec-3-4-1">3.4.1. Parameterize knowledge base</a></li>
+<li><a href="#org96c6edc">3.3.1. Helper Functions</a></li>
+<li><a href="#orgf137593">3.3.2. Special Variables</a></li>
+<li><a href="#org41c298a">3.3.3. Operations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#sec-4">4. Appendix</a>
+<li><a href="#orgd784275">4. VERSION 1</a>
 <ul>
-<li><a href="#sec-4-1">4.1. Using this file</a></li>
+<li>
+<ul>
+<li><a href="#org86e8f83">4.0.1. GPS</a></li>
+<li><a href="#orgf470bb2">4.0.2. Functions</a></li>
+</ul>
+</li>
+<li><a href="#org2774b98">4.1. Testing</a>
+<ul>
+<li><a href="#orga9b3153">4.1.1. Parameterize knowledge base</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgda7e05f">5. Appendix</a>
+<ul>
+<li><a href="#orgad7664b">5.1. Using this file</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> PREFACE</h2>
+<div id="outline-container-org4fd2fe4" class="outline-2">
+<h2 id="org4fd2fe4"><span class="section-number-2">1</span> PREFACE</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b><b>The computer code here is not original to me.</b></b> and this document reflects several of my ongoing projects:
 </p>
 <ol class="org-ol">
-<li>Learning 'classic' AI by working through Peter Norvig's <a href="http://norvig.com/paip.html"><b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b></a>.   Norvig's book is the source for the Lisp code in this project.
-</li>
-<li>Learning more Emacs in general and org-mode in particular.
-</li>
-<li>Developing a work process around Literate Programming.
-</li>
+<li>Learning 'classic' AI by working through Peter Norvig's <a href="http://norvig.com/paip.html"><b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b></a>.   Norvig's book is the source for the Lisp code in this project.</li>
+<li>Learning more Emacs in general and org-mode in particular.</li>
+<li>Developing a work process around Literate Programming.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> INTRODUCTION</h2>
+<div id="outline-container-orge9fc534" class="outline-2">
+<h2 id="orge9fc534"><span class="section-number-2">2</span> INTRODUCTION</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The General Problem Solver was developed in 1957 by <a href="https://en.wikipedia.org/wiki/Allen_Newell">Alan Newell</a>, <a href="https://en.wikipedia.org/wiki/Cliff_Shaw">Cliff Shaw</a> and <a href="https://en.wikipedia.org/wiki/Herbert_A._Simon">Herbert Simon</a>. The paper associated with their initial work is <a href="http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf"><b>A Report on a General Problem Solving Program</b></a>. However, the code in this version is based on Chapter 4 of <a href="http://norvig.com/paip.html"><b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b></a>. 
@@ -207,36 +303,29 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </p>
 </div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> GPS Main Components</h3>
+<div id="outline-container-orga78f3ab" class="outline-3">
+<h3 id="orga78f3ab"><span class="section-number-3">2.1</span> GPS Main Components</h3>
 <div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
-<li>A vocabulary for talking about the task environment: operators, objects, difference, feature, etc.
-</li>
-<li>A vocabulary for dealing with the organization of problem-solving processes: goal, method, evaluation.
-</li>
-<li>Programs defining the terms of the problem solving vocabulary in terms of the task environment vocabulary.
-</li>
-<li>A set of correlative definitions applying the task-environment vocabulary to a particular domain environment.
-</li>
+<li>A vocabulary for talking about the task environment: operators, objects, difference, feature, etc.</li>
+<li>A vocabulary for dealing with the organization of problem-solving processes: goal, method, evaluation.</li>
+<li>Programs defining the terms of the problem solving vocabulary in terms of the task environment vocabulary.</li>
+<li>A set of correlative definitions applying the task-environment vocabulary to a particular domain environment.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Goal Types</h3>
+<div id="outline-container-org5a81515" class="outline-3">
+<h3 id="org5a81515"><span class="section-number-3">2.2</span> Goal Types</h3>
 <div class="outline-text-3" id="text-2-2">
 <ol class="org-ol">
-<li>Transform <code>object a</code> into <code>object b</code> by applying operators from the task environment. An example is proof from axioms.
-</li>
-<li>Apply <code>operator q</code> to <code>object a</code> or an object obtained from a by admissible transformations. An example is integrating an expression.
-</li>
-<li>Reduce the difference (distance) between <code>object a</code> and <code>object b</code> by transforming <code>object a</code>.
-</li>
+<li>Transform <code>object a</code> into <code>object b</code> by applying operators from the task environment. An example is proof from axioms.</li>
+<li>Apply <code>operator q</code> to <code>object a</code> or an object obtained from a by admissible transformations. An example is integrating an expression.</li>
+<li>Reduce the difference (distance) between <code>object a</code> and <code>object b</code> by transforming <code>object a</code>.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Heuristics</h3>
+<div id="outline-container-orgc120b89" class="outline-3">
+<h3 id="orgc120b89"><span class="section-number-3">2.3</span> Heuristics</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 The main heuristic is the principle of sub-goal reduction: reduce hard goals to sets of easier goals. This assumes that the difference between the current state and the goal can be determined; operators have partial effects on the environment and some portions always remain unchanged by each operator; some differences are harder to effect than others and so it is good practice to eliminate hard differences at the cost of introducing easier differences so long as progress is made.
@@ -244,14 +333,15 @@ The main heuristic is the principle of sub-goal reduction: reduce hard goals to 
 </div>
 </div>
 
-<div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Executive Structure of GPS</h3>
+<div id="outline-container-org67505e9" class="outline-3">
+<h3 id="org67505e9"><span class="section-number-3">2.4</span> Executive Structure of GPS</h3>
 <div class="outline-text-3" id="text-2-4">
 
 <div class="figure">
-<p><img src="gps-exec.svg" alt="gps-exec.svg" />
+<p><object type="image/svg+xml" data="gps-exec.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
 </p>
-<p><span class="figure-number">Figure 1:</span> Executive Organization of GPS</p>
+<p><span class="figure-number">Figure 1: </span>Executive Organization of GPS</p>
 </div>
 
 <p>
@@ -261,43 +351,36 @@ The main heuristic is the principle of sub-goal reduction: reduce hard goals to 
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> PROCESS STAGES</h2>
+<div id="outline-container-org550028b" class="outline-2">
+<h2 id="org550028b"><span class="section-number-2">3</span> PROCESS STAGES</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Description</h3>
+</div><div id="outline-container-orgd25b57b" class="outline-3">
+<h3 id="orgd25b57b"><span class="section-number-3">3.1</span> Description</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
 </p>
 </div>
 </div>
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Specification</h3>
+<div id="outline-container-org25b46c1" class="outline-3">
+<h3 id="org25b46c1"><span class="section-number-3">3.2</span> Specification</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The specification has seven parts.
 </p>
 <ul class="org-ul">
-<li>Represent the current state of the world (environment) as a set of conditions. Represent the desired state of the world as a set of conditions.
-</li>
-<li>A list of allowable operators.
-</li>
-<li>Each operator is: a list of preconditions, an action, a list of effects.
-</li>
-<li>A complete problem is a starting state, a goal state, a set of known operators.
-</li>
-<li>A goal condition can be achieved two ways: it is in the current state or by applying an operator to the current environment.
-</li>
-<li>An operator is appropriate if it adds the goal to the environment.
-</li>
-<li>An operator can be applied if all the preconditions for its application can be met.
-</li>
+<li>Represent the current state of the world (environment) as a set of conditions. Represent the desired state of the world as a set of conditions.</li>
+<li>A list of allowable operators.</li>
+<li>Each operator is: a list of preconditions, an action, a list of effects.</li>
+<li>A complete problem is a starting state, a goal state, a set of known operators.</li>
+<li>A goal condition can be achieved two ways: it is in the current state or by applying an operator to the current environment.</li>
+<li>An operator is appropriate if it adds the goal to the environment.</li>
+<li>An operator can be applied if all the preconditions for its application can be met.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Implementation</h3>
+<div id="outline-container-org49921c7" class="outline-3">
+<h3 id="org49921c7"><span class="section-number-3">3.3</span> Implementation</h3>
 <div class="outline-text-3" id="text-3-3">
 <!-- This HTML table template is generated by emacs 25.1.1 -->
 <table border="1">
@@ -347,12 +430,11 @@ The specification has seven parts.
   </tr>
 </table>
 </div>
-<div id="outline-container-sec-3-3-1" class="outline-4">
-<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Helper Functions</h4>
+<div id="outline-container-org96c6edc" class="outline-4">
+<h4 id="org96c6edc"><span class="section-number-4">3.3.1</span> Helper Functions</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <div class="org-src-container">
-
-<pre class="src src-lisp" id="find-all">(defun find-all (item sequence &amp;rest keyword-args
+<pre class="src src-lisp" id="org43e7e42">(defun find-all (item sequence &amp;rest keyword-args
                                &amp;key (test #'eql)
                                test-not
                                &amp;allow-other-keys)
@@ -367,27 +449,25 @@ The specification has seven parts.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-3-3-2" class="outline-4">
-<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> Special Variables</h4>
+<div id="outline-container-orgf137593" class="outline-4">
+<h4 id="orgf137593"><span class="section-number-4">3.3.2</span> Special Variables</h4>
 <div class="outline-text-4" id="text-3-3-2">
 <div class="org-src-container">
-
-<pre class="src src-lisp" id="special-variables">(defvar *state* nil "The current state: a list of all conditions.")
+<pre class="src src-lisp" id="org66bd8ff">(defvar *state* nil "The current state: a list of all conditions.")
 (defvar *ops* nil "A list of available operations.")
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-3-3" class="outline-4">
-<h4 id="sec-3-3-3"><span class="section-number-4">3.3.3</span> Operations</h4>
+<div id="outline-container-org41c298a" class="outline-4">
+<h4 id="org41c298a"><span class="section-number-4">3.3.3</span> Operations</h4>
 <div class="outline-text-4" id="text-3-3-3">
 <p>
 Note that <code>nil</code> is the default value for each field of the <code>op</code> structure.
 </p>
 <div class="org-src-container">
-
-<pre class="src src-lisp" id="op">(defstruct op
+<pre class="src src-lisp" id="orge8291ca">(defstruct op
   "An operation."
   (action nil)
   (preconds nil)
@@ -397,36 +477,45 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 </div>
-
-<div id="outline-container-sec-3-3-4" class="outline-4">
-<h4 id="sec-3-3-4"><span class="section-number-4">3.3.4</span> GPS</h4>
-<div class="outline-text-4" id="text-3-3-4">
+</div>
+</div>
+<div id="outline-container-orgd784275" class="outline-2">
+<h2 id="orgd784275"><span class="section-number-2">4</span> VERSION 1</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-org86e8f83" class="outline-4">
+<h4 id="org86e8f83"><span class="section-number-4">4.0.1</span> GPS</h4>
+<div class="outline-text-4" id="text-4-0-1">
 <div class="org-src-container">
-
-<pre class="src src-lisp" id="gps">(defun gps (*state* goals *ops*)
+<pre class="src src-lisp" id="org4de04bb">(defun gps (*state* goals *ops*)
   "General Problem Solver: achieve all goals using *ops*."
   (if (every #'achieve goals) 'solved))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-sec-3-3-5" class="outline-4">
-<h4 id="sec-3-3-5"><span class="section-number-4">3.3.5</span> Functions</h4>
-<div class="outline-text-4" id="text-3-3-5">
-<div class="org-src-container">
 
-<pre class="src src-lisp">(defun achieve (goal)
+<div id="outline-container-orgf470bb2" class="outline-4">
+<h4 id="orgf470bb2"><span class="section-number-4">4.0.2</span> Functions</h4>
+<div class="outline-text-4" id="text-4-0-2">
+<div class="org-src-container">
+<pre class="src src-lisp" id="orgf400962">(defun achieve (goal)
   "A goal is achieved if it already holds. Or if there
    is an appropriate op for it that is applicable."
   (or (member goal *state*)
       (some #'apply-op
             (find-all goal *ops* :test #'appropriate-p))))
+</pre>
+</div>
 
-(defun appropriate-p (goal op)
+<div class="org-src-container">
+<pre class="src src-lisp" id="org7a222b5">(defun appropriate-p (goal op)
   "An op is appropriate to a goal if the goal is on the op's add-list."
   (member goal (op-add-list op)))
+</pre>
+</div>
 
-(defun apply-op (op)
+<div class="org-src-container">
+<pre class="src src-lisp" id="orga599b28">(defun apply-op (op)
   "Print a message and update *state* when op is applicable."
   (when (every #'achieve (op-preconds op))
     (print (list 'executing (op-action op)))
@@ -436,13 +525,13 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 </div>
-</div>
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Testing</h3>
-<div class="outline-text-3" id="text-3-4">
-</div><div id="outline-container-sec-3-4-1" class="outline-4">
-<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Parameterize knowledge base</h4>
-<div class="outline-text-4" id="text-3-4-1">
+
+<div id="outline-container-org2774b98" class="outline-3">
+<h3 id="org2774b98"><span class="section-number-3">4.1</span> Testing</h3>
+<div class="outline-text-3" id="text-4-1">
+</div><div id="outline-container-orga9b3153" class="outline-4">
+<h4 id="orga9b3153"><span class="section-number-4">4.1.1</span> Parameterize knowledge base</h4>
+<div class="outline-text-4" id="text-4-1-1">
 <p>
 This is one of the techniques that Norvig introduces early in the book. The idea of parameters is that changing the parameters, creates a different program. For example, the school parameters here create a program that solves the problem of getting the son to school. A different set of parameters will create a 'different' problem solver.
 </p>
@@ -452,7 +541,6 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-lisp">(defparameter *school-ops*
   (list
    (make-op
@@ -491,23 +579,19 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 </div>
 </div>
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Appendix</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Using this file</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-orgda7e05f" class="outline-2">
+<h2 id="orgda7e05f"><span class="section-number-2">5</span> Appendix</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgad7664b" class="outline-3">
+<h3 id="orgad7664b"><span class="section-number-3">5.1</span> Using this file</h3>
+<div class="outline-text-3" id="text-5-1">
 <ol class="org-ol">
-<li>The output for this file is <code>general-problem-solver.lisp</code>.
-</li>
-<li>The web page for this file is <code>index.html</code>. It is structured to work with Github pages.
-</li>
-<li>To generate these files, navigate into the source block and use <code>M-x org-babel-execute-src-block</code>. 
-</li>
+<li>The output for this file is <code>general-problem-solver.lisp</code>.</li>
+<li>The web page for this file is <code>index.html</code>. It is structured to work with Github pages.</li>
+<li>To generate these files, navigate into the source block and use <code>M-x org-babel-execute-src-block</code>.</li>
 </ol>
 <div class="org-src-container">
-
-<pre class="src src-elisp" id="generate-files">;; label for search: qqz
+<pre class="src src-elisp" id="org516063d">;; label for search: qqhz
 ;; generate general-problem-solver.lisp
 (org-babel-tangle)
 ;; generate docs/index.html
@@ -525,8 +609,7 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-02-01 Wed 11:06</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2017-02-04 Sat 12:24</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

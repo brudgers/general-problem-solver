@@ -1,4 +1,3 @@
-
 (defun find-all (item sequence &rest keyword-args
                                &key (test #'eql)
                                test-not

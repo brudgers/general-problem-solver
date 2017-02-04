@@ -125,15 +125,17 @@ Note that =nil= is the default value for each field of the =op= structure.
     (add-list nil)
     (del-list nil))
 #+END_SRC
-
+* VERSION 1
 *** GPS
-#+NAME: gps
+#+NAME: gps-version-one
 #+BEGIN_SRC lisp :tangle yes
   (defun gps (*state* goals *ops*)
     "General Problem Solver: achieve all goals using *ops*."
     (if (every #'achieve goals) 'solved))
 #+END_SRC
+
 *** Functions
+#+NAME: achieve
 #+BEGIN_SRC lisp :tangle yes
   (defun achieve (goal)
     "A goal is achieved if it already holds. Or if there
@@ -141,11 +143,17 @@ Note that =nil= is the default value for each field of the =op= structure.
     (or (member goal *state*)
         (some #'apply-op
               (find-all goal *ops* :test #'appropriate-p))))
+#+END_SRC
 
+#+NAME: appropriate-p
+#+BEGIN_SRC lisp :tangle yes
   (defun appropriate-p (goal op)
     "An op is appropriate to a goal if the goal is on the op's add-list."
     (member goal (op-add-list op)))
+#+END_SRC
 
+#+NAME: apply-op
+#+BEGIN_SRC lisp :tangle yes
   (defun apply-op (op)
     "Print a message and update *state* when op is applicable."
     (when (every #'achieve (op-preconds op))
@@ -153,6 +161,7 @@ Note that =nil= is the default value for each field of the =op= structure.
       (setf *state* (set-difference *state* (op-del-list op)))
       (setf *state* (union *state* (op-add-list op)))))
 #+END_SRC
+
 ** Testing
 *** Parameterize knowledge base
 This is one of the techniques that Norvig introduces early in the book. The idea of parameters is that changing the parameters, creates a different program. For example, the school parameters here create a program that solves the problem of getting the son to school. A different set of parameters will create a 'different' problem solver.
@@ -200,7 +209,7 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
 #+NAME: generate-files
 #+BEGIN_SRC elisp
-  ;; label for search: qqz
+  ;; label for search: qqhz
   ;; generate general-problem-solver.lisp
   (org-babel-tangle)
   ;; generate docs/index.html
