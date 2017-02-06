@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-02-04 Sat 12:24 -->
+<!-- 2017-02-06 Mon 17:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>General Problem Solver in Common Lisp</title>
@@ -233,53 +233,70 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org4fd2fe4">1. PREFACE</a></li>
-<li><a href="#orge9fc534">2. INTRODUCTION</a>
+<li><a href="#orga8481ce">1. PREFACE</a></li>
+<li><a href="#org1b47cc3">2. INTRODUCTION</a>
 <ul>
-<li><a href="#orga78f3ab">2.1. GPS Main Components</a></li>
-<li><a href="#org5a81515">2.2. Goal Types</a></li>
-<li><a href="#orgc120b89">2.3. Heuristics</a></li>
-<li><a href="#org67505e9">2.4. Executive Structure of GPS</a></li>
+<li><a href="#org88d16d5">2.1. GPS Main Components</a></li>
+<li><a href="#org7bbd3e9">2.2. Goal Types</a></li>
+<li><a href="#orge1da63f">2.3. Heuristics</a></li>
+<li><a href="#org9055430">2.4. Executive Structure of GPS</a></li>
 </ul>
 </li>
-<li><a href="#org550028b">3. PROCESS STAGES</a>
+<li><a href="#org3f5c84b">3. PROCESS STAGES</a>
 <ul>
-<li><a href="#orgd25b57b">3.1. Description</a></li>
-<li><a href="#org25b46c1">3.2. Specification</a></li>
-<li><a href="#org49921c7">3.3. Implementation</a>
+<li><a href="#org743fb75">3.1. Description</a></li>
+<li><a href="#org29de461">3.2. Specification</a></li>
+<li><a href="#org85bcaa9">3.3. Implementation Features</a>
 <ul>
-<li><a href="#org96c6edc">3.3.1. Helper Functions</a></li>
-<li><a href="#orgf137593">3.3.2. Special Variables</a></li>
-<li><a href="#org41c298a">3.3.3. Operations</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orgd784275">4. VERSION 1</a>
-<ul>
-<li>
-<ul>
-<li><a href="#org86e8f83">4.0.1. GPS</a></li>
-<li><a href="#orgf470bb2">4.0.2. Functions</a></li>
-</ul>
-</li>
-<li><a href="#org2774b98">4.1. Testing</a>
-<ul>
-<li><a href="#orga9b3153">4.1.1. Parameterize knowledge base</a></li>
+<li><a href="#orgc58e42a">3.3.1. Helper Functions</a></li>
+<li><a href="#orgb93d2d3">3.3.2. Special Variables</a></li>
+<li><a href="#org2e1a8ef">3.3.3. Operations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgda7e05f">5. Appendix</a>
+<li><a href="#org54ddd0b">4. VERSION ONE</a>
 <ul>
-<li><a href="#orgad7664b">5.1. Using this file</a></li>
+<li><a href="#org66f9889">4.1. Glossary</a></li>
+<li><a href="#orgc74f4eb">4.2. GPS</a></li>
+<li><a href="#orgca20ad3">4.3. Functions</a></li>
+<li><a href="#org9f7530b">4.4. Problems</a>
+<ul>
+<li><a href="#org3741f07">4.4.1. Running Around the Block Problem</a></li>
+<li><a href="#org6e2f3e0">4.4.2. Clobbered Sibling Goal Problem</a></li>
+<li><a href="#org68e7335">4.4.3. Leaping Before Looking Problem</a></li>
+<li><a href="#org111d225">4.4.4. Recursive Subgoals  Problem</a></li>
+<li><a href="#org1c22c99">4.4.5. Lack of Intermediate Information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org6563d61">5. VERSION TWO</a>
+<ul>
+<li><a href="#orgfaf32d9">5.1. GPS Debugger</a></li>
+<li><a href="#org8d44229">5.2. Glossary</a></li>
+<li><a href="#org49b818a">5.3. GPS</a></li>
+<li><a href="#org56ab95a">5.4. Major Functions</a></li>
+<li><a href="#orgb8b0bc4">5.5. Auxiliary Functions</a></li>
+</ul>
+</li>
+<li><a href="#orgf04fec2">6. KNOWLEDGE BASES</a>
+<ul>
+<li><a href="#org797fe1b">6.1. Parameterize knowledge base</a></li>
+<li><a href="#org171bf59">6.2. School Ops</a></li>
+</ul>
+</li>
+<li><a href="#orgf66b277">7. TESTING CODE</a></li>
+<li><a href="#orgc4a6a86">8. Appendix</a>
+<ul>
+<li><a href="#org7ff87de">8.1. Using this file</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4fd2fe4" class="outline-2">
-<h2 id="org4fd2fe4"><span class="section-number-2">1</span> PREFACE</h2>
+<div id="outline-container-orga8481ce" class="outline-2">
+<h2 id="orga8481ce"><span class="section-number-2">1</span> PREFACE</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b><b>The computer code here is not original to me.</b></b> and this document reflects several of my ongoing projects:
@@ -291,11 +308,11 @@ for the JavaScript code in this tag.
 </ol>
 </div>
 </div>
-<div id="outline-container-orge9fc534" class="outline-2">
-<h2 id="orge9fc534"><span class="section-number-2">2</span> INTRODUCTION</h2>
+<div id="outline-container-org1b47cc3" class="outline-2">
+<h2 id="org1b47cc3"><span class="section-number-2">2</span> INTRODUCTION</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-The General Problem Solver was developed in 1957 by <a href="https://en.wikipedia.org/wiki/Allen_Newell">Alan Newell</a>, <a href="https://en.wikipedia.org/wiki/Cliff_Shaw">Cliff Shaw</a> and <a href="https://en.wikipedia.org/wiki/Herbert_A._Simon">Herbert Simon</a>. The paper associated with their initial work is <a href="http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf"><b>A Report on a General Problem Solving Program</b></a>. However, the code in this version is based on Chapter 4 of <a href="http://norvig.com/paip.html"><b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b></a>. 
+The General Problem Solver was developed in 1957 by <a href="https://en.wikipedia.org/wiki/Allen_Newell">Alan Newell</a>, <a href="https://en.wikipedia.org/wiki/Cliff_Shaw">Cliff Shaw</a> and <a href="https://en.wikipedia.org/wiki/Herbert_A._Simon">Herbert Simon</a>. The paper associated with their initial work is <a href="http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf"><b>A Report on a General Problem Solving Program</b></a>. However, the code in this version is based on Chapter 4 of <a href="http://norvig.com/paip.html"><b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b></a>.
 </p>
 
 <p>
@@ -303,8 +320,8 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </p>
 </div>
 
-<div id="outline-container-orga78f3ab" class="outline-3">
-<h3 id="orga78f3ab"><span class="section-number-3">2.1</span> GPS Main Components</h3>
+<div id="outline-container-org88d16d5" class="outline-3">
+<h3 id="org88d16d5"><span class="section-number-3">2.1</span> GPS Main Components</h3>
 <div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
 <li>A vocabulary for talking about the task environment: operators, objects, difference, feature, etc.</li>
@@ -314,8 +331,8 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </ol>
 </div>
 </div>
-<div id="outline-container-org5a81515" class="outline-3">
-<h3 id="org5a81515"><span class="section-number-3">2.2</span> Goal Types</h3>
+<div id="outline-container-org7bbd3e9" class="outline-3">
+<h3 id="org7bbd3e9"><span class="section-number-3">2.2</span> Goal Types</h3>
 <div class="outline-text-3" id="text-2-2">
 <ol class="org-ol">
 <li>Transform <code>object a</code> into <code>object b</code> by applying operators from the task environment. An example is proof from axioms.</li>
@@ -324,8 +341,8 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc120b89" class="outline-3">
-<h3 id="orgc120b89"><span class="section-number-3">2.3</span> Heuristics</h3>
+<div id="outline-container-orge1da63f" class="outline-3">
+<h3 id="orge1da63f"><span class="section-number-3">2.3</span> Heuristics</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 The main heuristic is the principle of sub-goal reduction: reduce hard goals to sets of easier goals. This assumes that the difference between the current state and the goal can be determined; operators have partial effects on the environment and some portions always remain unchanged by each operator; some differences are harder to effect than others and so it is good practice to eliminate hard differences at the cost of introducing easier differences so long as progress is made.
@@ -333,8 +350,8 @@ The main heuristic is the principle of sub-goal reduction: reduce hard goals to 
 </div>
 </div>
 
-<div id="outline-container-org67505e9" class="outline-3">
-<h3 id="org67505e9"><span class="section-number-3">2.4</span> Executive Structure of GPS</h3>
+<div id="outline-container-org9055430" class="outline-3">
+<h3 id="org9055430"><span class="section-number-3">2.4</span> Executive Structure of GPS</h3>
 <div class="outline-text-3" id="text-2-4">
 
 <div class="figure">
@@ -351,19 +368,19 @@ Sorry, your browser does not support SVG.</object>
 </div>
 </div>
 
-<div id="outline-container-org550028b" class="outline-2">
-<h2 id="org550028b"><span class="section-number-2">3</span> PROCESS STAGES</h2>
+<div id="outline-container-org3f5c84b" class="outline-2">
+<h2 id="org3f5c84b"><span class="section-number-2">3</span> PROCESS STAGES</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-orgd25b57b" class="outline-3">
-<h3 id="orgd25b57b"><span class="section-number-3">3.1</span> Description</h3>
+</div><div id="outline-container-org743fb75" class="outline-3">
+<h3 id="org743fb75"><span class="section-number-3">3.1</span> Description</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
 </p>
 </div>
 </div>
-<div id="outline-container-org25b46c1" class="outline-3">
-<h3 id="org25b46c1"><span class="section-number-3">3.2</span> Specification</h3>
+<div id="outline-container-org29de461" class="outline-3">
+<h3 id="org29de461"><span class="section-number-3">3.2</span> Specification</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The specification has seven parts.
@@ -379,9 +396,71 @@ The specification has seven parts.
 </ul>
 </div>
 </div>
-<div id="outline-container-org49921c7" class="outline-3">
-<h3 id="org49921c7"><span class="section-number-3">3.3</span> Implementation</h3>
+<div id="outline-container-org85bcaa9" class="outline-3">
+<h3 id="org85bcaa9"><span class="section-number-3">3.3</span> Implementation Features</h3>
 <div class="outline-text-3" id="text-3-3">
+</div><div id="outline-container-orgc58e42a" class="outline-4">
+<h4 id="orgc58e42a"><span class="section-number-4">3.3.1</span> Helper Functions</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+<code>FIND-ALL</code> is introduced early in the book and provides an example of a user function that has many of the features of a Common Lisp built-in function.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp" id="orge1e8e01">(defun find-all (item sequence &amp;rest keyword-args
+                               &amp;key (test #'eql)
+                               test-not
+                               &amp;allow-other-keys)
+  "Find all those elements of sequence that match item.
+   according to the keywords. Does not alter sequence"
+  (if test-not
+      (apply #'remove item sequence
+             :test-not (complement test-not) keyword-args)
+      (apply #'remove item sequence
+             :test (complement test) keyword-args)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb93d2d3" class="outline-4">
+<h4 id="orgb93d2d3"><span class="section-number-4">3.3.2</span> Special Variables</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org32f2ceb">(defvar *state* nil "The current state: a list of all conditions.")
+(defvar *ops* nil "A list of available operations.")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2e1a8ef" class="outline-4">
+<h4 id="org2e1a8ef"><span class="section-number-4">3.3.3</span> Operations</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<p>
+Note that <code>nil</code> is the default value for each field of the <code>op</code> structure. For literate programming the source block name had to be 'ops' instead of 'op' in order to work with <code>:noweb</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp" id="org754bd02">(defstruct op
+  "An operation."
+  (action nil)
+  (preconds nil)
+  (add-list nil)
+  (del-list nil))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org54ddd0b" class="outline-2">
+<h2 id="org54ddd0b"><span class="section-number-2">4</span> VERSION ONE</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This is the first iteration from Norvig's book.
+</p>
+</div>
+<div id="outline-container-org66f9889" class="outline-3">
+<h3 id="org66f9889"><span class="section-number-3">4.1</span> Glossary</h3>
+<div class="outline-text-3" id="text-4-1">
 <!-- This HTML table template is generated by emacs 25.1.1 -->
 <table border="1">
   <tr>
@@ -430,11 +509,18 @@ The specification has seven parts.
   </tr>
 </table>
 </div>
-<div id="outline-container-org96c6edc" class="outline-4">
-<h4 id="org96c6edc"><span class="section-number-4">3.3.1</span> Helper Functions</h4>
-<div class="outline-text-4" id="text-3-3-1">
+</div>
+<div id="outline-container-orgc74f4eb" class="outline-3">
+<h3 id="orgc74f4eb"><span class="section-number-3">4.2</span> GPS</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+For literate programming purposes the source block name had to use 'one' instead of '1' to work with <code>:noweb</code>.
+</p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org43e7e42">(defun find-all (item sequence &amp;rest keyword-args
+<pre class="src src-lisp" id="orgb39f576">;;; THIS FILE AUTOGENERATATED
+
+;;; Helper Functions
+(defun find-all (item sequence &amp;rest keyword-args
                                &amp;key (test #'eql)
                                test-not
                                &amp;allow-other-keys)
@@ -445,77 +531,37 @@ The specification has seven parts.
              :test-not (complement test-not) keyword-args)
       (apply #'remove item sequence
              :test (complement test) keyword-args)))
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgf137593" class="outline-4">
-<h4 id="orgf137593"><span class="section-number-4">3.3.2</span> Special Variables</h4>
-<div class="outline-text-4" id="text-3-3-2">
-<div class="org-src-container">
-<pre class="src src-lisp" id="org66bd8ff">(defvar *state* nil "The current state: a list of all conditions.")
-(defvar *ops* nil "A list of available operations.")
-</pre>
-</div>
-</div>
-</div>
 
-<div id="outline-container-org41c298a" class="outline-4">
-<h4 id="org41c298a"><span class="section-number-4">3.3.3</span> Operations</h4>
-<div class="outline-text-4" id="text-3-3-3">
-<p>
-Note that <code>nil</code> is the default value for each field of the <code>op</code> structure.
-</p>
-<div class="org-src-container">
-<pre class="src src-lisp" id="orge8291ca">(defstruct op
+;;; Special Virables
+(defvar *state* nil "The current state: a list of all conditions.")
+(defvar *ops* nil "A list of available operations.")
+
+;;; Operations
+(defstruct op
   "An operation."
   (action nil)
   (preconds nil)
   (add-list nil)
   (del-list nil))
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-orgd784275" class="outline-2">
-<h2 id="orgd784275"><span class="section-number-2">4</span> VERSION 1</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-org86e8f83" class="outline-4">
-<h4 id="org86e8f83"><span class="section-number-4">4.0.1</span> GPS</h4>
-<div class="outline-text-4" id="text-4-0-1">
-<div class="org-src-container">
-<pre class="src src-lisp" id="org4de04bb">(defun gps (*state* goals *ops*)
-  "General Problem Solver: achieve all goals using *ops*."
-  (if (every #'achieve goals) 'solved))
-</pre>
-</div>
-</div>
-</div>
 
-<div id="outline-container-orgf470bb2" class="outline-4">
-<h4 id="orgf470bb2"><span class="section-number-4">4.0.2</span> Functions</h4>
-<div class="outline-text-4" id="text-4-0-2">
-<div class="org-src-container">
-<pre class="src src-lisp" id="orgf400962">(defun achieve (goal)
+;;; Main
+  (defun gps (*state* goals *ops*)
+    "General Problem Solver: achieve all goals using *ops*."
+    (if (every #'achieve goals) 'solved))
+
+;;; Functions
+(defun achieve (goal)
   "A goal is achieved if it already holds. Or if there
    is an appropriate op for it that is applicable."
   (or (member goal *state*)
       (some #'apply-op
             (find-all goal *ops* :test #'appropriate-p))))
-</pre>
-</div>
 
-<div class="org-src-container">
-<pre class="src src-lisp" id="org7a222b5">(defun appropriate-p (goal op)
+(defun appropriate-p (goal op)
   "An op is appropriate to a goal if the goal is on the op's add-list."
   (member goal (op-add-list op)))
-</pre>
-</div>
 
-<div class="org-src-container">
-<pre class="src src-lisp" id="orga599b28">(defun apply-op (op)
+(defun apply-op (op)
   "Print a message and update *state* when op is applicable."
   (when (every #'achieve (op-preconds op))
     (print (list 'executing (op-action op)))
@@ -526,22 +572,363 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 
-<div id="outline-container-org2774b98" class="outline-3">
-<h3 id="org2774b98"><span class="section-number-3">4.1</span> Testing</h3>
-<div class="outline-text-3" id="text-4-1">
-</div><div id="outline-container-orga9b3153" class="outline-4">
-<h4 id="orga9b3153"><span class="section-number-4">4.1.1</span> Parameterize knowledge base</h4>
-<div class="outline-text-4" id="text-4-1-1">
+<div id="outline-container-orgca20ad3" class="outline-3">
+<h3 id="orgca20ad3"><span class="section-number-3">4.3</span> Functions</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org6c8cc08">(defun achieve (goal)
+  "A goal is achieved if it already holds. Or if there
+   is an appropriate op for it that is applicable."
+  (or (member goal *state*)
+      (some #'apply-op
+            (find-all goal *ops* :test #'appropriate-p))))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp" id="orga5008da">(defun appropriate-p (goal op)
+  "An op is appropriate to a goal if the goal is on the op's add-list."
+  (member goal (op-add-list op)))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp" id="org7f31f8b">(defun apply-op (op)
+  "Print a message and update *state* when op is applicable."
+  (when (every #'achieve (op-preconds op))
+    (print (list 'executing (op-action op)))
+    (setf *state* (set-difference *state* (op-del-list op)))
+    (setf *state* (union *state* (op-add-list op)))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9f7530b" class="outline-3">
+<h3 id="org9f7530b"><span class="section-number-3">4.4</span> Problems</h3>
+<div class="outline-text-3" id="text-4-4">
+</div><div id="outline-container-org3741f07" class="outline-4">
+<h4 id="org3741f07"><span class="section-number-4">4.4.1</span> Running Around the Block Problem</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+Version One does not handle the run for the side effects case where the start state and the end state are the same&#x2026;e.g. if we run around the block for exercise.
+</p>
+</div>
+</div>
+<div id="outline-container-org6e2f3e0" class="outline-4">
+<h4 id="org6e2f3e0"><span class="section-number-4">4.4.2</span> Clobbered Sibling Goal Problem</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<p>
+The code only checks if each goal requirement is achieved at some point, therefore
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(gps '(son-at-home car-needs-battery have-money have-phone-book)
+     '(have-money son-at-school)
+     *school-ops*)
+
+=&gt; SOLVED
+</pre>
+</div>
+<p>
+Despite repairing the car using all the money.
+</p>
+</div>
+</div>
+<div id="outline-container-org68e7335" class="outline-4">
+<h4 id="org68e7335"><span class="section-number-4">4.4.3</span> Leaping Before Looking Problem</h4>
+<div class="outline-text-4" id="text-4-4-3">
+<p>
+GPS will choose a course of action and continue it regardless of whether it will solve the problem. Even worse, it will not back up and try a different approach after hitting a dead end.
+</p>
+</div>
+</div>
+<div id="outline-container-org111d225" class="outline-4">
+<h4 id="org111d225"><span class="section-number-4">4.4.4</span> Recursive Subgoals  Problem</h4>
+<div class="outline-text-4" id="text-4-4-4">
+<p>
+It is possible to create operations which will send GPS into an infinite loop.
+</p>
+</div>
+</div>
+<div id="outline-container-org1c22c99" class="outline-4">
+<h4 id="org1c22c99"><span class="section-number-4">4.4.5</span> Lack of Intermediate Information</h4>
+<div class="outline-text-4" id="text-4-4-5">
+<p>
+GPS will report failure but only as <code>NIL</code>. It will not report what it tried.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6563d61" class="outline-2">
+<h2 id="org6563d61"><span class="section-number-2">5</span> VERSION TWO</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The first of the problems with <code>Version One</code> to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: <code>using-a-debugger</code> requires <code>having-a-debugger</code> and <code>having-a-debugger</code> requires <code>writing-a-debugger</code>. It's what I love about this book, it's GPS all the way down.
+</p>
+</div>
+<div id="outline-container-orgfaf32d9" class="outline-3">
+<h3 id="orgfaf32d9"><span class="section-number-3">5.1</span> GPS Debugger</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-lisp" id="orgfef112a">(defvar *dbg-ids* nil
+  "Identifiers used by dbg")
+
+(defun dbg (id format-string &amp;rest args)
+  "Print debugging information if (DEBUG-ID) has been specified."
+  (when (member id *dbg-ids*)
+    (fresh-line *debug-io*)
+    (apply #'format *debug-io* format-string args)))
+
+;;; Using gps-debug because 'debug' reserved in SBCL
+(defun gps-debug (&amp;rest ids)
+  "Start dbg output on the given ids."
+  (setf *dbg-ids* (union ids *dbg-ids*)))
+
+(defun undebug (&amp;rest ids)
+  "Stop dbg on the ids. With no ids, stop debugging altogether."
+  (setf *dbg-ids* (if (null ids) nil
+                    (set-difference *dbg-ids* ids))))
+
+(defun dbg-indent (id indent format-string &amp;rest args)
+  "Print indented debugging info if (DEBUG ID) has been specified."
+  (when (member id *dbg-ids*)
+    (fresh-line *debug-io*)
+    (dotimes (i indent) (princ "   " *debug-io*))
+    (apply #'format *debug-io* format-string args)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8d44229" class="outline-3">
+<h3 id="org8d44229"><span class="section-number-3">5.2</span> Glossary</h3>
+<div class="outline-text-3" id="text-5-2">
+<!-- This HTML table template is generated by emacs 25.1.1 -->
+<table border="1">
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Top&nbsp;Level&nbsp;Function*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      GPS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solve&nbsp;a&nbsp;goal&nbsp;from&nbsp;a&nbsp;state&nbsp;using&nbsp;a&nbsp;list&nbsp;of&nbsp;operators.&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Special&nbsp;Variables*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      *ops*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;List&nbsp;of&nbsp;available&nbsp;operators.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Data&nbsp;Types*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      op&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;operation&nbsp;with&nbsp;preconds,&nbsp;add-list,&nbsp;del-list.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Major&nbsp;Functions*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      achieve-all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Achieve&nbsp;a&nbsp;list&nbsp;of&nbsp;goals.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      achieve&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Achieve&nbsp;a&nbsp;single&nbsp;goal.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      appropriate-p&nbsp;&nbsp;&nbsp;Decide&nbsp;if&nbsp;an&nbsp;operator&nbsp;is&nbsp;appropriate&nbsp;to&nbsp;a&nbsp;goal.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      apply-op&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Apply&nbsp;operator&nbsp;to&nbsp;current&nbsp;state.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Auxiliary&nbsp;Functions*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      executing-p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is&nbsp;condition&nbsp;an&nbsp;executing&nbsp;form?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      starts-with&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is&nbsp;the&nbsp;argument&nbsp;a&nbsp;list&nbsp;that&nbsp;starts&nbsp;with&nbsp;a&nbsp;given&nbsp;atom?&nbsp;&nbsp;<br />
+      convert-op&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convert&nbsp;an&nbsp;operator&nbsp;to&nbsp;use&nbsp;the&nbsp;executing&nbsp;convention.&nbsp;&nbsp;&nbsp;<br />
+      op&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;an&nbsp;operator.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      use&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use&nbsp;a&nbsp;list&nbsp;of&nbsp;operators.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      member-equal&nbsp;&nbsp;&nbsp;&nbsp;Test&nbsp;if&nbsp;an&nbsp;element&nbsp;is&nbsp;equal&nbsp;to&nbsp;a&nbsp;member&nbsp;of&nbsp;a&nbsp;list.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Selected&nbsp;Common&nbsp;Lisp&nbsp;Functions*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      member&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test&nbsp;if&nbsp;an&nbsp;element&nbsp;is&nbsp;a&nbsp;member&nbsp;of&nbsp;a&nbsp;list.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      set-difference&nbsp;&nbsp;All&nbsp;elements&nbsp;in&nbsp;one&nbsp;set&nbsp;but&nbsp;not&nbsp;in&nbsp;the&nbsp;other.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      subsetp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is&nbsp;one&nbsp;set&nbsp;wholly&nbsp;contained&nbsp;in&nbsp;another?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      union&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;elements&nbsp;in&nbsp;either&nbsp;of&nbsp;two&nbsp;sets.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      every&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test&nbsp;if&nbsp;every&nbsp;element&nbsp;of&nbsp;a&nbsp;list&nbsp;passes&nbsp;test.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      some&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test&nbsp;if&nbsp;any&nbsp;element&nbsp;of&nbsp;a&nbsp;list&nbsp;passes&nbsp;test.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      remove-if&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove&nbsp;all&nbsp;items&nbsp;satisfying&nbsp;a&nbsp;test.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Previously&nbsp;Defined&nbsp;Functions*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      find-all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;all&nbsp;matching&nbsp;elements.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      find-all-if&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;all&nbsp;elements&nbsp;satisifying&nbsp;a&nbsp;predicate.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org49b818a" class="outline-3">
+<h3 id="org49b818a"><span class="section-number-3">5.3</span> GPS</h3>
+<div class="outline-text-3" id="text-5-3">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org0a2412f">;; This file was auto generated from
+;; general-problem-solver.org
+(defun find-all (item sequence &amp;rest keyword-args
+                               &amp;key (test #'eql)
+                               test-not
+                               &amp;allow-other-keys)
+  "Find all those elements of sequence that match item.
+   according to the keywords. Does not alter sequence"
+  (if test-not
+      (apply #'remove item sequence
+             :test-not (complement test-not) keyword-args)
+      (apply #'remove item sequence
+             :test (complement test) keyword-args)))
+
+(defvar *state* nil "The current state: a list of all conditions.")
+(defvar *ops* nil "A list of available operations.")
+
+(defstruct op
+  "An operation."
+  (action nil)
+  (preconds nil)
+  (add-list nil)
+  (del-list nil))
+
+(defun executing-p (x)
+  "Is the form: (executing...)?"
+  (starts-with x 'executing))
+
+(defun starts-with (list x)
+  "Is this a list whose first element is x?"
+  (and (consp list)
+       (eql (first list) s)))
+
+(defun convert-op (op)
+  "Make op conform to the (EXECUTING op) convention."
+  (unless (some #'executing-p (op-add-list op))
+    (push (list 'executing (op-action op))
+          (op-add-list op)))
+  op)
+
+(defun op (action &amp;key preconds add-list del-list)
+  "Make a new operator that obeys the (EXECUTING op) convention."
+  (make-op :action action
+           :preconds preconds
+           :add-list add-list
+           :del-list del-list))
+
+(defun achieve (goal)
+  "A goal is achieved if it already holds. Or if there
+   is an appropriate op for it that is applicable."
+  (or (member goal *state*)
+      (some #'apply-op
+            (find-all goal *ops* :test #'appropriate-p))))
+
+(defun appropriate-p (goal op)
+  "An op is appropriate to a goal if the goal is on the op's add-list."
+  (member goal (op-add-list op)))
+
+(defun apply-op (op)
+  "Print a message and update *state* when op is applicable."
+  (when (every #'achieve (op-preconds op))
+    (print (list 'executing (op-action op)))
+    (setf *state* (set-difference *state* (op-del-list op)))
+    (setf *state* (union *state* (op-add-list op)))))
+
+(defun achieve-all (goals)
+  "Try to achieve each goal and make sure each still holds."
+  (and (every #'achieve goals)
+       (subsetp goals *state*)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org56ab95a" class="outline-3">
+<h3 id="org56ab95a"><span class="section-number-3">5.4</span> Major Functions</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+The only addition for GPS Version 2 is the addition of <code>achieve-all</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp" id="org8f6c5de">(defun achieve (goal)
+  "A goal is achieved if it already holds. Or if there
+   is an appropriate op for it that is applicable."
+  (or (member goal *state*)
+      (some #'apply-op
+            (find-all goal *ops* :test #'appropriate-p))))
+
+(defun appropriate-p (goal op)
+  "An op is appropriate to a goal if the goal is on the op's add-list."
+  (member goal (op-add-list op)))
+
+(defun apply-op (op)
+  "Print a message and update *state* when op is applicable."
+  (when (every #'achieve (op-preconds op))
+    (print (list 'executing (op-action op)))
+    (setf *state* (set-difference *state* (op-del-list op)))
+    (setf *state* (union *state* (op-add-list op)))))
+
+(defun achieve-all (goals)
+  "Try to achieve each goal and make sure each still holds."
+  (and (every #'achieve goals)
+       (subsetp goals *state*)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb8b0bc4" class="outline-3">
+<h3 id="orgb8b0bc4"><span class="section-number-3">5.5</span> Auxiliary Functions</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to backport the changed structure to <b>school-ops</b>.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp" id="orgfca2850">(defun executing-p (x)
+  "Is the form: (executing...)?"
+  (starts-with x 'executing))
+
+(defun starts-with (list x)
+  "Is this a list whose first element is x?"
+  (and (consp list)
+       (eql (first list) s)))
+
+(defun convert-op (op)
+  "Make op conform to the (EXECUTING op) convention."
+  (unless (some #'executing-p (op-add-list op))
+    (push (list 'executing (op-action op))
+          (op-add-list op)))
+  op)
+
+(defun op (action &amp;key preconds add-list del-list)
+  "Make a new operator that obeys the (EXECUTING op) convention."
+  (make-op :action action
+           :preconds preconds
+           :add-list add-list
+           :del-list del-list))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf04fec2" class="outline-2">
+<h2 id="orgf04fec2"><span class="section-number-2">6</span> KNOWLEDGE BASES</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-org797fe1b" class="outline-3">
+<h3 id="org797fe1b"><span class="section-number-3">6.1</span> Parameterize knowledge base</h3>
+<div class="outline-text-3" id="text-6-1">
 <p>
 This is one of the techniques that Norvig introduces early in the book. The idea of parameters is that changing the parameters, creates a different program. For example, the school parameters here create a program that solves the problem of getting the son to school. A different set of parameters will create a 'different' problem solver.
 </p>
-
+</div>
+</div>
+<div id="outline-container-org171bf59" class="outline-3">
+<h3 id="org171bf59"><span class="section-number-3">6.2</span> School Ops</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 The parameter <code>*school-ops*</code> could be shorter by leaving out the fields that are <code>nil</code> since it is the default for the <code>op</code> structure and Norvig does so in the book.  However, being explicit has the advantage of requiring less local knowledge and the advantage of creating a more regular pattern within the code similar to the design recipes in <b>How to Design Programs</b>.
 </p>
-
 <div class="org-src-container">
-<pre class="src src-lisp">(defparameter *school-ops*
+<pre class="src src-lisp" id="orge565709">(defparameter *school-ops*
   (list
    (make-op
     :action 'drive-son-to-school
@@ -578,20 +965,109 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 </div>
 </div>
+<div id="outline-container-orgf66b277" class="outline-2">
+<h2 id="orgf66b277"><span class="section-number-2">7</span> TESTING CODE</h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-lisp">(defparameter *school-ops*
+  (list
+   (make-op
+    :action 'drive-son-to-school
+    :preconds '(son-at-home car-works)
+    :add-list '(son-at-school)
+    :del-list '(son-at-home))
+   (make-op
+    :action 'shop-installs-battery
+    :preconds '(car-needs-battery shop-knows-problem shop-has-money)
+    :add-list '(car-works)
+    :del-list nil)
+   (make-op
+    :action 'tell-shop-problem
+    :preconds '(in-communication-with-shop)
+    :add-list '(shop-knows-problem)
+    :del-list 'nil)
+   (make-op
+    :action 'telephone-shop
+    :preconds '(know-phone-number)
+    :add-list '(in-communication-with-shop)
+    :del-list nil)
+   (make-op
+    :action 'look-up-number
+    :preconds '(have-phone-book)
+    :add-list '(know-phone-number)
+    :del-list nil)
+   (make-op
+    :action 'give-shop-money
+    :preconds '(have-money)
+    :add-list '(shop-has-money)
+    :del-list '(have-money))))
+;;; THIS FILE AUTOGENERATATED
+
+;;; Helper Functions
+(defun find-all (item sequence &amp;rest keyword-args
+                               &amp;key (test #'eql)
+                               test-not
+                               &amp;allow-other-keys)
+  "Find all those elements of sequence that match item.
+   according to the keywords. Does not alter sequence"
+  (if test-not
+      (apply #'remove item sequence
+             :test-not (complement test-not) keyword-args)
+      (apply #'remove item sequence
+             :test (complement test) keyword-args)))
+
+;;; Special Virables
+(defvar *state* nil "The current state: a list of all conditions.")
+(defvar *ops* nil "A list of available operations.")
+
+;;; Operations
+(defstruct op
+  "An operation."
+  (action nil)
+  (preconds nil)
+  (add-list nil)
+  (del-list nil))
+
+;;; Main
+  (defun gps (*state* goals *ops*)
+    "General Problem Solver: achieve all goals using *ops*."
+    (if (every #'achieve goals) 'solved))
+
+;;; Functions
+(defun achieve (goal)
+  "A goal is achieved if it already holds. Or if there
+   is an appropriate op for it that is applicable."
+  (or (member goal *state*)
+      (some #'apply-op
+            (find-all goal *ops* :test #'appropriate-p))))
+
+(defun appropriate-p (goal op)
+  "An op is appropriate to a goal if the goal is on the op's add-list."
+  (member goal (op-add-list op)))
+
+(defun apply-op (op)
+  "Print a message and update *state* when op is applicable."
+  (when (every #'achieve (op-preconds op))
+    (print (list 'executing (op-action op)))
+    (setf *state* (set-difference *state* (op-del-list op)))
+    (setf *state* (union *state* (op-add-list op)))))
+</pre>
 </div>
-<div id="outline-container-orgda7e05f" class="outline-2">
-<h2 id="orgda7e05f"><span class="section-number-2">5</span> Appendix</h2>
-<div class="outline-text-2" id="text-5">
-</div><div id="outline-container-orgad7664b" class="outline-3">
-<h3 id="orgad7664b"><span class="section-number-3">5.1</span> Using this file</h3>
-<div class="outline-text-3" id="text-5-1">
+</div>
+</div>
+<div id="outline-container-orgc4a6a86" class="outline-2">
+<h2 id="orgc4a6a86"><span class="section-number-2">8</span> Appendix</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-org7ff87de" class="outline-3">
+<h3 id="org7ff87de"><span class="section-number-3">8.1</span> Using this file</h3>
+<div class="outline-text-3" id="text-8-1">
 <ol class="org-ol">
 <li>The output for this file is <code>general-problem-solver.lisp</code>.</li>
 <li>The web page for this file is <code>index.html</code>. It is structured to work with Github pages.</li>
 <li>To generate these files, navigate into the source block and use <code>M-x org-babel-execute-src-block</code>.</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-elisp" id="org516063d">;; label for search: qqhz
+<pre class="src src-elisp" id="orgd441af9">;; label for search: qqhz
 ;; generate general-problem-solver.lisp
 (org-babel-tangle)
 ;; generate docs/index.html
@@ -609,7 +1085,7 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-02-04 Sat 12:24</p>
+<p class="date">Created: 2017-02-06 Mon 17:26</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

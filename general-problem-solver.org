@@ -5,7 +5,7 @@
 2. Learning more Emacs in general and org-mode in particular.
 3. Developing a work process around Literate Programming.
 * INTRODUCTION
-The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]]. 
+The General Problem Solver was developed in 1957 by [[https://en.wikipedia.org/wiki/Allen_Newell][Alan Newell]], [[https://en.wikipedia.org/wiki/Cliff_Shaw][Cliff Shaw]] and [[https://en.wikipedia.org/wiki/Herbert_A._Simon][Herbert Simon]]. The paper associated with their initial work is [[http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf][*A Report on a General Problem Solving Program*]]. However, the code in this version is based on Chapter 4 of [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]].
 
 Outside of historical value, the General Problem Solver is deemed a failure due to the likelihood of combinatorial explosion. But as I work through the code base, I can't help but appreciate the soundness of its program structure and logic...it was developed years before the discovery of NP-hard and it seems like an approach that at least allows for solving simple problems in a straight forward way. This is due, I think to the quality of its abstractions over state and mutating it.
 
@@ -60,7 +60,44 @@ The specification has seven parts.
 + A goal condition can be achieved two ways: it is in the current state or by applying an operator to the current environment.
 + An operator is appropriate if it adds the goal to the environment.
 + An operator can be applied if all the preconditions for its application can be met.
-** Implementation
+** Implementation Features
+*** Helper Functions
+=FIND-ALL= is introduced early in the book and provides an example of a user function that has many of the features of a Common Lisp built-in function.
+#+NAME: find-all
+#+BEGIN_SRC lisp
+  (defun find-all (item sequence &rest keyword-args
+                                 &key (test #'eql)
+                                 test-not
+                                 &allow-other-keys)
+    "Find all those elements of sequence that match item.
+     according to the keywords. Does not alter sequence"
+    (if test-not
+        (apply #'remove item sequence
+               :test-not (complement test-not) keyword-args)
+        (apply #'remove item sequence
+               :test (complement test) keyword-args)))
+#+END_SRC
+*** Special Variables
+#+NAME: special-variables
+#+BEGIN_SRC lisp
+  (defvar *state* nil "The current state: a list of all conditions.")
+  (defvar *ops* nil "A list of available operations.")
+#+END_SRC
+
+*** Operations
+Note that =nil= is the default value for each field of the =op= structure. For literate programming the source block name had to be 'ops' instead of 'op' in order to work with =:noweb=.
+#+NAME: ops
+#+BEGIN_SRC lisp
+  (defstruct op
+    "An operation."
+    (action nil)
+    (preconds nil)
+    (add-list nil)
+    (del-list nil))
+#+END_SRC
+* VERSION ONE
+This is the first iteration from Norvig's book.
+** Glossary
 #+NAME: program_glossary
   +---------------+----------------------------+
   |GPS            |Top Level Function: Solve a |
@@ -92,51 +129,38 @@ The specification has seven parts.
   +---------------+----------------------------+
   |find-all       |Previously defined functions|
   +---------------+----------------------------+
-*** Helper Functions
-#+NAME: find-all          
-#+BEGIN_SRC lisp :tangle yes
-  (defun find-all (item sequence &rest keyword-args
-                                 &key (test #'eql)
-                                 test-not
-                                 &allow-other-keys)
-    "Find all those elements of sequence that match item.
-     according to the keywords. Does not alter sequence"
-    (if test-not
-        (apply #'remove item sequence
-               :test-not (complement test-not) keyword-args)
-        (apply #'remove item sequence
-               :test (complement test) keyword-args)))
-#+END_SRC
-*** Special Variables
-#+NAME: special-variables
-#+BEGIN_SRC lisp :tangle yes
-  (defvar *state* nil "The current state: a list of all conditions.")
-  (defvar *ops* nil "A list of available operations.")
-#+END_SRC
-
-*** Operations
-Note that =nil= is the default value for each field of the =op= structure.
-#+NAME: op
-#+BEGIN_SRC lisp :tangle yes
-  (defstruct op
-    "An operation."
-    (action nil)
-    (preconds nil)
-    (add-list nil)
-    (del-list nil))
-#+END_SRC
-* VERSION 1
-*** GPS
+** GPS
+For literate programming purposes the source block name had to use 'one' instead of '1' to work with =:noweb=.
 #+NAME: gps-version-one
-#+BEGIN_SRC lisp :tangle yes
-  (defun gps (*state* goals *ops*)
-    "General Problem Solver: achieve all goals using *ops*."
-    (if (every #'achieve goals) 'solved))
+#+BEGIN_SRC lisp :tangle gps-version-1.lisp :noweb yes
+  ;;; THIS FILE AUTOGENERATATED
+
+  ;;; Helper Functions
+  <<find-all>>
+
+  ;;; Special Virables
+  <<special-variables>>
+
+  ;;; Operations
+  <<ops>>
+
+  ;;; Main
+    (defun gps (*state* goals *ops*)
+      "General Problem Solver: achieve all goals using *ops*."
+      (if (every #'achieve goals) 'solved))
+
+  ;;; Functions
+  <<achieve>>
+
+  <<appropriate-p>>
+
+  <<apply-op>>
 #+END_SRC
 
-*** Functions
+** Functions
+
 #+NAME: achieve
-#+BEGIN_SRC lisp :tangle yes
+#+BEGIN_SRC lisp
   (defun achieve (goal)
     "A goal is achieved if it already holds. Or if there
      is an appropriate op for it that is applicable."
@@ -146,14 +170,14 @@ Note that =nil= is the default value for each field of the =op= structure.
 #+END_SRC
 
 #+NAME: appropriate-p
-#+BEGIN_SRC lisp :tangle yes
+#+BEGIN_SRC lisp
   (defun appropriate-p (goal op)
     "An op is appropriate to a goal if the goal is on the op's add-list."
     (member goal (op-add-list op)))
 #+END_SRC
 
 #+NAME: apply-op
-#+BEGIN_SRC lisp :tangle yes
+#+BEGIN_SRC lisp
   (defun apply-op (op)
     "Print a message and update *state* when op is applicable."
     (when (every #'achieve (op-preconds op))
@@ -162,13 +186,159 @@ Note that =nil= is the default value for each field of the =op= structure.
       (setf *state* (union *state* (op-add-list op)))))
 #+END_SRC
 
-** Testing
-*** Parameterize knowledge base
+** Problems
+*** Running Around the Block Problem
+Version One does not handle the run for the side effects case where the start state and the end state are the same...e.g. if we run around the block for exercise.
+*** Clobbered Sibling Goal Problem
+The code only checks if each goal requirement is achieved at some point, therefore
+#+BEGIN_SRC lisp
+  (gps '(son-at-home car-needs-battery have-money have-phone-book)
+       '(have-money son-at-school)
+       *school-ops*)
+
+  => SOLVED
+#+END_SRC
+Despite repairing the car using all the money.
+*** Leaping Before Looking Problem
+GPS will choose a course of action and continue it regardless of whether it will solve the problem. Even worse, it will not back up and try a different approach after hitting a dead end.
+*** Recursive Subgoals  Problem
+It is possible to create operations which will send GPS into an infinite loop.
+*** Lack of Intermediate Information
+GPS will report failure but only as =NIL=. It will not report what it tried.
+* VERSION TWO
+The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
+** GPS Debugger
+#+NAME: debugger
+#+BEGIN_SRC lisp :tangle gps-debugger.lisp
+  (defvar *dbg-ids* nil
+    "Identifiers used by dbg")
+
+  (defun dbg (id format-string &rest args)
+    "Print debugging information if (DEBUG-ID) has been specified."
+    (when (member id *dbg-ids*)
+      (fresh-line *debug-io*)
+      (apply #'format *debug-io* format-string args)))
+
+  ;;; Using gps-debug because 'debug' reserved in SBCL
+  (defun gps-debug (&rest ids)
+    "Start dbg output on the given ids."
+    (setf *dbg-ids* (union ids *dbg-ids*)))
+
+  (defun undebug (&rest ids)
+    "Stop dbg on the ids. With no ids, stop debugging altogether."
+    (setf *dbg-ids* (if (null ids) nil
+                      (set-difference *dbg-ids* ids))))
+
+  (defun dbg-indent (id indent format-string &rest args)
+    "Print indented debugging info if (DEBUG ID) has been specified."
+    (when (member id *dbg-ids*)
+      (fresh-line *debug-io*)
+      (dotimes (i indent) (princ "   " *debug-io*))
+      (apply #'format *debug-io* format-string args)))
+#+END_SRC
+** Glossary
++-----------------------------------------------------------------------+
+|                *Top Level Function*                                     |
+|GPS             Solve a goal from a state using a list of operators.   |
++-----------------------------------------------------------------------+
+|                *Special Variables*                                      |
+|*ops*           A List of available operators.                         |
++-----------------------------------------------------------------------+
+|                *Data Types*                                             |
+|op              An operation with preconds, add-list, del-list.        |
++-----------------------------------------------------------------------+
+|                *Major Functions*                                        |
+|achieve-all     Achieve a list of goals.                               |
+|achieve         Achieve a single goal.                                 |
+|appropriate-p   Decide if an operator is appropriate to a goal.        |
+|apply-op        Apply operator to current state.                       |
++-----------------------------------------------------------------------+
+|                *Auxiliary Functions*                                   |
+|executing-p     Is condition an executing form?                        |
+|starts-with     Is the argument a list that starts with a given atom?  |
+|convert-op      Convert an operator to use the executing convention.   |
+|op              Create an operator.                                    |
+|use             Use a list of operators.                               |
+|member-equal    Test if an element is equal to a member of a list.     |
++-----------------------------------------------------------------------+
+|                *Selected Common Lisp Functions*                         |
+|member          Test if an element is a member of a list.              |
+|set-difference  All elements in one set but not in the other.          |
+|subsetp         Is one set wholly contained in another?                |
+|union           All elements in either of two sets.                    |
+|every           Test if every element of a list passes test.           |
+|some            Test if any element of a list passes test.             |
+|remove-if       Remove all items satisfying a test.                    |
++-----------------------------------------------------------------------+
+|                *Previously Defined Functions*                           |
+|find-all        A list of all matching elements.                       |
+|find-all-if     A list of all elements satisifying a predicate.        |
++-----------------------------------------------------------------------+
+
+** GPS
+#+NAME: gps 
+#+BEGIN_SRC lisp :noweb yes :tangle gps.lisp
+;; This file was auto generated from
+;; general-problem-solver.org
+<<find-all>>
+
+<<special-variables>>
+
+<<ops>>
+
+<<auxiliary-functions>>
+
+<<major-functions>>
+#+END_SRC
+** Major Functions
+The only addition for GPS Version 2 is the addition of =achieve-all=.
+#+NAME: major-functions 
+#+BEGIN_SRC lisp :noweb yes
+  <<achieve>>
+
+  <<appropriate-p>>
+
+  <<apply-op>>
+
+  (defun achieve-all (goals)
+    "Try to achieve each goal and make sure each still holds."
+    (and (every #'achieve goals)
+         (subsetp goals *state*)))
+#+END_SRC
+** Auxiliary Functions
+These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to backport the changed structure to *school-ops*.
+#+NAME: auxiliary-functions
+#+BEGIN_SRC lisp
+  (defun executing-p (x)
+    "Is the form: (executing...)?"
+    (starts-with x 'executing))
+
+  (defun starts-with (list x)
+    "Is this a list whose first element is x?"
+    (and (consp list)
+         (eql (first list) s)))
+
+  (defun convert-op (op)
+    "Make op conform to the (EXECUTING op) convention."
+    (unless (some #'executing-p (op-add-list op))
+      (push (list 'executing (op-action op))
+            (op-add-list op)))
+    op)
+
+  (defun op (action &key preconds add-list del-list)
+    "Make a new operator that obeys the (EXECUTING op) convention."
+    (make-op :action action
+             :preconds preconds
+             :add-list add-list
+             :del-list del-list))
+#+END_SRC
+* KNOWLEDGE BASES
+** Parameterize knowledge base
 This is one of the techniques that Norvig introduces early in the book. The idea of parameters is that changing the parameters, creates a different program. For example, the school parameters here create a program that solves the problem of getting the son to school. A different set of parameters will create a 'different' problem solver.
-
+** School Ops
 The parameter =*school-ops*= could be shorter by leaving out the fields that are =nil= since it is the default for the =op= structure and Norvig does so in the book.  However, being explicit has the advantage of requiring less local knowledge and the advantage of creating a more regular pattern within the code similar to the design recipes in *How to Design Programs*.
-
-#+BEGIN_SRC lisp :tangle yes
+#+NAME: school-ops
+#+BEGIN_SRC lisp
   (defparameter *school-ops*
     (list
      (make-op
@@ -202,11 +372,16 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
       :add-list '(shop-has-money)
       :del-list '(have-money))))
 #+END_SRC
+* TESTING CODE
+#+BEGIN_SRC lisp :tangle gps-version-one-school-ops.lisp :noweb yes
+<<school-ops>>
+<<gps-version-one>>
+#+END_SRC
 * Appendix
 ** Using this file
 1. The output for this file is =general-problem-solver.lisp=.
 2. The web page for this file is =index.html=. It is structured to work with Github pages.
-3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
+3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=.
 #+NAME: generate-files
 #+BEGIN_SRC elisp
   ;; label for search: qqhz
@@ -219,7 +394,7 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
     (write-file "index.html")
     (kill-buffer))
   (concat "Files Generated: " (current-time-string))
-#+END_SRC 
+#+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Wed Feb  1 11:06:59 2017
+: Files Generated: Mon Feb  6 13:00:20 2017
