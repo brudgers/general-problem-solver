@@ -32,7 +32,7 @@
     :del-list '(have-money))))
 ;;; THIS FILE AUTOGENERATATED
 
-;;; Helper Functions
+;;; Helper Function
 (defun find-all (item sequence &rest keyword-args
                                &key (test #'eql)
                                test-not
@@ -45,7 +45,7 @@
       (apply #'remove item sequence
              :test (complement test) keyword-args)))
 
-;;; Special Virables
+;;; Special Variables
 (defvar *state* nil "The current state: a list of all conditions.")
 (defvar *ops* nil "A list of available operations.")
 

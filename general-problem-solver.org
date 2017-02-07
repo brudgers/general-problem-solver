@@ -60,8 +60,8 @@ The specification has seven parts.
 + A goal condition can be achieved two ways: it is in the current state or by applying an operator to the current environment.
 + An operator is appropriate if it adds the goal to the environment.
 + An operator can be applied if all the preconditions for its application can be met.
-** Implementation Features
-*** Helper Functions
+* HELPERS
+*** find-all
 =FIND-ALL= is introduced early in the book and provides an example of a user function that has many of the features of a Common Lisp built-in function.
 #+NAME: find-all
 #+BEGIN_SRC lisp
@@ -84,9 +84,9 @@ The specification has seven parts.
   (defvar *ops* nil "A list of available operations.")
 #+END_SRC
 
-*** Operations
-Note that =nil= is the default value for each field of the =op= structure. For literate programming the source block name had to be 'ops' instead of 'op' in order to work with =:noweb=.
-#+NAME: ops
+*** Op Data Structure
+Note that =nil= is the default value for each field of the =op= structure. For literate programming the source block name had to be '_op' instead of 'op' in order to work with =:noweb=. It appears that names must be at least three characters.
+#+NAME: _op
 #+BEGIN_SRC lisp
   (defstruct op
     "An operation."
@@ -95,54 +95,79 @@ Note that =nil= is the default value for each field of the =op= structure. For l
     (add-list nil)
     (del-list nil))
 #+END_SRC
+*** Achieve
+#+NAME: achieve
+#+BEGIN_SRC lisp
+  (defun achieve (goal)
+    "A goal is achieved if it already holds. Or if there
+     is an appropriate op for it that is applicable."
+    (or (member goal *state*)
+        (some #'apply-op
+              (find-all goal *ops* :test #'appropriate-p))))
+#+END_SRC
+*** Appropriate-p
+#+NAME: appropriate-p
+#+BEGIN_SRC lisp
+  (defun appropriate-p (goal op)
+    "An op is appropriate to a goal if the goal is on the op's add-list."
+    (member goal (op-add-list op)))
+#+END_SRC
+*** Apply-op
+#+NAME: apply-op
+#+BEGIN_SRC lisp
+  (defun apply-op (op)
+    "Print a message and update *state* when op is applicable."
+    (when (every #'achieve (op-preconds op))
+      (print (list 'executing (op-action op)))
+      (setf *state* (set-difference *state* (op-del-list op)))
+      (setf *state* (union *state* (op-add-list op)))))
+#+END_SRC
 * VERSION ONE
 This is the first iteration from Norvig's book.
 ** Glossary
 #+NAME: program_glossary
-  +---------------+----------------------------+
-  |GPS            |Top Level Function: Solve a |
-  |               |goal from a state using a   |
-  |               |list of operators           |
-  |               |                            |
-  +---------------+----------------------------+
-  |               |Special Variables: Current  |
-  |*state*        |State and a list of         |
-  |*ops*          |operators                   |
-  |               |                            |
-  +---------------+----------------------------+
-  |               |Data Types: An operation    |
-  |op             |with preconditions, add-list|
-  |               |and del-list                |
-  |               |                            |
-  |               |                            |
-  +---------------+----------------------------+
-  |               |Functions: Achieve an       |
-  |achieve        |individual goal, Decide if  |
-  |appropriate-p |an operator achieves a goal.|
-  |apply-op       |Apply operator to the       |
-  |               |current state.              |
-  +---------------+----------------------------+
-  |member,        |Common Lisp Functions        |
-  |set-difference,|                            |
-  |union, every,  |                            |
-  |some           |                            |
-  +---------------+----------------------------+
-  |find-all       |Previously defined functions|
-  +---------------+----------------------------+
++-----------------------------------------------------------+
+|                *Top Level Function*                       |
+|GPS             Solve a goal from a state                  |
+|                using a list of operators.                 |
++-----------------------------------------------------------+
+|                *Special Variables: Current*               |
+|\*state*         Global State                              |
+|\*ops*           A List of operators                       |
++-----------------------------------------------------------+  
+|                *Data Types*                               |
+|op              An operation with preconditions,           |
+|                an add-list and a del-list                 |
++-----------------------------------------------------------+
+|                *Functions*                                |
+|achieve         Achieve an individual goal.                |
+|appropriate-p   Decide if an operator achieves a goal.     |
+|applyop         Apply operator to the current state.       |       
++-----------------------------------------------------------+
+|                *Common Lisp Functions*                    |
+|member                                                     |
+|setdifference                                              |
+|union                                                      |
+|every                                                      |
+|some                                                       |
++-----------------------------------------------------------+
+|                *Previously defined functions*             |
+|findall         Find all occurances of an element in list. |
++-----------------------------------------------------------+
 ** GPS
 For literate programming purposes the source block name had to use 'one' instead of '1' to work with =:noweb=.
 #+NAME: gps-version-one
-#+BEGIN_SRC lisp :tangle gps-version-1.lisp :noweb yes
+#+BEGIN_SRC lisp :tangle gps-version-1.lisp :noweb tangle
   ;;; THIS FILE AUTOGENERATATED
 
-  ;;; Helper Functions
+  ;;; Helper Function
   <<find-all>>
 
-  ;;; Special Virables
+  ;;; Special Variables
   <<special-variables>>
 
   ;;; Operations
-  <<ops>>
+  <<_op>>
 
   ;;; Main
     (defun gps (*state* goals *ops*)
@@ -156,36 +181,6 @@ For literate programming purposes the source block name had to use 'one' instead
 
   <<apply-op>>
 #+END_SRC
-
-** Functions
-
-#+NAME: achieve
-#+BEGIN_SRC lisp
-  (defun achieve (goal)
-    "A goal is achieved if it already holds. Or if there
-     is an appropriate op for it that is applicable."
-    (or (member goal *state*)
-        (some #'apply-op
-              (find-all goal *ops* :test #'appropriate-p))))
-#+END_SRC
-
-#+NAME: appropriate-p
-#+BEGIN_SRC lisp
-  (defun appropriate-p (goal op)
-    "An op is appropriate to a goal if the goal is on the op's add-list."
-    (member goal (op-add-list op)))
-#+END_SRC
-
-#+NAME: apply-op
-#+BEGIN_SRC lisp
-  (defun apply-op (op)
-    "Print a message and update *state* when op is applicable."
-    (when (every #'achieve (op-preconds op))
-      (print (list 'executing (op-action op)))
-      (setf *state* (set-difference *state* (op-del-list op)))
-      (setf *state* (union *state* (op-add-list op)))))
-#+END_SRC
-
 ** Problems
 *** Running Around the Block Problem
 Version One does not handle the run for the side effects case where the start state and the end state are the same...e.g. if we run around the block for exercise.
@@ -238,22 +233,22 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
 #+END_SRC
 ** Glossary
 +-----------------------------------------------------------------------+
-|                *Top Level Function*                                     |
+|                *Top Level Function*                                   |
 |GPS             Solve a goal from a state using a list of operators.   |
 +-----------------------------------------------------------------------+
-|                *Special Variables*                                      |
+|                *Special Variables*                                    |
 |*ops*           A List of available operators.                         |
 +-----------------------------------------------------------------------+
-|                *Data Types*                                             |
+|                *Data Types*                                           |
 |op              An operation with preconds, add-list, del-list.        |
 +-----------------------------------------------------------------------+
-|                *Major Functions*                                        |
+|                *Major Functions*                                      |
 |achieve-all     Achieve a list of goals.                               |
 |achieve         Achieve a single goal.                                 |
 |appropriate-p   Decide if an operator is appropriate to a goal.        |
 |apply-op        Apply operator to current state.                       |
 +-----------------------------------------------------------------------+
-|                *Auxiliary Functions*                                   |
+|                *Auxiliary Functions*                                  |
 |executing-p     Is condition an executing form?                        |
 |starts-with     Is the argument a list that starts with a given atom?  |
 |convert-op      Convert an operator to use the executing convention.   |
@@ -261,7 +256,7 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
 |use             Use a list of operators.                               |
 |member-equal    Test if an element is equal to a member of a list.     |
 +-----------------------------------------------------------------------+
-|                *Selected Common Lisp Functions*                         |
+|                *Selected Common Lisp Functions*                       |
 |member          Test if an element is a member of a list.              |
 |set-difference  All elements in one set but not in the other.          |
 |subsetp         Is one set wholly contained in another?                |
@@ -270,14 +265,14 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
 |some            Test if any element of a list passes test.             |
 |remove-if       Remove all items satisfying a test.                    |
 +-----------------------------------------------------------------------+
-|                *Previously Defined Functions*                           |
+|                *Previously Defined Functions*                         |
 |find-all        A list of all matching elements.                       |
 |find-all-if     A list of all elements satisifying a predicate.        |
 +-----------------------------------------------------------------------+
 
 ** GPS
 #+NAME: gps 
-#+BEGIN_SRC lisp :noweb yes :tangle gps.lisp
+#+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
 ;; This file was auto generated from
 ;; general-problem-solver.org
 <<find-all>>
@@ -373,7 +368,8 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
       :del-list '(have-money))))
 #+END_SRC
 * TESTING CODE
-#+BEGIN_SRC lisp :tangle gps-version-one-school-ops.lisp :noweb yes
+A complete package of source and parameters (essentially an application) for the first version of GPS with the School Ops...gotta love literate programming.
+#+BEGIN_SRC lisp :tangle gps-version-one-school-ops.lisp :noweb tangle
 <<school-ops>>
 <<gps-version-one>>
 #+END_SRC
@@ -397,4 +393,4 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Mon Feb  6 13:00:20 2017
+: Files Generated: Tue Feb  7 15:54:58 2017

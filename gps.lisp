@@ -15,12 +15,7 @@
 (defvar *state* nil "The current state: a list of all conditions.")
 (defvar *ops* nil "A list of available operations.")
 
-(defstruct op
-  "An operation."
-  (action nil)
-  (preconds nil)
-  (add-list nil)
-  (del-list nil))
+
 
 (defun executing-p (x)
   "Is the form: (executing...)?"
