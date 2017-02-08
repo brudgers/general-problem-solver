@@ -22,9 +22,10 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 The main heuristic is the principle of sub-goal reduction: reduce hard goals to sets of easier goals. This assumes that the difference between the current state and the goal can be determined; operators have partial effects on the environment and some portions always remain unchanged by each operator; some differences are harder to effect than others and so it is good practice to eliminate hard differences at the cost of introducing easier differences so long as progress is made.
 
 ** Executive Structure of GPS
-
-#+BEGIN_SRC dot :file gps-exec.svg :exports results
+Make the diagram using Graphviz's Dot language.
+#+BEGIN_SRC dot :file gps-exec.svg :exports both
 digraph G {
+size="5,5";
 ratio=1.1;
 a[label="Command to\nachieve goal", shape=plaintext];
 b[label="Evaluate Goal", shape=box];
@@ -60,68 +61,6 @@ The specification has seven parts.
 + A goal condition can be achieved two ways: it is in the current state or by applying an operator to the current environment.
 + An operator is appropriate if it adds the goal to the environment.
 + An operator can be applied if all the preconditions for its application can be met.
-* HELPERS
-*** find-all
-=FIND-ALL= is introduced early in the book and provides an example of a user function that has many of the features of a Common Lisp built-in function.
-#+NAME: find-all
-#+BEGIN_SRC lisp
-  (defun find-all (item sequence &rest keyword-args
-                                 &key (test #'eql)
-                                 test-not
-                                 &allow-other-keys)
-    "Find all those elements of sequence that match item.
-     according to the keywords. Does not alter sequence"
-    (if test-not
-        (apply #'remove item sequence
-               :test-not (complement test-not) keyword-args)
-        (apply #'remove item sequence
-               :test (complement test) keyword-args)))
-#+END_SRC
-*** Special Variables
-#+NAME: special-variables
-#+BEGIN_SRC lisp
-  (defvar *state* nil "The current state: a list of all conditions.")
-  (defvar *ops* nil "A list of available operations.")
-#+END_SRC
-
-*** Op Data Structure
-Note that =nil= is the default value for each field of the =op= structure. For literate programming the source block name had to be '_op' instead of 'op' in order to work with =:noweb=. It appears that names must be at least three characters.
-#+NAME: _op
-#+BEGIN_SRC lisp
-  (defstruct op
-    "An operation."
-    (action nil)
-    (preconds nil)
-    (add-list nil)
-    (del-list nil))
-#+END_SRC
-*** Achieve
-#+NAME: achieve
-#+BEGIN_SRC lisp
-  (defun achieve (goal)
-    "A goal is achieved if it already holds. Or if there
-     is an appropriate op for it that is applicable."
-    (or (member goal *state*)
-        (some #'apply-op
-              (find-all goal *ops* :test #'appropriate-p))))
-#+END_SRC
-*** Appropriate-p
-#+NAME: appropriate-p
-#+BEGIN_SRC lisp
-  (defun appropriate-p (goal op)
-    "An op is appropriate to a goal if the goal is on the op's add-list."
-    (member goal (op-add-list op)))
-#+END_SRC
-*** Apply-op
-#+NAME: apply-op
-#+BEGIN_SRC lisp
-  (defun apply-op (op)
-    "Print a message and update *state* when op is applicable."
-    (when (every #'achieve (op-preconds op))
-      (print (list 'executing (op-action op)))
-      (setf *state* (set-difference *state* (op-del-list op)))
-      (setf *state* (union *state* (op-add-list op)))))
-#+END_SRC
 * VERSION ONE
 This is the first iteration from Norvig's book.
 ** Glossary
@@ -154,33 +93,94 @@ This is the first iteration from Norvig's book.
 |                *Previously defined functions*             |
 |findall         Find all occurances of an element in list. |
 +-----------------------------------------------------------+
-** GPS
-For literate programming purposes the source block name had to use 'one' instead of '1' to work with =:noweb=.
-#+NAME: gps-version-one
-#+BEGIN_SRC lisp :tangle gps-version-1.lisp :noweb tangle
-  ;;; THIS FILE AUTOGENERATATED
+*** GPS
+ For literate programming purposes the source block name had to use 'one' instead of '1' to work with =:noweb=.
+ #+NAME: gps-v-one
+ #+BEGIN_SRC lisp :tangle gps-v-one.lisp :noweb tangle
+   ;;; THIS FILE AUTOGENERATATED
 
-  ;;; Helper Function
-  <<find-all>>
+   ;;; Helper Function
+   <<find-all-v-one>>
 
-  ;;; Special Variables
-  <<special-variables>>
+   ;;; Special Variables
+   <<special-variables-v-one>>
 
-  ;;; Operations
-  <<_op>>
+   ;;; Operations
+   <<struct-op-v-one>>
 
-  ;;; Main
-    (defun gps (*state* goals *ops*)
-      "General Problem Solver: achieve all goals using *ops*."
-      (if (every #'achieve goals) 'solved))
+   ;;; Main
+     (defun gps (*state* goals *ops*)
+       "General Problem Solver: achieve all goals using *ops*."
+       (if (every #'achieve goals) 'solved))
 
-  ;;; Functions
-  <<achieve>>
+   ;;; Functions
+   <<achieve-v-one>>
 
-  <<appropriate-p>>
+   <<appropriate-p-v-one>>
 
-  <<apply-op>>
-#+END_SRC
+   <<apply-op-v-one>>
+ #+END_SRC
+*** Special Variables
+ #+NAME: special-variables-v-one
+ #+BEGIN_SRC lisp
+   (defvar *state* nil "The current state: a list of all conditions.")
+   (defvar *ops* nil "A list of available operations.")
+ #+END_SRC
+
+*** Op Data Structure
+ Note that =nil= is the default value for each field of the =op= structure. For literate programming the source block name had to be 'struct-op' instead of 'op' in order to work with =:noweb=. It appears that names must be at least three characters.
+ #+NAME: struct-op-v-one
+ #+BEGIN_SRC lisp
+   (defstruct op
+     "An operation."
+     (action nil)
+     (preconds nil)
+     (add-list nil)
+     (del-list nil))
+ #+END_SRC
+*** Achieve
+ #+NAME: achieve-v-one
+ #+BEGIN_SRC lisp
+   (defun achieve (goal)
+     "A goal is achieved if it already holds. Or if there
+      is an appropriate op for it that is applicable."
+     (or (member goal *state*)
+         (some #'apply-op
+               (find-all goal *ops* :test #'appropriate-p))))
+ #+END_SRC
+*** Appropriate-p
+ #+NAME: appropriate-p-v-one
+ #+BEGIN_SRC lisp
+   (defun appropriate-p (goal op)
+     "An op is appropriate to a goal if the goal is on the op's add-list."
+     (member goal (op-add-list op)))
+ #+END_SRC
+*** Apply-op
+ #+NAME: apply-op-v-one
+ #+BEGIN_SRC lisp
+   (defun apply-op (op)
+     "Print a message and update *state* when op is applicable."
+     (when (every #'achieve (op-preconds op))
+       (print (list 'executing (op-action op)))
+       (setf *state* (set-difference *state* (op-del-list op)))
+       (setf *state* (union *state* (op-add-list op)))))
+ #+END_SRC
+*** find-all
+ =FIND-ALL= is introduced early in the book and provides an example of a user function that has many of the features of a Common Lisp built-in function.
+ #+NAME: find-all-v-one
+ #+BEGIN_SRC lisp
+   (defun find-all (item sequence &rest keyword-args
+                                  &key (test #'eql)
+                                  test-not
+                                  &allow-other-keys)
+     "Find all those elements of sequence that match item.
+      according to the keywords. Does not alter sequence"
+     (if test-not
+         (apply #'remove item sequence
+                :test-not (complement test-not) keyword-args)
+         (apply #'remove item sequence
+                :test (complement test) keyword-args)))
+ #+END_SRC
 ** Problems
 *** Running Around the Block Problem
 Version One does not handle the run for the side effects case where the start state and the end state are the same...e.g. if we run around the block for exercise.
@@ -279,7 +279,7 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
 
 <<special-variables>>
 
-<<ops>>
+<<struct-op>>
 
 <<auxiliary-functions>>
 
@@ -369,9 +369,9 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
 #+END_SRC
 * TESTING CODE
 A complete package of source and parameters (essentially an application) for the first version of GPS with the School Ops...gotta love literate programming.
-#+BEGIN_SRC lisp :tangle gps-version-one-school-ops.lisp :noweb tangle
+#+BEGIN_SRC lisp :tangle gps-v-one-school-ops.lisp :noweb tangle
 <<school-ops>>
-<<gps-version-one>>
+<<gps-v-one>>
 #+END_SRC
 * Appendix
 ** Using this file
@@ -393,4 +393,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Tue Feb  7 15:54:58 2017
+: Files Generated: Wed Feb  8 13:46:10 2017
