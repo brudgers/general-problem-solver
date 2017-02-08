@@ -106,7 +106,7 @@ This is the first iteration from Norvig's book.
    <<special-variables-v-one>>
 
    ;;; Operations
-   <<struct-op-v-one>>
+   <<op-v-one>>
 
    ;;; Main
      (defun gps (*state* goals *ops*)
@@ -128,8 +128,8 @@ This is the first iteration from Norvig's book.
  #+END_SRC
 
 *** Op Data Structure
- Note that =nil= is the default value for each field of the =op= structure. For literate programming the source block name had to be 'struct-op' instead of 'op' in order to work with =:noweb=. It appears that names must be at least three characters.
- #+NAME: struct-op-v-one
+ Note that =nil= is the default value for each field of the =op= structure. 
+ #+NAME: op-v-one
  #+BEGIN_SRC lisp
    (defstruct op
      "An operation."
@@ -275,10 +275,30 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
 #+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
   ;; This file was auto generated from
   ;; general-problem-solver.org
+
+
+  <<special-variables-v-two>>
+
+  <<op-v-two>>
+
+  <<major-functions-v-two>>
+
+  <<auxiliary-functions-v-two>>
+
+  <<previously-defined-functions-v-two>>
 #+END_SRC
 ** Special Variables
-
+GPS Version Two handles state differently than version one and so only requires the =*ops*= parameter. The =*ops*= parameter allows the creation of different applications based on the use of different operations. This ability is what puts the 'general' in GPS.
+#+NAME: special-variables-v-two
+#+BEGIN_SRC lisp
+(defvar *ops* nil "A list of available operators.")
+#+END_SRC
 ** Data Structure
+The =op= data structure is not changed from version one so we can reuse it. But I'll still make a source code block to make changes easier in the future.
+#+NAME: op-v-two
+#+BEGIN_SRC lisp :noweb tangle
+  <<op-v-one>>
+#+END_SRC
 ** Major Functions
 #+NAME: major-functions-v-two
 #+BEGIN_SRC lisp :noweb tangle
@@ -293,7 +313,7 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
   <<apply-op-v-two>>
 
 #+END_SRC
-The only addition for GPS Version 2 is the addition of =achieve-all=. However the other functions: =achieve=, =appropriate-p=, and =apply-op= are modified.
+The only additional function for GPS Version 2 is the addition of =achieve-all=. However, the other functions: =achieve=, =appropriate-p=, and =apply-op= are modified.
 *** Achieve-all
 Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures that after achieving the goals, all the goals are still in the current state of the world.
 #+NAME: achieve-all-v-two
@@ -316,9 +336,24 @@ Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures
 
 #+END_SRC
 
+*** Achieve
+#+NAME: achieve-v-two
+#+BEGIN_SRC lisp
+
+#+END_SRC
+*** Appropriate-p
+#+NAME: appropriate-p-v-two
+#+BEGIN_SRC lisp
+
+#+END_SRC
+*** Apply-op
+#+NAME: apply-op-v-two
+#+BEGIN_SRC lisp
+
+#+END_SRC
 ** Auxiliary Functions
 These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to back port the changed structure to *school-ops*.
-#+NAME: auxiliary-functions
+#+NAME: auxiliary-functions-v-two
 #+BEGIN_SRC lisp
   (defun executing-p (x)
     "Is the form: (executing...)?"
@@ -344,6 +379,7 @@ These functions implement a new form for ops so that the action list contains an
              :del-list del-list))
 #+END_SRC
 ** Previously Defined Functions
+The function =find-all= does not change from GPS Version One. Norvig uses =find-all-if= as an example of naming clarifying a potential use case earlier in the book. In hindsight the use case seems obvious, but there's kinda/sorta a double negative in =remove-if-not= standing in the way.
 #+NAME: previously-defined-functions-v-two
 #+BEGIN_SRC lisp :noweb tangle
   <<find-all-v-one>>
@@ -415,4 +451,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Wed Feb  8 13:48:07 2017
+: Files Generated: Wed Feb  8 15:08:40 2017
