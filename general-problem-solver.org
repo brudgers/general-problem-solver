@@ -91,7 +91,7 @@ This is the first iteration from Norvig's book.
 |some                                                       |
 +-----------------------------------------------------------+
 |                *Previously defined functions*             |
-|findall         Find all occurances of an element in list. |
+|findall         Find all occurrences of an element in list. |
 +-----------------------------------------------------------+
 *** GPS
  For literate programming purposes the source block name had to use 'one' instead of '1' to work with =:noweb=.
@@ -267,41 +267,57 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
 +-----------------------------------------------------------------------+
 |                *Previously Defined Functions*                         |
 |find-all        A list of all matching elements.                       |
-|find-all-if     A list of all elements satisifying a predicate.        |
+|find-all-if     A list of all elements satisfying a predicate.        |
 +-----------------------------------------------------------------------+
 
 ** GPS
 #+NAME: gps 
 #+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
-;; This file was auto generated from
-;; general-problem-solver.org
-<<find-all>>
-
-<<special-variables>>
-
-<<struct-op>>
-
-<<auxiliary-functions>>
-
-<<major-functions>>
+  ;; This file was auto generated from
+  ;; general-problem-solver.org
 #+END_SRC
+** Special Variables
+
+** Data Structure
 ** Major Functions
-The only addition for GPS Version 2 is the addition of =achieve-all=.
-#+NAME: major-functions 
-#+BEGIN_SRC lisp :noweb yes
-  <<achieve>>
+#+NAME: major-functions-v-two
+#+BEGIN_SRC lisp :noweb tangle
+  ;;; Major Functions
 
-  <<appropriate-p>>
+  <<achieve-all-v-two>>
 
-  <<apply-op>>
+  <<achieve-v-two>>
 
+  <<appropriate-p-v-two>>
+
+  <<apply-op-v-two>>
+
+#+END_SRC
+The only addition for GPS Version 2 is the addition of =achieve-all=. However the other functions: =achieve=, =appropriate-p=, and =apply-op= are modified.
+*** Achieve-all
+Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures that after achieving the goals, all the goals are still in the current state of the world.
+#+NAME: achieve-all-v-two
+#+BEGIN_SRC lisp
   (defun achieve-all (goals)
     "Try to achieve each goal and make sure each still holds."
     (and (every #'achieve goals)
          (subsetp goals *state*)))
 #+END_SRC
+#+NAME: achieve-v-two
+#+BEGIN_SRC lisp
+
+#+END_SRC
+#+NAME: appropriate-p-v-two
+#+BEGIN_SRC lisp
+
+#+END_SRC
+#+NAME: apply-op-v-two
+#+BEGIN_SRC lisp
+
+#+END_SRC
+
 ** Auxiliary Functions
-These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to backport the changed structure to *school-ops*.
+These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to back port the changed structure to *school-ops*.
 #+NAME: auxiliary-functions
 #+BEGIN_SRC lisp
   (defun executing-p (x)
@@ -326,6 +342,12 @@ These functions implement a new form for ops so that the action list contains an
              :preconds preconds
              :add-list add-list
              :del-list del-list))
+#+END_SRC
+** Previously Defined Functions
+#+NAME: previously-defined-functions-v-two
+#+BEGIN_SRC lisp :noweb tangle
+  <<find-all-v-one>>
+  (setf (symbol-function 'find-all-if) #'remove-if-not)
 #+END_SRC
 * KNOWLEDGE BASES
 ** Parameterize knowledge base
@@ -393,4 +415,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Wed Feb  8 13:46:10 2017
+: Files Generated: Wed Feb  8 13:48:07 2017
