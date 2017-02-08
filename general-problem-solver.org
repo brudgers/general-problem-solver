@@ -315,17 +315,30 @@ The =op= data structure is not changed from version one so we can reuse it. But 
 #+END_SRC
 The only additional function for GPS Version 2 is the addition of =achieve-all=. However, the other functions: =achieve=, =appropriate-p=, and =apply-op= are modified.
 *** Achieve-all
-Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures that after achieving the goals, all the goals are still in the current state of the world.
+Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures that after achieving the goals, all the goals are still in the current state of the world. 
 #+NAME: achieve-all-v-two
 #+BEGIN_SRC lisp
-  (defun achieve-all (goals)
-    "Try to achieve each goal and make sure each still holds."
-    (and (every #'achieve goals)
-         (subsetp goals *state*)))
+  (defun achieve-all (state goals goal-stack)
+    "Try to achieve each goal and make sure each still holds at the end."
+    (let ((current-state state))
+      (if (and (every #'(lambda (g)
+                          (setf current-state
+                                (achieve current-state g goal-stack)))
+                      goals)
+               (subsetp goals current-state :test #'equal))
+          current-state)))
 #+END_SRC
+The new version of =achieve= is designed to handle the recursive subgoal problem. It uses a 'goal stack' to check if the current goal has become a sub-goal of itself.
 #+NAME: achieve-v-two
 #+BEGIN_SRC lisp
-
+  (defun achieve (state goal goal-stack)
+    "A goal is achieved if:\n  It already holds\n  Or\n There is an applicable appropriate op."
+    (dbg-indent :gps (length goal-stack) "Goal: ~a" goal)
+    (cond ((member-equal goal state) state)
+          ((member-equal goal goal-stack) nil)
+          (t (some #'(lambda (op)
+                       (apply-op state goal op goal-stack))
+                   (find-all goal *ops* :test appropriate-p)))))
 #+END_SRC
 #+NAME: appropriate-p-v-two
 #+BEGIN_SRC lisp
