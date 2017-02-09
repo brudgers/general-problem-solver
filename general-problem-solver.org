@@ -1,7 +1,4 @@
 #+TITLE: General Problem Solver in Common Lisp
-#+HTML_HEAD: <style type="text/css">
-#+HTML_HEAD: .org-svg {width : 800px}
-#+HTML_HEAD: </style>
 * PREFACE
 **The computer code here is not original to me.** and this document reflects several of my ongoing projects:
 1. Learning 'classic' AI by working through Peter Norvig's [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]].   Norvig's book is the source for the Lisp code in this project.
@@ -26,7 +23,7 @@ The main heuristic is the principle of sub-goal reduction: reduce hard goals to 
 
 ** Executive Structure of GPS
 Make the diagram using Graphviz's Dot language.
-#+BEGIN_SRC dot :file gps-exec.svg :exports both
+#+BEGIN_SRC dot :file gps-exec.png :exports both
 digraph G {
 size="5,5";
 ratio=1.1;
@@ -486,4 +483,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Wed Feb  8 21:03:57 2017
+: Files Generated: Thu Feb  9 13:12:28 2017
