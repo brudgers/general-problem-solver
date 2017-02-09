@@ -62,8 +62,9 @@ The specification has seven parts.
 + An operator is appropriate if it adds the goal to the environment.
 + An operator can be applied if all the preconditions for its application can be met.
 * VERSION ONE
-This is the first iteration from Norvig's book.
-** Glossary
+This is the first iteration of GPS from Norvig's book. It is an exercise to get something to run, but it has problems that are discussed at the end of this section. There is a second version of GPS provided in the next section. 
+** Implementation
+*** Glossary
 #+NAME: program_glossary
 +-----------------------------------------------------------+
 |                *Top Level Function*                       |
@@ -71,8 +72,8 @@ This is the first iteration from Norvig's book.
 |                using a list of operators.                 |
 +-----------------------------------------------------------+
 |                *Special Variables: Current*               |
-|\*state*         Global State                              |
-|\*ops*           A List of operators                       |
+|*state*         Global State                              |
+|*ops*           A List of operators                       |
 +-----------------------------------------------------------+  
 |                *Data Types*                               |
 |op              An operation with preconditions,           |
@@ -201,8 +202,9 @@ It is possible to create operations which will send GPS into an infinite loop.
 *** Lack of Intermediate Information
 GPS will report failure but only as =NIL=. It will not report what it tried.
 * VERSION TWO
-The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
+At one level, adding GPSv2 into this same source file is kind of a mess. But it makes for a richer exercise from an Emacs/Org-Babel/Literate Programming perspective. It certainly pushes me to understand more about the topic and makes for a more robust documentation of the project's development.
 ** GPS Debugger
+The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
 #+NAME: debugger
 #+BEGIN_SRC lisp :tangle gps-debugger.lisp
   (defvar *dbg-ids* nil
@@ -230,6 +232,11 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
       (fresh-line *debug-io*)
       (dotimes (i indent) (princ "   " *debug-io*))
       (apply #'format *debug-io* format-string args)))
+#+END_SRC
+For the current project, I am just going to =load= the debugger into GPSv2 rather than setting up ASDF...because my head is not quite wrapped around ASDF yet in terms of how it would work with this project.
+#+NAME: load-gps-debugger-v-two
+#+BEGIN_SRC lisp
+  (load "gps-debugger.lisp")
 #+END_SRC
 ** Glossary
 +-----------------------------------------------------------------------+
@@ -276,6 +283,7 @@ The first of the problems with =Version One= to be addressed is the Lack of Inte
   ;; This file was auto generated from
   ;; general-problem-solver.org
 
+  <<load-gps-debugger-v-two>>
 
   <<special-variables-v-two>>
 
@@ -464,4 +472,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Wed Feb  8 15:08:40 2017
+: Files Generated: Wed Feb  8 17:42:49 2017

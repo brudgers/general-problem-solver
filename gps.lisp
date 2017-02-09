@@ -1,6 +1,7 @@
 ;; This file was auto generated from
 ;; general-problem-solver.org
 
+(load "gps-debugger.lisp")
 
 (defvar *ops* nil "A list of available operators.")
 
