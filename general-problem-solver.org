@@ -43,9 +43,10 @@ d:w -> b:w [xlabel="Goal\nnot\nachieved", constraint=false];
 }
 #+END_SRC
 
-#+CAPTION: Executive Organization of GPS
 #+RESULTS:
-[[file:gps-exec.svg]]
+[[file:gps-exec.png]]
+
+#+CAPTION: Executive Organization of GPS
 
 /Source code for this diagram is written in/ =graphviz= /and contained in the literate programming file./
 
@@ -483,4 +484,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Thu Feb  9 13:12:28 2017
+: Files Generated: Thu Feb  9 13:59:28 2017
