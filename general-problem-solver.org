@@ -206,6 +206,9 @@ GPS will report failure but only as =NIL=. It will not report what it tried.
 At one level, adding GPSv2 into this same source file is kind of a mess. But it makes for a richer exercise from an Emacs/Org-Babel/Literate Programming perspective. It certainly pushes me to understand more about the topic and makes for a more robust documentation of the project's development.
 ** GPS Debugger
 The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
+
+The debugger is named =gps-debug= to avoid conflict with SBCL. To use =(gps-debug :gps :some-other-symbol :etc)=. To turn debugging off =(gps-debug)=.
+
 #+NAME: debugger
 #+BEGIN_SRC lisp :tangle gps-debugger.lisp
   (defvar *dbg-ids* nil
@@ -337,7 +340,8 @@ Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures
                (subsetp goals current-state :test #'equal))
           current-state)))
 #+END_SRC
-The new version of =achieve= is designed to handle the recursive subgoal problem. It uses a 'goal stack' to check if the current goal has become a sub-goal of itself.
+*** Achieve
+The new version of =achieve= is designed to handle the recursive subgoal problem. It uses a 'goal stack' to check if the current goal has become a sub-goal of itself. It also adds debugging.
 #+NAME: achieve-v-two
 #+BEGIN_SRC lisp
   (defun achieve (state goal goal-stack)
@@ -349,56 +353,94 @@ The new version of =achieve= is designed to handle the recursive subgoal problem
                        (apply-op state goal op goal-stack))
                    (find-all goal *ops* :test appropriate-p)))))
 #+END_SRC
-#+NAME: appropriate-p-v-two
-#+BEGIN_SRC lisp
-
-#+END_SRC
-#+NAME: apply-op-v-two
-#+BEGIN_SRC lisp
-
-#+END_SRC
-
-*** Achieve
-#+NAME: achieve-v-two
-#+BEGIN_SRC lisp
-
-#+END_SRC
 *** Appropriate-p
+The change for GPSv2 is to use [[member-equal-v-two][=member-equal=]] when looking for a goal in an =op-add-list=. The problem arises because in GPLv2 goals can be lists rather than symbols: for example ='(executing run-around-block)=. 
 #+NAME: appropriate-p-v-two
 #+BEGIN_SRC lisp
-
+  (defun appropriate-p (goal op)
+    "An op is approriate to a goal if the goal is in the op's add list."
+    (member-equal goal (op-add-list op)))
 #+END_SRC
 *** Apply-op
+GPLv2 uses a more sophisticated application mechanism and most of it is reflected in changes to =apply-op=. One the one hand, the mechanism is more 'functional': =apply-op= now takes a state and returns a state rather than mutating a global state. On the other hand, the logic runs deeper and does more.
+
+It also adds debugging and replaces the set oriented functions =union= and =set-diff= with order preserving functions =append= and =remove-if=. Once the 'executing' syntax was added, time became a bigger part of the model.
 #+NAME: apply-op-v-two
 #+BEGIN_SRC lisp
-
+  (defun apply-op (state goal op goal-stack)
+    "Return a new state that is a transformation of the input state when op is applicable."
+    (dbg-indent :gps (length goal-stack) "Consider: ~a" (op-action op))
+    (let ((state2 (achieve-all state
+                               (op-preconds op)
+                               (cons goal goal-stack))))
+      (unless (null state2)
+        ;; return an updated state
+        (dbg-indent :gps (length goal-stack) "Action: ~a" (op-action op))
+        (append (remove-if #'(lambda (x)
+                               (member-equal x (op-del-list op)))
+                           state2)
+                (op-add-list op)))))
 #+END_SRC
 ** Auxiliary Functions
 These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to back port the changed structure to *school-ops*.
 #+NAME: auxiliary-functions-v-two
+#+BEGIN_SRC lisp :noweb tangle
+  <<executing-p-v-two>>
+
+  <<starts-with-v-two>>  
+
+  <<convert-op-v-two>>
+
+  <<op-function-v-two>>
+
+  <<member-equal-v-two>>
+#+END_SRC
+*** executing-p
+The idea that a goal can consist merely of executing some action between to identical (for our purpose) states of the world makes the model richer. It also comes with additional complexity.
+#+NAME: executing-p-v-two
 #+BEGIN_SRC lisp
-  (defun executing-p (x)
-    "Is the form: (executing...)?"
-    (starts-with x 'executing))
-
+    (defun executing-p (x)
+      "Is the form: (executing...)?"
+      (starts-with x 'executing))
+#+END_SRC
+*** starts-with
+Making sure that an object is a list before trying to look at its =first= element avoids some nasty crashes. Abstracting over the details with a function is a good idea.
+#+NAME: starts-with-v-two
+#+BEGIN_SRC lisp
   (defun starts-with (list x)
-    "Is this a list whose first element is x?"
-    (and (consp list)
-         (eql (first list) s)))
-
-  (defun convert-op (op)
-    "Make op conform to the (EXECUTING op) convention."
-    (unless (some #'executing-p (op-add-list op))
-      (push (list 'executing (op-action op))
-            (op-add-list op)))
-    op)
-
-  (defun op (action &key preconds add-list del-list)
-    "Make a new operator that obeys the (EXECUTING op) convention."
-    (make-op :action action
-             :preconds preconds
-             :add-list add-list
-             :del-list del-list))
+      "Is this a list whose first element is x?"
+      (and (consp list)
+           (eql (first list) s)))
+#+END_SRC
+*** convert-op
+It's a good idea to be able to backport the new executing syntax to the earlier =*school-ops*= knowledge base. Writing a simple function to iteratively improve the app is probably easier than trying to get it right the first time...or at least I'm going with Norvig on that idea.
+#+NAME: convert-op-v-two
+#+BEGIN_SRC lisp
+    (defun convert-op (op)
+      "Make op conform to the (EXECUTING op) convention."
+      (unless (some #'executing-p (op-add-list op))
+        (push (list 'executing (op-action op))
+              (op-add-list op)))
+      op)
+#+END_SRC
+*** op
+It's nice to have a bit easier semantics for making new =op='s. So why not add a function? Well in a Lisp-1 that would be a mess and here it is just a potential bit of confusion.
+#+NAME: op-function-v-two
+#+BEGIN_SRC lisp
+    (defun op (action &key preconds add-list del-list)
+      "Make a new operator that obeys the (EXECUTING op) convention."
+      (make-op :action action
+               :preconds preconds
+               :add-list add-list
+               :del-list del-list))
+#+END_SRC
+*** member-equal
+Lists are only =eq= when they share structure and =eq= is the default for =member=. A new function helps deal with the =executing= syntax.
+#+NAME: member-equal-v-two
+#+BEGIN_SRC lisp
+    (defun member-equal (item list)
+      "Test for membership in a list as set using equal."
+      (member item list :test #'equal))
 #+END_SRC
 ** Previously Defined Functions
 The function =find-all= does not change from GPS Version One. Norvig uses =find-all-if= as an example of naming clarifying a potential use case earlier in the book. In hindsight the use case seems obvious, but there's kinda/sorta a double negative in =remove-if-not= standing in the way.
@@ -484,4 +526,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Thu Feb  9 13:59:28 2017
+: Files Generated: Thu Feb  9 14:03:24 2017

@@ -33,12 +33,23 @@
                      (apply-op state goal op goal-stack))
                  (find-all goal *ops* :test appropriate-p)))))
 
+(defun appropriate-p (goal op)
+  "An op is approriate to a goal if the goal is in the op's add list."
+  (member-equal goal (op-add-list op)))
 
-
-
-
-
-
+(defun apply-op (state goal op goal-stack)
+  "Return a new state that is a transformation of the input state when op is applicable."
+  (dbg-indent :gps (length goal-stack) "Consider: ~a" (op-action op))
+  (let ((state2 (achieve-all state
+                             (op-preconds op)
+                             (cons goal goal-stack))))
+    (unless (null state2)
+      ;; return an updated state
+      (dbg-indent :gps (length goal-stack) "Action: ~a" (op-action op))
+      (append (remove-if #'(lambda (x)
+                             (member-equal x (op-del-list op)))
+                         state2)
+              (op-add-list op)))))
 
 
 (defun executing-p (x)
@@ -46,9 +57,9 @@
   (starts-with x 'executing))
 
 (defun starts-with (list x)
-  "Is this a list whose first element is x?"
-  (and (consp list)
-       (eql (first list) s)))
+    "Is this a list whose first element is x?"
+    (and (consp list)
+         (eql (first list) s)))  
 
 (defun convert-op (op)
   "Make op conform to the (EXECUTING op) convention."
@@ -63,6 +74,10 @@
            :preconds preconds
            :add-list add-list
            :del-list del-list))
+
+(defun member-equal (item list)
+  "Test for membership in a list as set using equal."
+  (member item list :test #'equal))
 
 (defun find-all (item sequence &rest keyword-args
                                &key (test #'eql)
