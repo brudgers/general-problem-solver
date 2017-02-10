@@ -422,6 +422,8 @@ These functions implement a new form for ops so that the action list contains an
   <<op-function-v-two>>
 
   <<member-equal-v-two>>
+
+  <<use-v-two>>
 #+END_SRC
 *** executing-p
 The idea that a goal can consist merely of executing some action between to identical (for our purpose) states of the world makes the model richer. It also comes with additional complexity.
@@ -461,6 +463,18 @@ It's nice to have a bit easier semantics for making new =op='s. So why not add a
                :preconds preconds
                :add-list add-list
                :del-list del-list))
+#+END_SRC
+*** use
+To better facilitate management of parameters the new versions of =gps= allow operations (i.e. the value of the dynamic variable =*ops*= to be passed as an optional parameter. Better management of =*ops*= is provided by =use=. It provides a simpler way to reparameterize the application.
+
+The technique of returning the length of the return value (i.e. the length of =oplist=) ensures that the =use= returns a true value even when =oplist= is the empty list. Without the use of =length= the call =(setf *ops* nil)= would return =nil= and evaluate to =false=. Using =length= an integer will always be returned if the call was successful and even the integer =0= will evaluate to =true= in Common Lisp.
+#+NAME: use-v-two
+#+BEGIN_SRC lisp
+  (defun use (oplist)
+    "Use oplist as the default set of operators by setting the dynamic variable *ops* to its value."
+    ;; Return something useful
+    ;; but not verbose
+    (lenth (setf *ops* oplist)))
 #+END_SRC
 *** member-equal
 Lists are only =eq= when they share structure and =eq= is the default for =member=. A new function helps deal with the =executing= syntax.
@@ -558,4 +572,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Thu Feb  9 15:34:00 2017
+: Files Generated: Fri Feb 10 16:14:50 2017

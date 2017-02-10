@@ -83,6 +83,12 @@
   "Test for membership in a list as set using equal."
   (member item list :test #'equal))
 
+(defun use (oplist)
+  "Use oplist as the default set of operators by setting the dynamic variable *ops* to its value."
+  ;; Return something useful
+  ;; but not verbose
+  (lenth (setf *ops* oplist)))
+
 (defun find-all (item sequence &rest keyword-args
                                &key (test #'eql)
                                test-not
