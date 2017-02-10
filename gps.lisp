@@ -3,6 +3,10 @@
 
 (load "gps-debugger.lisp")
 
+(defun gps (state goals &optional (*ops* *ops*))
+  "General Problem Solver: from state achieves goals using *ops*."
+  (remove-if #'atom (achieve-all (cons '(start) state) goals nil)))
+
 (defvar *ops* nil "A list of available operators.")
 
 (defstruct op

@@ -204,6 +204,25 @@ It is possible to create operations which will send GPS into an infinite loop.
 GPS will report failure but only as =NIL=. It will not report what it tried.
 * VERSION TWO
 At one level, adding GPSv2 into this same source file is kind of a mess. But it makes for a richer exercise from an Emacs/Org-Babel/Literate Programming perspective. It certainly pushes me to understand more about the topic and makes for a more robust documentation of the project's development.
+#+NAME: gps 
+#+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
+  ;; This file was auto generated from
+  ;; general-problem-solver.org
+
+  <<load-gps-debugger-v-two>>
+
+  <<gps-v-two-simple>>
+
+  <<special-variables-v-two>>
+
+  <<op-v-two>>
+
+  <<major-functions-v-two>>
+
+  <<auxiliary-functions-v-two>>
+
+  <<previously-defined-functions-v-two>>
+#+END_SRC
 ** GPS Debugger
 The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
 
@@ -282,23 +301,32 @@ For the current project, I am just going to =load= the debugger into GPSv2 rathe
 +-----------------------------------------------------------------------+
 
 ** GPS
-#+NAME: gps 
-#+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
-  ;; This file was auto generated from
-  ;; general-problem-solver.org
-
-  <<load-gps-debugger-v-two>>
-
-  <<special-variables-v-two>>
-
-  <<op-v-two>>
-
-  <<major-functions-v-two>>
-
-  <<auxiliary-functions-v-two>>
-
-  <<previously-defined-functions-v-two>>
+Norvig provides two alternative implementations of =gps= in GPSv2. The first is largely similar to GPSv1 with the addition of the goal stack and a =start= state and treating the parameters as an optional argument which otherwise defaults to the dynamic scope of =*ops*=. I think adding a =start= state makes GPS more straight forward in terms of automata theory.
+*** Simple GPS
+#+NAME: gps-v-two-simple
+#+BEGIN_SRC lisp
+  (defun gps (state goals &optional (*ops* *ops*))
+    "General Problem Solver: from state achieves goals using *ops*."
+    (remove-if #'atom (achieve-all (cons '(start) state) goals nil)))
 #+END_SRC
+*** GPS Updating Dynamic State
+The second implementation of GPSv2, in addition to accepting the operations as an optional argument also updates the global parameter =*ops*= to match the argument if it is supplied. Norvig says this is more complicated but useful without explaining why. I suspect it is more useful in the case of more advanced agents (or multiple agents) where the availble operations change during program execution.
+
+As I was entering the code, I kind of choked for a second on the documentation string; thinking shouldn't it be 'using ops'. But then I realized that since =*ops*= quickly becomes =ops=, it made sense. It's the sort of subtle understanding that only comes from really working with the code in a textbook. No matter how much I read, without typing, I'd never have had that thought. Then after typing the code, I saw that this version cleans up after itself by restoring the old value of =*ops*= before returning the result. It's a sort of manual shadowing of variables. Probably problematic in a concurrent environment, but one /general problem/ at a time.
+#+NAME: gps-v-two-modify-dynamic-state
+#+BEGIN_SRC lisp
+  (defun gps (state goals &optional (ops *ops*))
+    "General Problem Solver: from state achieve goals using *ops*."
+    (let ((lod-ops *ops*))
+      (setf *ops* ops)
+      (let ((result (remove-if #'atom
+                               (achieve-all (cons '(start) state)
+                                            goals
+                                            nil))))
+        (setf *ops* old-ops)
+        result)))
+#+END_SRC
+
 ** Special Variables
 GPS Version Two handles state differently than version one and so only requires the =*ops*= parameter. The =*ops*= parameter allows the creation of different applications based on the use of different operations. This ability is what puts the 'general' in GPS.
 #+NAME: special-variables-v-two
@@ -489,6 +517,10 @@ The parameter =*school-ops*= could be shorter by leaving out the fields that are
       :add-list '(shop-has-money)
       :del-list '(have-money))))
 #+END_SRC
+
+#+RESULTS: school-ops
+: *SCHOOL-OPS*
+
 * TESTING CODE
 ** GPSv1 School Ops
 A complete package of source and parameters (essentially an application) for the first version of GPS with the School Ops...gotta love literate programming.
@@ -526,4 +558,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Thu Feb  9 14:03:24 2017
+: Files Generated: Thu Feb  9 15:34:00 2017
