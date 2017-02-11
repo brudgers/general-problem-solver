@@ -379,7 +379,7 @@ The new version of =achieve= is designed to handle the recursive subgoal problem
           ((member-equal goal goal-stack) nil)
           (t (some #'(lambda (op)
                        (apply-op state goal op goal-stack))
-                   (find-all goal *ops* :test appropriate-p)))))
+                   (find-all goal *ops* :test #'appropriate-p)))))
 #+END_SRC
 *** Appropriate-p
 The change for GPSv2 is to use [[member-equal-v-two][=member-equal=]] when looking for a goal in an =op-add-list=. The problem arises because in GPLv2 goals can be lists rather than symbols: for example ='(executing run-around-block)=. 
@@ -572,4 +572,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Fri Feb 10 16:14:50 2017
+: Files Generated: Sat Feb 11 09:59:19 2017

@@ -35,7 +35,7 @@
         ((member-equal goal goal-stack) nil)
         (t (some #'(lambda (op)
                      (apply-op state goal op goal-stack))
-                 (find-all goal *ops* :test appropriate-p)))))
+                 (find-all goal *ops* :test #'appropriate-p)))))
 
 (defun appropriate-p (goal op)
   "An op is approriate to a goal if the goal is in the op's add list."
