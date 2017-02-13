@@ -1,4 +1,5 @@
 #+TITLE: General Problem Solver in Common Lisp
+#+OPTIONS: num:nil ^:{}
 * PREFACE
 **The computer code here is not original to me.** and this document reflects several of my ongoing projects:
 1. Learning 'classic' AI by working through Peter Norvig's [[http://norvig.com/paip.html][*Paradigms of Artificial Intelligence: Case Studies in Common Lisp*]].   Norvig's book is the source for the Lisp code in this project.
@@ -223,7 +224,7 @@ At one level, adding GPSv2 into this same source file is kind of a mess. But it 
 
   <<previously-defined-functions-v-two>>
 #+END_SRC
-** GPS Debugger
+** GPS Debug.ger
 The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
 
 The debugger is named =gps-debug= to avoid conflict with SBCL. To use =(gps-debug :gps :some-other-symbol :etc)=. To turn debugging off =(gps-debug)=.
