@@ -224,7 +224,7 @@ At one level, adding GPSv2 into this same source file is kind of a mess. But it 
 
   <<previously-defined-functions-v-two>>
 #+END_SRC
-** GPS Debug.ger
+** GPS Debugger
 The first of the problems with =Version One= to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: =using-a-debugger= requires =having-a-debugger= and =having-a-debugger= requires =writing-a-debugger=. It's what I love about this book, it's GPS all the way down.
 
 The debugger is named =gps-debug= to avoid conflict with SBCL. To use =(gps-debug :gps :some-other-symbol :etc)=. To turn debugging off =(gps-debug)=.
@@ -573,4 +573,4 @@ A complete package of source and parameters (essentially an application) for the
 #+END_SRC
 
 #+RESULTS: generate-files
-: Files Generated: Sat Feb 11 09:59:19 2017
+: Files Generated: Mon Feb 13 12:13:28 2017
