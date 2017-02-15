@@ -553,24 +553,3 @@ A complete package of source and parameters (essentially an application) for the
 
   <<gps-v-one>>
 #+END_SRC
-* Appendix
-** Using this file
-1. The output for this file is =general-problem-solver.lisp=.
-2. The web page for this file is =index.html=. It is structured to work with Github pages.
-3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=.
-#+NAME: generate-files
-#+BEGIN_SRC elisp
-  ;; label for search: qqhz
-  ;; generate general-problem-solver.lisp
-  (org-babel-tangle)
-  ;; generate docs/index.html
-  (org-html-export-as-html)
-  (save-current-buffer
-    (set-buffer "*Org HTML Export*")
-    (write-file "index.html")
-    (kill-buffer))
-  (concat "Files Generated: " (current-time-string))
-#+END_SRC
-
-#+RESULTS: generate-files
-: Files Generated: Mon Feb 13 12:13:28 2017
