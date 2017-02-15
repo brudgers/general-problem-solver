@@ -3,9 +3,15 @@
 
 (load "gps-debugger.lisp")
 
-(defun gps (state goals &optional (*ops* *ops*))
-  "General Problem Solver: from state achieves goals using *ops*."
-  (remove-if #'atom (achieve-all (cons '(start) state) goals nil)))
+(defun action-p (x)
+  "Is x something that is (start) or (executing...)?"
+  (or (equal x '(start))
+      (executing-p x)))
+
+(defun gps (state goals &optional (*ops* *ops))
+  "General Problem Solver: from state, achieve goals using *ops*."
+  (find-all-if #'action-p
+               (achieve-all (cons '(start) state) goals nil)))
 
 (defvar *ops* nil "A list of available operators.")
 

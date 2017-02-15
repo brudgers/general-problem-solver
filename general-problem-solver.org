@@ -205,8 +205,8 @@ It is possible to create operations which will send GPS into an infinite loop.
 GPS will report failure but only as =NIL=. It will not report what it tried.
 * VERSION TWO
 At one level, adding GPSv2 into this same source file is kind of a mess. But it makes for a richer exercise from an Emacs/Org-Babel/Literate Programming perspective. It certainly pushes me to understand more about the topic and makes for a more robust documentation of the project's development.
-#+NAME: gps 
-#+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
+#+NAME: gps-v-two
+#+BEGIN_SRC lisp :noweb tangle :tangle gps-v2.lisp
   ;; This file was auto generated from
   ;; general-problem-solver.org
 
@@ -491,6 +491,47 @@ The function =find-all= does not change from GPS Version One. Norvig uses =find-
 #+BEGIN_SRC lisp :noweb tangle
   <<find-all-v-one>>
   (setf (symbol-function 'find-all-if) #'remove-if-not)
+#+END_SRC
+* VERSION THREE
+The third version of GPS fixes a bug related to assuming that each action is an =atom=. Because the actions for =*maze-ops* are compound in the form of ='(at <location>)= this assumption no longer holds. Norvig calls the problem of using a method that is convenient instead of a method that follows the business logic 'punning'. Essentially, it is calling a function that is at the wrong level of abstraction. Here we want an ='executing= form from the GPS 'language' not the =atom= form from Common Lisp.
+
+#+NAME: gps 
+#+BEGIN_SRC lisp :noweb tangle :tangle gps.lisp
+  ;; This file was auto generated from
+  ;; general-problem-solver.org
+
+  <<load-gps-debugger-v-two>>
+  
+  <<action-p>>
+
+  <<gps-v-three>>
+
+  <<special-variables-v-two>>
+
+  <<op-v-two>>
+
+  <<major-functions-v-two>>
+
+  <<auxiliary-functions-v-two>>
+
+  <<previously-defined-functions-v-two>>
+#+END_SRC
+** GPS
+#+NAME: gps-v-three
+#+BEGIN_SRC lisp
+  (defun gps (state goals &optional (*ops* *ops))
+    "General Problem Solver: from state, achieve goals using *ops*."
+    (find-all-if #'action-p
+                 (achieve-all (cons '(start) state) goals nil)))
+#+END_SRC
+** Action-p
+Any solution will be a path through the state space that starts with =(start)= and has zero or more =(executing...)= elements.
+#+NAME: action-p
+#+BEGIN_SRC lisp
+  (defun action-p (x)
+    "Is x something that is (start) or (executing...)?"
+    (or (equal x '(start))
+        (executing-p x)))
 #+END_SRC
 * KNOWLEDGE BASES
 ** Parameterize knowledge base
