@@ -121,7 +121,7 @@
   "Use oplist as the default set of operators by setting the dynamic variable *ops* to its value."
   ;; Return something useful
   ;; but not verbose
-  (lenth (setf *ops* oplist)))
+  (length (setf *ops* oplist)))
 
 (defun find-all (item sequence &rest keyword-args
                                &key (test #'eql)
