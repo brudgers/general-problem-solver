@@ -136,3 +136,18 @@
 (defun mappend (fn the-list)
   "Apply function to each element of the list and append the results."
   (apply #'append (mapcar fn the-list)))
+
+(defun find-path (start end)
+  "Search a maze for a path from start to end."
+  (let ((results (gps `((at ,start))
+                      `((at ,end)))))
+    (unless (null results)
+      (cons start
+            (mapcar #'destination
+                    (remove '(start)
+                            results
+                            :test #'equal))))))
+
+(defun destination (action)
+  "Find the Y in '(executing (move from X to Y))"
+  (fifth (second action)))
