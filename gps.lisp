@@ -8,7 +8,7 @@
   (or (equal x '(start))
       (executing-p x)))
 
-(defun gps (state goals &optional (*ops* *ops))
+(defun gps (state goals &optional (*ops* *ops*))
   "General Problem Solver: from state, achieve goals using *ops*."
   (find-all-if #'action-p
                (achieve-all (cons '(start) state) goals nil)))
@@ -69,7 +69,7 @@
 (defun starts-with (list x)
     "Is this a list whose first element is x?"
     (and (consp list)
-         (eql (first list) s)))  
+         (eql (first list) x)))  
 
 (defun convert-op (op)
   "Make op conform to the (EXECUTING op) convention."
@@ -107,3 +107,7 @@
       (apply #'remove item sequence
              :test (complement test) keyword-args)))
 (setf (symbol-function 'find-all-if) #'remove-if-not)
+
+(defun mappend (fn the-list)
+  "Apply function to each element of the list and append the results."
+  (apply #'append (mapcar fn the-list)))

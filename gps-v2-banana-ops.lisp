@@ -6,31 +6,32 @@
 ;;; Example:
 ;;; (gps '(at-door on-floor has-ball hungry chair-at-door) '(not-hungry))
 (defparameter *banana-ops*
-  (list
-   (op 'climb-on-chair
-       :preconds '(chair-at-middle-room at-middle-room on-floor)
-       :add-list '(at-bananas on-chair)
-       :del-list '(at-middle-room on-floor))
-   (op 'push-chair-from-door-to-middle-room
-       :preconds '(chair-at-door at-door)
-       :add-list '(chair-at-middle-room at-middle-room)
-       :del-list '(chair-at-door at-door))
-   (op 'walk-from-door-to-middle-room
-       :preconds '(at-door on-floor)
-       :add-list '(at-middle-room)
-       :del-list '(at-door))
-   (op 'grasp-bananas
-       :preconds '(at-bananas empty-handed)
-       :add-list '(has-bananas)
-       :del-list '(empty-handed))
-   (op 'drop-ball
-       :preconds '(has-ball)
-       :add-list '(empty-handed)
-       :del-list '(has-ball))
-   (op 'eat-bananas
-       :preconds '(has-bananas)
-       :add-list '(empty-handed not-hungry)
-       :del-list '(has-bananas hungry))))
+  (mapcar #'convert-op
+          (list
+           (op 'climb-on-chair
+               :preconds '(chair-at-middle-room at-middle-room on-floor)
+               :add-list '(at-bananas on-chair)
+               :del-list '(at-middle-room on-floor))
+           (op 'push-chair-from-door-to-middle-room
+               :preconds '(chair-at-door at-door)
+               :add-list '(chair-at-middle-room at-middle-room)
+               :del-list '(chair-at-door at-door))
+           (op 'walk-from-door-to-middle-room
+               :preconds '(at-door on-floor)
+               :add-list '(at-middle-room)
+               :del-list '(at-door))
+           (op 'grasp-bananas
+               :preconds '(at-bananas empty-handed)
+               :add-list '(has-bananas)
+               :del-list '(empty-handed))
+           (op 'drop-ball
+               :preconds '(has-ball)
+               :add-list '(empty-handed)
+               :del-list '(has-ball))
+           (op 'eat-bananas
+               :preconds '(has-bananas)
+               :add-list '(empty-handed not-hungry)
+               :del-list '(has-bananas hungry)))))
 
 ;; This file was auto generated from
 ;; general-problem-solver.org
@@ -42,7 +43,7 @@
   (or (equal x '(start))
       (executing-p x)))
 
-(defun gps (state goals &optional (*ops* *ops))
+(defun gps (state goals &optional (*ops* *ops*))
   "General Problem Solver: from state, achieve goals using *ops*."
   (find-all-if #'action-p
                (achieve-all (cons '(start) state) goals nil)))
@@ -103,7 +104,7 @@
 (defun starts-with (list x)
     "Is this a list whose first element is x?"
     (and (consp list)
-         (eql (first list) s)))  
+         (eql (first list) x)))  
 
 (defun convert-op (op)
   "Make op conform to the (EXECUTING op) convention."
@@ -141,3 +142,7 @@
       (apply #'remove item sequence
              :test (complement test) keyword-args)))
 (setf (symbol-function 'find-all-if) #'remove-if-not)
+
+(defun mappend (fn the-list)
+  "Apply function to each element of the list and append the results."
+  (apply #'append (mapcar fn the-list)))
