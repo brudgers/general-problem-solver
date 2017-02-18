@@ -487,6 +487,8 @@ Lists are only =eq= when they share structure and =eq= is the default for =membe
 #+END_SRC
 ** Previously Defined Functions
 The function =find-all= does not change from GPS Version One. Norvig uses =find-all-if= as an example of naming clarifying a potential use case earlier in the book. In hindsight the use case seems obvious, but there's kinda/sorta a double negative in =remove-if-not= standing in the way.
+
+On the other hand, it's not clear how different this is from =find-all= beyond being based on a built-in function rather than one written by the user.
 #+NAME: previously-defined-functions-v-two
 #+BEGIN_SRC lisp :noweb tangle
   <<find-all-v-one>>
