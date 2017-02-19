@@ -22,6 +22,20 @@
               (12 11) (11 6) (11 16) (16 17) (17 22) (21 22) (22 23)
               (23 18) (23 24) (24 19) (19 20) (20 15) (15 10) (10 5) (20 25)))))
 
+(defun find-path (start end)
+  "Search a maze for a path from start to end."
+  (let ((results (gps `((at ,start))
+                      `((at ,end)))))
+    (unless (null results)
+      (cons start
+            (mapcar #'destination
+                    (remove '(start)
+                            results
+                            :test #'equal))))))
+
+(defun destination (action)
+  "Find the Y in '(executing (move from X to Y))"
+  (fifth (second action)))
 
 ;; This file was auto generated from
 ;; general-problem-solver.org
