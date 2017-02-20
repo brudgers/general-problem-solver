@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-02-19 Sun 17:58 -->
+<!-- 2017-02-19 Sun 20:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>General Problem Solver in Common Lisp</title>
@@ -233,121 +233,130 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgf1420be">PREFACE</a></li>
-<li><a href="#orgb921a5a">INTRODUCTION</a>
+<li><a href="#org7155c50">PREFACE</a></li>
+<li><a href="#orgfeedeee">INTRODUCTION</a>
 <ul>
-<li><a href="#org9f3b8a3">GPS Main Components</a></li>
-<li><a href="#orgf6e24a1">Goal Types</a></li>
-<li><a href="#org90567b7">Heuristics</a></li>
-<li><a href="#org77eabff">Executive Structure of GPS</a></li>
+<li><a href="#org4ec78fd">GPS Main Components</a></li>
+<li><a href="#org27fb417">Goal Types</a></li>
+<li><a href="#org027f8f9">Heuristics</a></li>
+<li><a href="#org0bbd180">Executive Structure of GPS</a></li>
 </ul>
 </li>
-<li><a href="#orga81ebe9">PROCESS STAGES</a>
+<li><a href="#orgb3e751c">PROCESS STAGES</a>
 <ul>
-<li><a href="#org82ae800">Description</a></li>
-<li><a href="#org56e23ff">Specification</a></li>
+<li><a href="#org2b1305b">Description</a></li>
+<li><a href="#org45888fe">Specification</a></li>
 </ul>
 </li>
-<li><a href="#org3c588d0">VERSION ONE</a>
+<li><a href="#orge3d936c">VERSION ONE</a>
 <ul>
-<li><a href="#org3cacc63">Implementation</a>
+<li><a href="#org179b617">Implementation</a>
 <ul>
-<li><a href="#orgbc26b0c">Glossary</a></li>
-<li><a href="#org8e857b7">GPS</a></li>
-<li><a href="#org762fe18">Special Variables</a></li>
-<li><a href="#org26664cf">Op Data Structure</a></li>
-<li><a href="#org269d149">Achieve</a></li>
-<li><a href="#org45a7f92">Appropriate-p</a></li>
-<li><a href="#org2172a00">Apply-op</a></li>
-<li><a href="#org06282c6">find-all</a></li>
+<li><a href="#org2a395f6">Glossary</a></li>
+<li><a href="#orge83894b">GPS</a></li>
+<li><a href="#org4ab9c06">Special Variables</a></li>
+<li><a href="#org5b94b09">Op Data Structure</a></li>
+<li><a href="#org150e8ae">Achieve</a></li>
+<li><a href="#org0052b2d">Appropriate-p</a></li>
+<li><a href="#orgc69459f">Apply-op</a></li>
+<li><a href="#orgf8143ac">find-all</a></li>
 </ul>
 </li>
-<li><a href="#org9942bde">Problems</a>
+<li><a href="#org01f7131">Problems</a>
 <ul>
-<li><a href="#orge5ca68f">Running Around the Block Problem</a></li>
-<li><a href="#org4136ac3">Clobbered Sibling Goal Problem</a></li>
-<li><a href="#orgf454f35">Leaping Before Looking Problem</a></li>
-<li><a href="#org37e1d1c">Recursive Subgoals  Problem</a></li>
-<li><a href="#orgc51bc08">Lack of Intermediate Information</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org208492e">VERSION TWO</a>
-<ul>
-<li><a href="#orga447342">GPS Debugger</a></li>
-<li><a href="#org7876eb5">Glossary</a></li>
-<li><a href="#org9189418">GPS</a>
-<ul>
-<li><a href="#org21270bd">Simple GPS</a></li>
-<li><a href="#org2398345">GPS Updating Dynamic State</a></li>
-</ul>
-</li>
-<li><a href="#orge9a6329">Special Variables</a></li>
-<li><a href="#org8ca9de9">Data Structure</a></li>
-<li><a href="#org8166a4d">Major Functions</a>
-<ul>
-<li><a href="#org2970bf6">Achieve-all</a></li>
-<li><a href="#orga2ac703">Achieve</a></li>
-<li><a href="#org00953e9">Appropriate-p</a></li>
-<li><a href="#orga37eda0">Apply-op</a></li>
-</ul>
-</li>
-<li><a href="#orgbda7c16">Auxiliary Functions</a>
-<ul>
-<li><a href="#org6981b7c">executing-p</a></li>
-<li><a href="#org2aa8417">starts-with</a></li>
-<li><a href="#orgf3ecbd0">convert-op</a></li>
-<li><a href="#orgec04ccf">op</a></li>
-<li><a href="#org1d5fb30">use</a></li>
-<li><a href="#org0d9e19c">member-equal</a></li>
-</ul>
-</li>
-<li><a href="#org310f916">Previously Defined Functions</a></li>
-</ul>
-</li>
-<li><a href="#orgb17a04d">VERSION THREE</a>
-<ul>
-<li><a href="#org95fb344">GPS</a></li>
-<li><a href="#org7917811">Action-p</a></li>
-<li><a href="#org2203ca4">Previously defined functions</a></li>
-</ul>
-</li>
-<li><a href="#orge0f8a82">KNOWLEDGE BASES</a>
-<ul>
-<li><a href="#orgc4f8329">Parameterize knowledge base</a></li>
-<li><a href="#org376fc79">School Ops</a></li>
-<li><a href="#orgdd98091">Banana Ops</a></li>
-<li><a href="#org52ac381">Maze Ops</a>
-<ul>
-<li><a href="#org4d569d5">make-maze-ops</a></li>
-<li><a href="#org4d13521">make-maze-op</a></li>
-<li><a href="#orgb2273ee">Using Maze Ops in Another Program</a></li>
-</ul>
-</li>
-<li><a href="#orgffc27d0">Block Ops</a>
-<ul>
-<li><a href="#org689d4f6">make-block-ops</a></li>
-<li><a href="#orgc767aa3">move-op</a></li>
-<li><a href="#org4dc68bd">move-ons</a></li>
+<li><a href="#org7c1e0b0">Running Around the Block Problem</a></li>
+<li><a href="#org39df821">Clobbered Sibling Goal Problem</a></li>
+<li><a href="#org3f10e6c">Leaping Before Looking Problem</a></li>
+<li><a href="#org69ba6f3">Recursive Subgoals  Problem</a></li>
+<li><a href="#org32592de">Lack of Intermediate Information</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org9d1e4fa">TESTING CODE</a>
+<li><a href="#org826f5cd">VERSION TWO</a>
 <ul>
-<li><a href="#org4700d4c">GPSv1 School Ops</a></li>
-<li><a href="#orgd046054">GPSv2 Monkey Ops</a></li>
-<li><a href="#org09a0380">GPSv3 Maze Ops</a></li>
-<li><a href="#org8e44b26">GPSv3 Block Ops</a></li>
+<li><a href="#org10679c1">GPS Debugger</a></li>
+<li><a href="#orgf3d3e80">Glossary</a></li>
+<li><a href="#org2697a29">GPS</a>
+<ul>
+<li><a href="#org543071b">Simple GPS</a></li>
+<li><a href="#org170f563">GPS Updating Dynamic State</a></li>
+</ul>
+</li>
+<li><a href="#orgd380ab1">Special Variables</a></li>
+<li><a href="#orgff055d5">Data Structure</a></li>
+<li><a href="#org06df384">Major Functions</a>
+<ul>
+<li><a href="#org3d72f19">Achieve-all</a></li>
+<li><a href="#orga343a7a">Achieve</a></li>
+<li><a href="#org5bb48a4">Appropriate-p</a></li>
+<li><a href="#org85d0598">Apply-op</a></li>
+</ul>
+</li>
+<li><a href="#org612c13c">Auxiliary Functions</a>
+<ul>
+<li><a href="#org8517acb">executing-p</a></li>
+<li><a href="#org10e1b48">starts-with</a></li>
+<li><a href="#org6c92155">convert-op</a></li>
+<li><a href="#org321ef8a">op</a></li>
+<li><a href="#org0057420">use</a></li>
+<li><a href="#orgd44411a">member-equal</a></li>
+</ul>
+</li>
+<li><a href="#org8a53075">Previously Defined Functions</a></li>
+</ul>
+</li>
+<li><a href="#org25c25cd">VERSION THREE</a>
+<ul>
+<li><a href="#orge2430e5">GPS</a></li>
+<li><a href="#orgf020d61">Action-p</a></li>
+<li><a href="#org794a644">Previously defined functions</a></li>
+</ul>
+</li>
+<li><a href="#org395f4f7">VERSION FOUR</a>
+<ul>
+<li><a href="#org9b78748">achieve-all</a></li>
+<li><a href="#orgbc5f99c">achieve-each</a></li>
+<li><a href="#org2f36975">orderings</a></li>
+<li><a href="#org9a305d3">achieve</a></li>
+<li><a href="#orgba505af">appropriate-ops</a></li>
+</ul>
+</li>
+<li><a href="#org1f7b3a5">KNOWLEDGE BASES</a>
+<ul>
+<li><a href="#orga562e13">Parameterize knowledge base</a></li>
+<li><a href="#org8ed23b6">School Ops</a></li>
+<li><a href="#org31fac20">Banana Ops</a></li>
+<li><a href="#org6478010">Maze Ops</a>
+<ul>
+<li><a href="#org4b616fc">make-maze-ops</a></li>
+<li><a href="#orge55b546">make-maze-op</a></li>
+<li><a href="#orgae56cba">Using Maze Ops in Another Program</a></li>
+</ul>
+</li>
+<li><a href="#orgd702899">Block Ops</a>
+<ul>
+<li><a href="#org035126c">make-block-ops</a></li>
+<li><a href="#orgad2ac47">move-op</a></li>
+<li><a href="#org542e1b3">move-ons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgbdc3dbc">TESTING CODE</a>
+<ul>
+<li><a href="#org9d7c808">GPSv1 School Ops</a></li>
+<li><a href="#org036d118">GPSv2 Monkey Ops</a></li>
+<li><a href="#org4ae538f">GPSv3 Maze Ops</a></li>
+<li><a href="#org734e591">GPSv4 Block Ops</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf1420be" class="outline-2">
-<h2 id="orgf1420be">PREFACE</h2>
-<div class="outline-text-2" id="text-orgf1420be">
+<div id="outline-container-org7155c50" class="outline-2">
+<h2 id="org7155c50">PREFACE</h2>
+<div class="outline-text-2" id="text-org7155c50">
 <p>
 <b><b>The computer code here is not original to me.</b></b> and this document reflects several of my ongoing projects:
 </p>
@@ -358,9 +367,9 @@ for the JavaScript code in this tag.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgb921a5a" class="outline-2">
-<h2 id="orgb921a5a">INTRODUCTION</h2>
-<div class="outline-text-2" id="text-orgb921a5a">
+<div id="outline-container-orgfeedeee" class="outline-2">
+<h2 id="orgfeedeee">INTRODUCTION</h2>
+<div class="outline-text-2" id="text-orgfeedeee">
 <p>
 The General Problem Solver was developed in 1957 by <a href="https://en.wikipedia.org/wiki/Allen_Newell">Alan Newell</a>, <a href="https://en.wikipedia.org/wiki/Cliff_Shaw">Cliff Shaw</a> and <a href="https://en.wikipedia.org/wiki/Herbert_A._Simon">Herbert Simon</a>. The paper associated with their initial work is <a href="http://bitsavers.informatik.uni-stuttgart.de/pdf/rand/ipl/P-1584_Report_On_A_General_Problem-Solving_Program_Feb59.pdf"><b>A Report on a General Problem Solving Program</b></a>. However, the code in this version is based on Chapter 4 of <a href="http://norvig.com/paip.html"><b>Paradigms of Artificial Intelligence: Case Studies in Common Lisp</b></a>.
 </p>
@@ -370,9 +379,9 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </p>
 </div>
 
-<div id="outline-container-org9f3b8a3" class="outline-3">
-<h3 id="org9f3b8a3">GPS Main Components</h3>
-<div class="outline-text-3" id="text-org9f3b8a3">
+<div id="outline-container-org4ec78fd" class="outline-3">
+<h3 id="org4ec78fd">GPS Main Components</h3>
+<div class="outline-text-3" id="text-org4ec78fd">
 <ol class="org-ol">
 <li>A vocabulary for talking about the task environment: operators, objects, difference, feature, etc.</li>
 <li>A vocabulary for dealing with the organization of problem-solving processes: goal, method, evaluation.</li>
@@ -381,9 +390,9 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf6e24a1" class="outline-3">
-<h3 id="orgf6e24a1">Goal Types</h3>
-<div class="outline-text-3" id="text-orgf6e24a1">
+<div id="outline-container-org27fb417" class="outline-3">
+<h3 id="org27fb417">Goal Types</h3>
+<div class="outline-text-3" id="text-org27fb417">
 <ol class="org-ol">
 <li>Transform <code>object a</code> into <code>object b</code> by applying operators from the task environment. An example is proof from axioms.</li>
 <li>Apply <code>operator q</code> to <code>object a</code> or an object obtained from a by admissible transformations. An example is integrating an expression.</li>
@@ -391,18 +400,18 @@ Outside of historical value, the General Problem Solver is deemed a failure due 
 </ol>
 </div>
 </div>
-<div id="outline-container-org90567b7" class="outline-3">
-<h3 id="org90567b7">Heuristics</h3>
-<div class="outline-text-3" id="text-org90567b7">
+<div id="outline-container-org027f8f9" class="outline-3">
+<h3 id="org027f8f9">Heuristics</h3>
+<div class="outline-text-3" id="text-org027f8f9">
 <p>
 The main heuristic is the principle of sub-goal reduction: reduce hard goals to sets of easier goals. This assumes that the difference between the current state and the goal can be determined; operators have partial effects on the environment and some portions always remain unchanged by each operator; some differences are harder to effect than others and so it is good practice to eliminate hard differences at the cost of introducing easier differences so long as progress is made.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org77eabff" class="outline-3">
-<h3 id="org77eabff">Executive Structure of GPS</h3>
-<div class="outline-text-3" id="text-org77eabff">
+<div id="outline-container-org0bbd180" class="outline-3">
+<h3 id="org0bbd180">Executive Structure of GPS</h3>
+<div class="outline-text-3" id="text-org0bbd180">
 <p>
 Make the diagram using Graphviz's Dot language.
 </p>
@@ -440,20 +449,20 @@ d:w -&gt; b:w [xlabel="Goal\nnot\nachieved", constraint=false];
 </div>
 </div>
 
-<div id="outline-container-orga81ebe9" class="outline-2">
-<h2 id="orga81ebe9">PROCESS STAGES</h2>
-<div class="outline-text-2" id="text-orga81ebe9">
-</div><div id="outline-container-org82ae800" class="outline-3">
-<h3 id="org82ae800">Description</h3>
-<div class="outline-text-3" id="text-org82ae800">
+<div id="outline-container-orgb3e751c" class="outline-2">
+<h2 id="orgb3e751c">PROCESS STAGES</h2>
+<div class="outline-text-2" id="text-orgb3e751c">
+</div><div id="outline-container-org2b1305b" class="outline-3">
+<h3 id="org2b1305b">Description</h3>
+<div class="outline-text-3" id="text-org2b1305b">
 <p>
 The description of problem solving uses the theory of means-ends analysis. The problem is stated in terms of what we want to happen and look at the difference between what we want and what we have. Some actions have preconditions.
 </p>
 </div>
 </div>
-<div id="outline-container-org56e23ff" class="outline-3">
-<h3 id="org56e23ff">Specification</h3>
-<div class="outline-text-3" id="text-org56e23ff">
+<div id="outline-container-org45888fe" class="outline-3">
+<h3 id="org45888fe">Specification</h3>
+<div class="outline-text-3" id="text-org45888fe">
 <p>
 The specification has seven parts.
 </p>
@@ -469,19 +478,19 @@ The specification has seven parts.
 </div>
 </div>
 </div>
-<div id="outline-container-org3c588d0" class="outline-2">
-<h2 id="org3c588d0">VERSION ONE</h2>
-<div class="outline-text-2" id="text-org3c588d0">
+<div id="outline-container-orge3d936c" class="outline-2">
+<h2 id="orge3d936c">VERSION ONE</h2>
+<div class="outline-text-2" id="text-orge3d936c">
 <p>
 This is the first iteration of GPS from Norvig's book. It is an exercise to get something to run, but it has problems that are discussed at the end of this section. There is a second version of GPS provided in the next section. 
 </p>
 </div>
-<div id="outline-container-org3cacc63" class="outline-3">
-<h3 id="org3cacc63">Implementation</h3>
-<div class="outline-text-3" id="text-org3cacc63">
-</div><div id="outline-container-orgbc26b0c" class="outline-4">
-<h4 id="orgbc26b0c">Glossary</h4>
-<div class="outline-text-4" id="text-orgbc26b0c">
+<div id="outline-container-org179b617" class="outline-3">
+<h3 id="org179b617">Implementation</h3>
+<div class="outline-text-3" id="text-org179b617">
+</div><div id="outline-container-org2a395f6" class="outline-4">
+<h4 id="org2a395f6">Glossary</h4>
+<div class="outline-text-4" id="text-org2a395f6">
 <!-- This HTML table template is generated by emacs 25.1.1 -->
 <table border="1">
   <tr>
@@ -494,14 +503,14 @@ This is the first iteration of GPS from Norvig's book. It is an exercise to get 
 </table>
 </div>
 </div>
-<div id="outline-container-org8e857b7" class="outline-4">
-<h4 id="org8e857b7">GPS</h4>
-<div class="outline-text-4" id="text-org8e857b7">
+<div id="outline-container-orge83894b" class="outline-4">
+<h4 id="orge83894b">GPS</h4>
+<div class="outline-text-4" id="text-orge83894b">
 <p>
 For literate programming purposes the source block name had to use 'one' instead of '1' to work with <code>:noweb</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgc78dc50">;;; THIS FILE AUTOGENERATATED
+<pre class="src src-lisp" id="org3a5d3a1">;;; THIS FILE AUTOGENERATATED
 
 ;;; Helper Function
 &lt;&lt;find-all-v-one&gt;&gt;
@@ -527,25 +536,25 @@ For literate programming purposes the source block name had to use 'one' instead
 </div>
 </div>
 </div>
-<div id="outline-container-org762fe18" class="outline-4">
-<h4 id="org762fe18">Special Variables</h4>
-<div class="outline-text-4" id="text-org762fe18">
+<div id="outline-container-org4ab9c06" class="outline-4">
+<h4 id="org4ab9c06">Special Variables</h4>
+<div class="outline-text-4" id="text-org4ab9c06">
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgb9aedb1">(defvar *state* nil "The current state: a list of all conditions.")
+<pre class="src src-lisp" id="org3b205ec">(defvar *state* nil "The current state: a list of all conditions.")
 (defvar *ops* nil "A list of available operations.")
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org26664cf" class="outline-4">
-<h4 id="org26664cf">Op Data Structure</h4>
-<div class="outline-text-4" id="text-org26664cf">
+<div id="outline-container-org5b94b09" class="outline-4">
+<h4 id="org5b94b09">Op Data Structure</h4>
+<div class="outline-text-4" id="text-org5b94b09">
 <p>
 Note that <code>nil</code> is the default value for each field of the <code>op</code> structure. 
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgd093023">(defstruct op
+<pre class="src src-lisp" id="org34f2aeb">(defstruct op
   "An operation."
   (action nil)
   (preconds nil)
@@ -555,11 +564,11 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 </div>
-<div id="outline-container-org269d149" class="outline-4">
-<h4 id="org269d149">Achieve</h4>
-<div class="outline-text-4" id="text-org269d149">
+<div id="outline-container-org150e8ae" class="outline-4">
+<h4 id="org150e8ae">Achieve</h4>
+<div class="outline-text-4" id="text-org150e8ae">
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgcdd6907">(defun achieve (goal)
+<pre class="src src-lisp" id="orgf0612f9">(defun achieve (goal)
   "A goal is achieved if it already holds. Or if there
    is an appropriate op for it that is applicable."
   (or (member goal *state*)
@@ -569,22 +578,22 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 </div>
-<div id="outline-container-org45a7f92" class="outline-4">
-<h4 id="org45a7f92">Appropriate-p</h4>
-<div class="outline-text-4" id="text-org45a7f92">
+<div id="outline-container-org0052b2d" class="outline-4">
+<h4 id="org0052b2d">Appropriate-p</h4>
+<div class="outline-text-4" id="text-org0052b2d">
 <div class="org-src-container">
-<pre class="src src-lisp" id="orga315310">(defun appropriate-p (goal op)
+<pre class="src src-lisp" id="org5ca5be7">(defun appropriate-p (goal op)
   "An op is appropriate to a goal if the goal is on the op's add-list."
   (member goal (op-add-list op)))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2172a00" class="outline-4">
-<h4 id="org2172a00">Apply-op</h4>
-<div class="outline-text-4" id="text-org2172a00">
+<div id="outline-container-orgc69459f" class="outline-4">
+<h4 id="orgc69459f">Apply-op</h4>
+<div class="outline-text-4" id="text-orgc69459f">
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgbf88c1a">(defun apply-op (op)
+<pre class="src src-lisp" id="org8299891">(defun apply-op (op)
   "Print a message and update *state* when op is applicable."
   (when (every #'achieve (op-preconds op))
     (print (list 'executing (op-action op)))
@@ -594,14 +603,14 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 </div>
-<div id="outline-container-org06282c6" class="outline-4">
-<h4 id="org06282c6">find-all</h4>
-<div class="outline-text-4" id="text-org06282c6">
+<div id="outline-container-orgf8143ac" class="outline-4">
+<h4 id="orgf8143ac">find-all</h4>
+<div class="outline-text-4" id="text-orgf8143ac">
 <p>
 <code>FIND-ALL</code> is introduced early in the book and provides an example of a user function that has many of the features of a Common Lisp built-in function.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org2a1aac5">(defun find-all (item sequence &amp;rest keyword-args
+<pre class="src src-lisp" id="org14fc3cc">(defun find-all (item sequence &amp;rest keyword-args
                                &amp;key (test #'eql)
                                test-not
                                &amp;allow-other-keys)
@@ -617,20 +626,20 @@ Note that <code>nil</code> is the default value for each field of the <code>op</
 </div>
 </div>
 </div>
-<div id="outline-container-org9942bde" class="outline-3">
-<h3 id="org9942bde">Problems</h3>
-<div class="outline-text-3" id="text-org9942bde">
-</div><div id="outline-container-orge5ca68f" class="outline-4">
-<h4 id="orge5ca68f">Running Around the Block Problem</h4>
-<div class="outline-text-4" id="text-orge5ca68f">
+<div id="outline-container-org01f7131" class="outline-3">
+<h3 id="org01f7131">Problems</h3>
+<div class="outline-text-3" id="text-org01f7131">
+</div><div id="outline-container-org7c1e0b0" class="outline-4">
+<h4 id="org7c1e0b0">Running Around the Block Problem</h4>
+<div class="outline-text-4" id="text-org7c1e0b0">
 <p>
 Version One does not handle the run for the side effects case where the start state and the end state are the same&#x2026;e.g. if we run around the block for exercise.
 </p>
 </div>
 </div>
-<div id="outline-container-org4136ac3" class="outline-4">
-<h4 id="org4136ac3">Clobbered Sibling Goal Problem</h4>
-<div class="outline-text-4" id="text-org4136ac3">
+<div id="outline-container-org39df821" class="outline-4">
+<h4 id="org39df821">Clobbered Sibling Goal Problem</h4>
+<div class="outline-text-4" id="text-org39df821">
 <p>
 The code only checks if each goal requirement is achieved at some point, therefore
 </p>
@@ -647,25 +656,25 @@ Despite repairing the car using all the money.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf454f35" class="outline-4">
-<h4 id="orgf454f35">Leaping Before Looking Problem</h4>
-<div class="outline-text-4" id="text-orgf454f35">
+<div id="outline-container-org3f10e6c" class="outline-4">
+<h4 id="org3f10e6c">Leaping Before Looking Problem</h4>
+<div class="outline-text-4" id="text-org3f10e6c">
 <p>
 GPS will choose a course of action and continue it regardless of whether it will solve the problem. Even worse, it will not back up and try a different approach after hitting a dead end.
 </p>
 </div>
 </div>
-<div id="outline-container-org37e1d1c" class="outline-4">
-<h4 id="org37e1d1c">Recursive Subgoals  Problem</h4>
-<div class="outline-text-4" id="text-org37e1d1c">
+<div id="outline-container-org69ba6f3" class="outline-4">
+<h4 id="org69ba6f3">Recursive Subgoals  Problem</h4>
+<div class="outline-text-4" id="text-org69ba6f3">
 <p>
 It is possible to create operations which will send GPS into an infinite loop.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc51bc08" class="outline-4">
-<h4 id="orgc51bc08">Lack of Intermediate Information</h4>
-<div class="outline-text-4" id="text-orgc51bc08">
+<div id="outline-container-org32592de" class="outline-4">
+<h4 id="org32592de">Lack of Intermediate Information</h4>
+<div class="outline-text-4" id="text-org32592de">
 <p>
 GPS will report failure but only as <code>NIL</code>. It will not report what it tried.
 </p>
@@ -673,14 +682,14 @@ GPS will report failure but only as <code>NIL</code>. It will not report what it
 </div>
 </div>
 </div>
-<div id="outline-container-org208492e" class="outline-2">
-<h2 id="org208492e">VERSION TWO</h2>
-<div class="outline-text-2" id="text-org208492e">
+<div id="outline-container-org826f5cd" class="outline-2">
+<h2 id="org826f5cd">VERSION TWO</h2>
+<div class="outline-text-2" id="text-org826f5cd">
 <p>
 At one level, adding GPSv2 into this same source file is kind of a mess. But it makes for a richer exercise from an Emacs/Org-Babel/Literate Programming perspective. It certainly pushes me to understand more about the topic and makes for a more robust documentation of the project's development.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org06e4392">;; This file was auto generated from
+<pre class="src src-lisp" id="orgaa69fcd">;; This file was auto generated from
 ;; general-problem-solver.org
 
 &lt;&lt;load-gps-debugger-v-two&gt;&gt;
@@ -699,9 +708,9 @@ At one level, adding GPSv2 into this same source file is kind of a mess. But it 
 </pre>
 </div>
 </div>
-<div id="outline-container-orga447342" class="outline-3">
-<h3 id="orga447342">GPS Debugger</h3>
-<div class="outline-text-3" id="text-orga447342">
+<div id="outline-container-org10679c1" class="outline-3">
+<h3 id="org10679c1">GPS Debugger</h3>
+<div class="outline-text-3" id="text-org10679c1">
 <p>
 The first of the problems with <code>Version One</code> to be addressed is the Lack of Intermediate Information. Using a debugger seems like a reasonable approach: <code>using-a-debugger</code> requires <code>having-a-debugger</code> and <code>having-a-debugger</code> requires <code>writing-a-debugger</code>. It's what I love about this book, it's GPS all the way down.
 </p>
@@ -711,7 +720,7 @@ The debugger is named <code>gps-debug</code> to avoid conflict with SBCL. To use
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp" id="orga06dcea">(defvar *dbg-ids* nil
+<pre class="src src-lisp" id="orgae4afab">(defvar *dbg-ids* nil
   "Identifiers used by dbg")
 
 (defun dbg (id format-string &amp;rest args)
@@ -742,14 +751,14 @@ The debugger is named <code>gps-debug</code> to avoid conflict with SBCL. To use
 For the current project, I am just going to <code>load</code> the debugger into GPSv2 rather than setting up ASDF&#x2026;because my head is not quite wrapped around ASDF yet in terms of how it would work with this project.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgf12baac">(load "gps-debugger.lisp")
+<pre class="src src-lisp" id="org86318f0">(load "gps-debugger.lisp")
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7876eb5" class="outline-3">
-<h3 id="org7876eb5">Glossary</h3>
-<div class="outline-text-3" id="text-org7876eb5">
+<div id="outline-container-orgf3d3e80" class="outline-3">
+<h3 id="orgf3d3e80">Glossary</h3>
+<div class="outline-text-3" id="text-orgf3d3e80">
 <!-- This HTML table template is generated by emacs 25.1.1 -->
 <table border="1">
   <tr>
@@ -806,27 +815,27 @@ For the current project, I am just going to <code>load</code> the debugger into 
 </div>
 </div>
 
-<div id="outline-container-org9189418" class="outline-3">
-<h3 id="org9189418">GPS</h3>
-<div class="outline-text-3" id="text-org9189418">
+<div id="outline-container-org2697a29" class="outline-3">
+<h3 id="org2697a29">GPS</h3>
+<div class="outline-text-3" id="text-org2697a29">
 <p>
 Norvig provides two alternative implementations of <code>gps</code> in GPSv2. The first is largely similar to GPSv1 with the addition of the goal stack and a <code>start</code> state and treating the parameters as an optional argument which otherwise defaults to the dynamic scope of <code>*ops*</code>. I think adding a <code>start</code> state makes GPS more straight forward in terms of automata theory.
 </p>
 </div>
-<div id="outline-container-org21270bd" class="outline-4">
-<h4 id="org21270bd">Simple GPS</h4>
-<div class="outline-text-4" id="text-org21270bd">
+<div id="outline-container-org543071b" class="outline-4">
+<h4 id="org543071b">Simple GPS</h4>
+<div class="outline-text-4" id="text-org543071b">
 <div class="org-src-container">
-<pre class="src src-lisp" id="org106bdd0">(defun gps (state goals &amp;optional (*ops* *ops*))
+<pre class="src src-lisp" id="org3ed41cd">(defun gps (state goals &amp;optional (*ops* *ops*))
   "General Problem Solver: from state achieves goals using *ops*."
   (remove-if #'atom (achieve-all (cons '(start) state) goals nil)))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2398345" class="outline-4">
-<h4 id="org2398345">GPS Updating Dynamic State</h4>
-<div class="outline-text-4" id="text-org2398345">
+<div id="outline-container-org170f563" class="outline-4">
+<h4 id="org170f563">GPS Updating Dynamic State</h4>
+<div class="outline-text-4" id="text-org170f563">
 <p>
 The second implementation of GPSv2, in addition to accepting the operations as an optional argument also updates the global parameter <code>*ops*</code> to match the argument if it is supplied. Norvig says this is more complicated but useful without explaining why. I suspect it is more useful in the case of more advanced agents (or multiple agents) where the availble operations change during program execution.
 </p>
@@ -835,7 +844,7 @@ The second implementation of GPSv2, in addition to accepting the operations as a
 As I was entering the code, I kind of choked for a second on the documentation string; thinking shouldn't it be 'using ops'. But then I realized that since <code>*ops*</code> quickly becomes <code>ops</code>, it made sense. It's the sort of subtle understanding that only comes from really working with the code in a textbook. No matter how much I read, without typing, I'd never have had that thought. Then after typing the code, I saw that this version cleans up after itself by restoring the old value of <code>*ops*</code> before returning the result. It's a sort of manual shadowing of variables. Probably problematic in a concurrent environment, but one <i>general problem</i> at a time.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org0d7a0fd">(defun gps (state goals &amp;optional (ops *ops*))
+<pre class="src src-lisp" id="orge48cc9d">(defun gps (state goals &amp;optional (ops *ops*))
   "General Problem Solver: from state achieve goals using *ops*."
   (let ((lod-ops *ops*))
     (setf *ops* ops)
@@ -851,35 +860,35 @@ As I was entering the code, I kind of choked for a second on the documentation s
 </div>
 </div>
 
-<div id="outline-container-orge9a6329" class="outline-3">
-<h3 id="orge9a6329">Special Variables</h3>
-<div class="outline-text-3" id="text-orge9a6329">
+<div id="outline-container-orgd380ab1" class="outline-3">
+<h3 id="orgd380ab1">Special Variables</h3>
+<div class="outline-text-3" id="text-orgd380ab1">
 <p>
 GPS Version Two handles state differently than version one and so only requires the <code>*ops*</code> parameter. The <code>*ops*</code> parameter allows the creation of different applications based on the use of different operations. This ability is what puts the 'general' in GPS.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org08c2a09">(defvar *ops* nil "A list of available operators.")
+<pre class="src src-lisp" id="orgbe21a06">(defvar *ops* nil "A list of available operators.")
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8ca9de9" class="outline-3">
-<h3 id="org8ca9de9">Data Structure</h3>
-<div class="outline-text-3" id="text-org8ca9de9">
+<div id="outline-container-orgff055d5" class="outline-3">
+<h3 id="orgff055d5">Data Structure</h3>
+<div class="outline-text-3" id="text-orgff055d5">
 <p>
 The <code>op</code> data structure is not changed from version one so we can reuse it. But I'll still make a source code block to make changes easier in the future.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org7cb10e1">&lt;&lt;op-v-one&gt;&gt;
+<pre class="src src-lisp" id="org51c3dc0">&lt;&lt;op-v-one&gt;&gt;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8166a4d" class="outline-3">
-<h3 id="org8166a4d">Major Functions</h3>
-<div class="outline-text-3" id="text-org8166a4d">
+<div id="outline-container-org06df384" class="outline-3">
+<h3 id="org06df384">Major Functions</h3>
+<div class="outline-text-3" id="text-org06df384">
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgd38bcb4">;;; Major Functions
+<pre class="src src-lisp" id="org1d794d4">;;; Major Functions
 
 &lt;&lt;achieve-all-v-two&gt;&gt;
 
@@ -894,14 +903,14 @@ The <code>op</code> data structure is not changed from version one so we can reu
 The only additional function for GPS Version 2 is the addition of <code>achieve-all</code>. However, the other functions: <code>achieve</code>, <code>appropriate-p</code>, and <code>apply-op</code> are modified.
 </p>
 </div>
-<div id="outline-container-org2970bf6" class="outline-4">
-<h4 id="org2970bf6">Achieve-all</h4>
-<div class="outline-text-4" id="text-org2970bf6">
+<div id="outline-container-org3d72f19" class="outline-4">
+<h4 id="org3d72f19">Achieve-all</h4>
+<div class="outline-text-4" id="text-org3d72f19">
 <p>
 Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures that after achieving the goals, all the goals are still in the current state of the world. 
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org369ad37">(defun achieve-all (state goals goal-stack)
+<pre class="src src-lisp" id="org587fb50">(defun achieve-all (state goals goal-stack)
   "Try to achieve each goal and make sure each still holds at the end."
   (let ((current-state state))
     (if (and (every #'(lambda (g)
@@ -914,14 +923,14 @@ Achieve all is Norvig's solution to the clobbered sibling goal. It makes ensures
 </div>
 </div>
 </div>
-<div id="outline-container-orga2ac703" class="outline-4">
-<h4 id="orga2ac703">Achieve</h4>
-<div class="outline-text-4" id="text-orga2ac703">
+<div id="outline-container-orga343a7a" class="outline-4">
+<h4 id="orga343a7a">Achieve</h4>
+<div class="outline-text-4" id="text-orga343a7a">
 <p>
 The new version of <code>achieve</code> is designed to handle the recursive subgoal problem. It uses a 'goal stack' to check if the current goal has become a sub-goal of itself. It also adds debugging.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org4360881">(defun achieve (state goal goal-stack)
+<pre class="src src-lisp" id="orgfd22d7b">(defun achieve (state goal goal-stack)
   "A goal is achieved if:\n  It already holds\n  Or\n There is an applicable appropriate op."
   (dbg-indent :gps (length goal-stack) "Goal: ~a" goal)
   (cond ((member-equal goal state) state)
@@ -933,23 +942,23 @@ The new version of <code>achieve</code> is designed to handle the recursive subg
 </div>
 </div>
 </div>
-<div id="outline-container-org00953e9" class="outline-4">
-<h4 id="org00953e9">Appropriate-p</h4>
-<div class="outline-text-4" id="text-org00953e9">
+<div id="outline-container-org5bb48a4" class="outline-4">
+<h4 id="org5bb48a4">Appropriate-p</h4>
+<div class="outline-text-4" id="text-org5bb48a4">
 <p>
-The change for GPSv2 is to use <a href="#orgd1b9119"><code>member-equal</code></a> when looking for a goal in an <code>op-add-list</code>. The problem arises because in GPLv2 goals can be lists rather than symbols: for example <code>'(executing run-around-block)</code>. 
+The change for GPSv2 is to use <a href="#org945dc6e"><code>member-equal</code></a> when looking for a goal in an <code>op-add-list</code>. The problem arises because in GPLv2 goals can be lists rather than symbols: for example <code>'(executing run-around-block)</code>. 
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org66348c9">(defun appropriate-p (goal op)
+<pre class="src src-lisp" id="org841f47e">(defun appropriate-p (goal op)
   "An op is approriate to a goal if the goal is in the op's add list."
   (member-equal goal (op-add-list op)))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga37eda0" class="outline-4">
-<h4 id="orga37eda0">Apply-op</h4>
-<div class="outline-text-4" id="text-orga37eda0">
+<div id="outline-container-org85d0598" class="outline-4">
+<h4 id="org85d0598">Apply-op</h4>
+<div class="outline-text-4" id="text-org85d0598">
 <p>
 GPLv2 uses a more sophisticated application mechanism and most of it is reflected in changes to <code>apply-op</code>. One the one hand, the mechanism is more 'functional': <code>apply-op</code> now takes a state and returns a state rather than mutating a global state. On the other hand, the logic runs deeper and does more.
 </p>
@@ -958,7 +967,7 @@ GPLv2 uses a more sophisticated application mechanism and most of it is reflecte
 It also adds debugging and replaces the set oriented functions <code>union</code> and <code>set-diff</code> with order preserving functions <code>append</code> and <code>remove-if</code>. Once the 'executing' syntax was added, time became a bigger part of the model.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org1a0be4c">(defun apply-op (state goal op goal-stack)
+<pre class="src src-lisp" id="org3bf8479">(defun apply-op (state goal op goal-stack)
   "Return a new state that is a transformation of the input state when op is applicable."
   (dbg-indent :gps (length goal-stack) "Consider: ~a" (op-action op))
   (let ((state2 (achieve-all state
@@ -976,14 +985,14 @@ It also adds debugging and replaces the set oriented functions <code>union</code
 </div>
 </div>
 </div>
-<div id="outline-container-orgbda7c16" class="outline-3">
-<h3 id="orgbda7c16">Auxiliary Functions</h3>
-<div class="outline-text-3" id="text-orgbda7c16">
+<div id="outline-container-org612c13c" class="outline-3">
+<h3 id="org612c13c">Auxiliary Functions</h3>
+<div class="outline-text-3" id="text-org612c13c">
 <p>
 These functions implement a new form for ops so that the action list contains an "executing" action to address the running around the block problem. There is also a conversion function to back port the changed structure to <b>school-ops</b>.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org58bbee2">&lt;&lt;executing-p-v-two&gt;&gt;
+<pre class="src src-lisp" id="org3235ca5">&lt;&lt;executing-p-v-two&gt;&gt;
 
 &lt;&lt;starts-with-v-two&gt;&gt;  
 
@@ -997,28 +1006,28 @@ These functions implement a new form for ops so that the action list contains an
 </pre>
 </div>
 </div>
-<div id="outline-container-org6981b7c" class="outline-4">
-<h4 id="org6981b7c">executing-p</h4>
-<div class="outline-text-4" id="text-org6981b7c">
+<div id="outline-container-org8517acb" class="outline-4">
+<h4 id="org8517acb">executing-p</h4>
+<div class="outline-text-4" id="text-org8517acb">
 <p>
 The idea that a goal can consist merely of executing some action between to identical (for our purpose) states of the world makes the model richer. It also comes with additional complexity.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org278d13a">(defun executing-p (x)
+<pre class="src src-lisp" id="orgddc493e">(defun executing-p (x)
   "Is the form: (executing...)?"
   (starts-with x 'executing))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2aa8417" class="outline-4">
-<h4 id="org2aa8417">starts-with</h4>
-<div class="outline-text-4" id="text-org2aa8417">
+<div id="outline-container-org10e1b48" class="outline-4">
+<h4 id="org10e1b48">starts-with</h4>
+<div class="outline-text-4" id="text-org10e1b48">
 <p>
 Making sure that an object is a list before trying to look at its <code>first</code> element avoids some nasty crashes. Abstracting over the details with a function is a good idea.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org86fc73d">(defun starts-with (list x)
+<pre class="src src-lisp" id="org21c6071">(defun starts-with (list x)
     "Is this a list whose first element is x?"
     (and (consp list)
          (eql (first list) x)))
@@ -1026,14 +1035,14 @@ Making sure that an object is a list before trying to look at its <code>first</c
 </div>
 </div>
 </div>
-<div id="outline-container-orgf3ecbd0" class="outline-4">
-<h4 id="orgf3ecbd0">convert-op</h4>
-<div class="outline-text-4" id="text-orgf3ecbd0">
+<div id="outline-container-org6c92155" class="outline-4">
+<h4 id="org6c92155">convert-op</h4>
+<div class="outline-text-4" id="text-org6c92155">
 <p>
 It's a good idea to be able to backport the new executing syntax to the earlier <code>*school-ops*</code> knowledge base. Writing a simple function to iteratively improve the app is probably easier than trying to get it right the first time&#x2026;or at least I'm going with Norvig on that idea.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgc73c90e">(defun convert-op (op)
+<pre class="src src-lisp" id="orge395cc0">(defun convert-op (op)
   "Make op conform to the (EXECUTING op) convention."
   (unless (some #'executing-p (op-add-list op))
     (push (list 'executing (op-action op))
@@ -1043,14 +1052,14 @@ It's a good idea to be able to backport the new executing syntax to the earlier 
 </div>
 </div>
 </div>
-<div id="outline-container-orgec04ccf" class="outline-4">
-<h4 id="orgec04ccf">op</h4>
-<div class="outline-text-4" id="text-orgec04ccf">
+<div id="outline-container-org321ef8a" class="outline-4">
+<h4 id="org321ef8a">op</h4>
+<div class="outline-text-4" id="text-org321ef8a">
 <p>
 It's nice to have a bit easier semantics for making new <code>op</code>'s. So why not add a function? Well in a Lisp-1 that would be a mess and here it is just a potential bit of confusion.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgd88ff36">(defun op (action &amp;key preconds add-list del-list)
+<pre class="src src-lisp" id="orge0683ea">(defun op (action &amp;key preconds add-list del-list)
   "Make a new operator that obeys the (EXECUTING op) convention."
   (make-op :action action
            :preconds preconds
@@ -1060,9 +1069,9 @@ It's nice to have a bit easier semantics for making new <code>op</code>'s. So wh
 </div>
 </div>
 </div>
-<div id="outline-container-org1d5fb30" class="outline-4">
-<h4 id="org1d5fb30">use</h4>
-<div class="outline-text-4" id="text-org1d5fb30">
+<div id="outline-container-org0057420" class="outline-4">
+<h4 id="org0057420">use</h4>
+<div class="outline-text-4" id="text-org0057420">
 <p>
 To better facilitate management of parameters the new versions of <code>gps</code> allow operations (i.e. the value of the dynamic variable <code>*ops*</code> to be passed as an optional parameter. Better management of <code>*ops*</code> is provided by <code>use</code>. It provides a simpler way to reparameterize the application.
 </p>
@@ -1071,7 +1080,7 @@ To better facilitate management of parameters the new versions of <code>gps</cod
 The technique of returning the length of the return value (i.e. the length of <code>oplist</code>) ensures that the <code>use</code> returns a true value even when <code>oplist</code> is the empty list. Without the use of <code>length</code> the call <code>(setf *ops* nil)</code> would return <code>nil</code> and evaluate to <code>false</code>. Using <code>length</code> an integer will always be returned if the call was successful and even the integer <code>0</code> will evaluate to <code>true</code> in Common Lisp.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgf582361">(defun use (oplist)
+<pre class="src src-lisp" id="org656248b">(defun use (oplist)
   "Use oplist as the default set of operators by setting the dynamic variable *ops* to its value."
   ;; Return something useful
   ;; but not verbose
@@ -1080,14 +1089,14 @@ The technique of returning the length of the return value (i.e. the length of <c
 </div>
 </div>
 </div>
-<div id="outline-container-org0d9e19c" class="outline-4">
-<h4 id="org0d9e19c">member-equal</h4>
-<div class="outline-text-4" id="text-org0d9e19c">
+<div id="outline-container-orgd44411a" class="outline-4">
+<h4 id="orgd44411a">member-equal</h4>
+<div class="outline-text-4" id="text-orgd44411a">
 <p>
 Lists are only <code>eq</code> when they share structure and <code>eq</code> is the default for <code>member</code>. A new function helps deal with the <code>executing</code> syntax.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgd1b9119">(defun member-equal (item list)
+<pre class="src src-lisp" id="org945dc6e">(defun member-equal (item list)
   "Test for membership in a list as set using equal."
   (member item list :test #'equal))
 </pre>
@@ -1095,9 +1104,9 @@ Lists are only <code>eq</code> when they share structure and <code>eq</code> is 
 </div>
 </div>
 </div>
-<div id="outline-container-org310f916" class="outline-3">
-<h3 id="org310f916">Previously Defined Functions</h3>
-<div class="outline-text-3" id="text-org310f916">
+<div id="outline-container-org8a53075" class="outline-3">
+<h3 id="org8a53075">Previously Defined Functions</h3>
+<div class="outline-text-3" id="text-org8a53075">
 <p>
 The function <code>find-all</code> does not change from GPS Version One. Norvig uses <code>find-all-if</code> as an example of naming clarifying a potential use case earlier in the book. In hindsight the use case seems obvious, but there's kinda/sorta a double negative in <code>remove-if-not</code> standing in the way.
 </p>
@@ -1106,22 +1115,22 @@ The function <code>find-all</code> does not change from GPS Version One. Norvig 
 On the other hand, it's not clear how different this is from <code>find-all</code> beyond being based on a built-in function rather than one written by the user.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgc9405b6">&lt;&lt;find-all-v-one&gt;&gt;
+<pre class="src src-lisp" id="orgb880145">&lt;&lt;find-all-v-one&gt;&gt;
 (setf (symbol-function 'find-all-if) #'remove-if-not)
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb17a04d" class="outline-2">
-<h2 id="orgb17a04d">VERSION THREE</h2>
-<div class="outline-text-2" id="text-orgb17a04d">
+<div id="outline-container-org25c25cd" class="outline-2">
+<h2 id="org25c25cd">VERSION THREE</h2>
+<div class="outline-text-2" id="text-org25c25cd">
 <p>
 The third version of GPS fixes a bug related to assuming that each action is an <code>atom</code>. Because the actions for <code>*maze-ops* are compound in the form of ='(at &lt;location&gt;)</code> this assumption no longer holds. Norvig calls the problem of using a method that is convenient instead of a method that follows the business logic 'punning'. Essentially, it is calling a function that is at the wrong level of abstraction. Here we want an <code>'executing</code> form from the GPS 'language' not the <code>atom</code> form from Common Lisp.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp" id="org6928d48">;; This file was auto generated from
+<pre class="src src-lisp" id="org31d945c">;; This file was auto generated from
 ;; general-problem-solver.org
 
 &lt;&lt;load-gps-debugger-v-two&gt;&gt;
@@ -1142,11 +1151,11 @@ The third version of GPS fixes a bug related to assuming that each action is an 
 </pre>
 </div>
 </div>
-<div id="outline-container-org95fb344" class="outline-3">
-<h3 id="org95fb344">GPS</h3>
-<div class="outline-text-3" id="text-org95fb344">
+<div id="outline-container-orge2430e5" class="outline-3">
+<h3 id="orge2430e5">GPS</h3>
+<div class="outline-text-3" id="text-orge2430e5">
 <div class="org-src-container">
-<pre class="src src-lisp" id="org7faf223">(defun gps (state goals &amp;optional (*ops* *ops*))
+<pre class="src src-lisp" id="orgdb0c1ca">(defun gps (state goals &amp;optional (*ops* *ops*))
   "General Problem Solver: from state, achieve goals using *ops*."
   (find-all-if #'action-p
                (achieve-all (cons '(start) state) goals nil)))
@@ -1154,14 +1163,14 @@ The third version of GPS fixes a bug related to assuming that each action is an 
 </div>
 </div>
 </div>
-<div id="outline-container-org7917811" class="outline-3">
-<h3 id="org7917811">Action-p</h3>
-<div class="outline-text-3" id="text-org7917811">
+<div id="outline-container-orgf020d61" class="outline-3">
+<h3 id="orgf020d61">Action-p</h3>
+<div class="outline-text-3" id="text-orgf020d61">
 <p>
 Any solution will be a path through the state space that starts with <code>(start)</code> and has zero or more <code>(executing...)</code> elements.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org69b8890">(defun action-p (x)
+<pre class="src src-lisp" id="org02d9b84">(defun action-p (x)
   "Is x something that is (start) or (executing...)?"
   (or (equal x '(start))
       (executing-p x)))
@@ -1169,9 +1178,9 @@ Any solution will be a path through the state space that starts with <code>(star
 </div>
 </div>
 </div>
-<div id="outline-container-org2203ca4" class="outline-3">
-<h3 id="org2203ca4">Previously defined functions</h3>
-<div class="outline-text-3" id="text-org2203ca4">
+<div id="outline-container-org794a644" class="outline-3">
+<h3 id="org794a644">Previously defined functions</h3>
+<div class="outline-text-3" id="text-org794a644">
 <p>
 Norvig introduces <code>mappend</code> early on [page 19]. But not having it in the environment didn't bite me in the ass until more than 100 pages later when I implemented <code>*maze-ops*</code>. On the other hand, coming back and revisiting it more than a month after starting to look at Common Lisp again made it much more obvious than it was in my glazed state at the beginning of the book.
 </p>
@@ -1180,7 +1189,7 @@ Norvig introduces <code>mappend</code> early on [page 19]. But not having it in 
 At the <code>org-mode</code> level, I sort of like the fact it forced me to tangle incrementally. I haven't really been doing that and being comfortable just referencing version-two is a nice change to my attitude.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org3680768">&lt;&lt;previously-defined-functions-v-two&gt;&gt;
+<pre class="src src-lisp" id="org2c381ce">&lt;&lt;previously-defined-functions-v-two&gt;&gt;
 
 (defun mappend (fn the-list)
   "Apply function to each element of the list and append the results."
@@ -1190,25 +1199,150 @@ At the <code>org-mode</code> level, I sort of like the fact it forced me to tang
 </div>
 </div>
 </div>
-<div id="outline-container-orge0f8a82" class="outline-2">
-<h2 id="orge0f8a82">KNOWLEDGE BASES</h2>
-<div class="outline-text-2" id="text-orge0f8a82">
-</div><div id="outline-container-orgc4f8329" class="outline-3">
-<h3 id="orgc4f8329">Parameterize knowledge base</h3>
-<div class="outline-text-3" id="text-orgc4f8329">
+<div id="outline-container-org395f4f7" class="outline-2">
+<h2 id="org395f4f7">VERSION FOUR</h2>
+<div class="outline-text-2" id="text-org395f4f7">
+<p>
+The blocks world shows that GPS still clobbers sibling goals. And it tries inefficient solutions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp" id="orgc479b59">;; This file was auto generated from
+;; general-problem-solver.org
+
+&lt;&lt;load-gps-debugger-v-two&gt;&gt;
+
+&lt;&lt;action-p&gt;&gt;
+
+&lt;&lt;gps-v-three&gt;&gt;
+
+&lt;&lt;special-variables-v-two&gt;&gt;
+
+&lt;&lt;op-v-two&gt;&gt;
+
+&lt;&lt;major-functions-v-two&gt;&gt;
+
+&lt;&lt;auxiliary-functions-v-two&gt;&gt;
+
+&lt;&lt;previously-defined-functions-v-three&gt;&gt;
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp" id="orge00f636">;;; Major Functions
+&lt;&lt;achieve-each-v-four&gt;&gt;
+
+&lt;&lt;orderings-v-four&gt;&gt;
+
+&lt;&lt;achieve-all-v-four&gt;&gt;
+
+&lt;&lt;achieve-v-four&gt;&gt;
+
+&lt;&lt;appropriate-ops-v-four&gt;&gt;
+
+&lt;&lt;appropriate-p-v-two&gt;&gt;
+
+&lt;&lt;apply-op-v-two&gt;&gt;
+</pre>
+</div>
+</div>
+<div id="outline-container-org9b78748" class="outline-3">
+<h3 id="org9b78748">achieve-all</h3>
+<div class="outline-text-3" id="text-org9b78748">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org3419aa8">(defun achieve-all (state goals goal-stack)
+  "Achieve each goal trying several orderings."
+  (some #'(lambda (goals)
+            (achieve-each state goals goal-stack))
+        (orderings goals)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbc5f99c" class="outline-3">
+<h3 id="orgbc5f99c">achieve-each</h3>
+<div class="outline-text-3" id="text-orgbc5f99c">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org05c55f4">(defun achieve-each (state goals goal-stack)
+  "Achieve each goal, and make sure they hold at the end."
+  (let ((current-state state))
+    (if (and (every #'(lambda (g)
+                        (setf current-state
+                              (achieve current-state g goal-stack)))
+                    goals)
+             (subsetp goals current-state :test #'equal))
+        current-state)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2f36975" class="outline-3">
+<h3 id="org2f36975">orderings</h3>
+<div class="outline-text-3" id="text-org2f36975">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org24a8ffa">(defun orderings (l)
+  (if (&gt; (length l) 1)
+      (list l (reverse l))
+      (list l)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9a305d3" class="outline-3">
+<h3 id="org9a305d3">achieve</h3>
+<div class="outline-text-3" id="text-org9a305d3">
+<div class="org-src-container">
+<pre class="src src-lisp" id="orga604712">(defun achieve (state goal goal-stack)
+  "A goal is achieved when it already holds or if there is an appropriate op that is applicable."
+  (debug-indent :gps (length goal-stack) "Goal: ~a" goal)
+  (cond ((member-equal goal state) state)
+        ((member-equal goal goal-stack) nil)
+        (t (some #'(lambda (op)
+                     (apply-op state goal op goal-stack))
+                 (appropriate-ops goal state)))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgba505af" class="outline-3">
+<h3 id="orgba505af">appropriate-ops</h3>
+<div class="outline-text-3" id="text-orgba505af">
+<p>
+At this point we've got lambdas inside of lambdas and that's often a code smell. I mean it's lambdas all the way down, but at some point it looks like a rabbit hole.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp" id="orgc40423e">(defun appropriate-ops (goal state)
+  "Return a list of appropriate operators sorted by the number of unfilled preconditions."
+  (sort (copy-list (find-all goal *ops* :test #'appropriate-p))
+        #'&lt;
+        :key (lambda (op)
+               (count-if #'(lambda (precond)
+                             (not (member-equal precond state)))
+                         op-preconds op))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1f7b3a5" class="outline-2">
+<h2 id="org1f7b3a5">KNOWLEDGE BASES</h2>
+<div class="outline-text-2" id="text-org1f7b3a5">
+</div><div id="outline-container-orga562e13" class="outline-3">
+<h3 id="orga562e13">Parameterize knowledge base</h3>
+<div class="outline-text-3" id="text-orga562e13">
 <p>
 This is one of the techniques that Norvig introduces early in the book. The idea of parameters is that changing the parameters, creates a different program. For example, the school parameters here create a program that solves the problem of getting the son to school. A different set of parameters will create a 'different' problem solver.
 </p>
 </div>
 </div>
-<div id="outline-container-org376fc79" class="outline-3">
-<h3 id="org376fc79">School Ops</h3>
-<div class="outline-text-3" id="text-org376fc79">
+<div id="outline-container-org8ed23b6" class="outline-3">
+<h3 id="org8ed23b6">School Ops</h3>
+<div class="outline-text-3" id="text-org8ed23b6">
 <p>
 The parameter <code>*school-ops*</code> could be shorter by leaving out the fields that are <code>nil</code> since it is the default for the <code>op</code> structure and Norvig does so in the book.  However, being explicit has the advantage of requiring less local knowledge and the advantage of creating a more regular pattern within the code similar to the design recipes in <b>How to Design Programs</b>.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org72b823a">(defparameter *school-ops*
+<pre class="src src-lisp" id="org44da7e9">(defparameter *school-ops*
   (mapcar #'convert-op
           (list
            (make-op
@@ -1246,15 +1380,15 @@ The parameter <code>*school-ops*</code> could be shorter by leaving out the fiel
 </div>
 </div>
 
-<div id="outline-container-orgdd98091" class="outline-3">
-<h3 id="orgdd98091">Banana Ops</h3>
-<div class="outline-text-3" id="text-orgdd98091">
+<div id="outline-container-org31fac20" class="outline-3">
+<h3 id="org31fac20">Banana Ops</h3>
+<div class="outline-text-3" id="text-org31fac20">
 <p>
 The interesting thing about <code>*banana-ops*</code> is how arbitrary the knowledge representation feels. Conditions like <code>'hungry</code> feel like a different level of abstraction than <code>'empty-handed</code> or <code>chair-at-middle-room</code>. I suppose it is because the monkey seems like an agent and <code>'hungry</code> is an internal state while other operators reflect its environment. I suppose I am expecting a more anthropromorphic perspective that just isn't in GPS.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp" id="orgcfc8eae">(defparameter *banana-ops*
+<pre class="src src-lisp" id="org561f4f7">(defparameter *banana-ops*
   (mapcar #'convert-op
           (list
            (op 'climb-on-chair
@@ -1285,9 +1419,9 @@ The interesting thing about <code>*banana-ops*</code> is how arbitrary the knowl
 </div>
 </div>
 </div>
-<div id="outline-container-org52ac381" class="outline-3">
-<h3 id="org52ac381">Maze Ops</h3>
-<div class="outline-text-3" id="text-org52ac381">
+<div id="outline-container-org6478010" class="outline-3">
+<h3 id="org6478010">Maze Ops</h3>
+<div class="outline-text-3" id="text-org6478010">
 <p>
 The maze is modeled as a grid. 
 </p>
@@ -1308,7 +1442,7 @@ The maze is modeled as a grid.
 The maze can also be seen as undirected graph and adding utility functions to model that abstraction saves typing. Code generation is the ultimate data compression.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org47ba6de">;;; THIS FILE AUTOGENERATED
+<pre class="src src-lisp" id="orgf3d7900">;;; THIS FILE AUTOGENERATED
 ;;; It has a dependency on #'mappend
 &lt;&lt;make-maze-op&gt;&gt;
 
@@ -1328,14 +1462,14 @@ The maze can also be seen as undirected graph and adding utility functions to mo
 </pre>
 </div>
 </div>
-<div id="outline-container-org4d569d5" class="outline-4">
-<h4 id="org4d569d5">make-maze-ops</h4>
-<div class="outline-text-4" id="text-org4d569d5">
+<div id="outline-container-org4b616fc" class="outline-4">
+<h4 id="org4b616fc">make-maze-ops</h4>
+<div class="outline-text-4" id="text-org4b616fc">
 <p>
 This function is very simple, all the interestin work happens at <code>make-maze-op</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org57067df">(defun make-maze-ops (pair)
+<pre class="src src-lisp" id="org3be180b">(defun make-maze-ops (pair)
   "Make maze ops in both directions."
   (list (make-maze-op (first pair) (second pair))
         (make-maze-op (second pair) (first pair))))
@@ -1343,14 +1477,14 @@ This function is very simple, all the interestin work happens at <code>make-maze
 </div>
 </div>
 </div>
-<div id="outline-container-org4d13521" class="outline-4">
-<h4 id="org4d13521">make-maze-op</h4>
-<div class="outline-text-4" id="text-org4d13521">
+<div id="outline-container-orge55b546" class="outline-4">
+<h4 id="orge55b546">make-maze-op</h4>
+<div class="outline-text-4" id="text-orge55b546">
 <p>
 Here is an example of the power of macros. It parses a <code>pair</code> and expands it out to a <code>struct</code>. Compared to the typing saved by creating both operations from one, this saves many times more.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org3d4fd66">(defun make-maze-op (here there)
+<pre class="src src-lisp" id="orgfd07b7e">(defun make-maze-op (here there)
   "Make an operator to move between two places."
   (op `(move from ,here to ,there)
       :preconds `((at ,here))
@@ -1360,20 +1494,20 @@ Here is an example of the power of macros. It parses a <code>pair</code> and exp
 </div>
 </div>
 </div>
-<div id="outline-container-orgb2273ee" class="outline-4">
-<h4 id="orgb2273ee">Using Maze Ops in Another Program</h4>
-<div class="outline-text-4" id="text-orgb2273ee">
+<div id="outline-container-orgae56cba" class="outline-4">
+<h4 id="orgae56cba">Using Maze Ops in Another Program</h4>
+<div class="outline-text-4" id="text-orgae56cba">
 <p>
 By returning the path through the maze (or GPS's solution steps in general) we have information that can be used by another program. In particular we may have useful data at the business logic layer of abstraction. This can be fed back into our knowledge base at a high level.
 </p>
 </div>
-<ul class="org-ul"><li><a id="org075fe3f"></a>find-path<br /><div class="outline-text-5" id="text-org075fe3f">
+<ul class="org-ul"><li><a id="orgb1a0185"></a>find-path<br /><div class="outline-text-5" id="text-orgb1a0185">
 <p>
 Once again, Norvig uses 'macros' in the weak sense of backquoting and unquoting. It never really hit me that macros are all about building data-structures. Here the case is lists. Previously it was building the <code>defstruct</code>. While Lisp's homoiconicity allows data structures to be code, macros operate on data structure abstractions not code abstractions.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp" id="org41982f9">(defun find-path (start end)
+<pre class="src src-lisp" id="org66d9c76">(defun find-path (start end)
   "Search a maze for a path from start to end."
   (let ((results (gps `((at ,start))
                       `((at ,end)))))
@@ -1386,12 +1520,12 @@ Once again, Norvig uses 'macros' in the weak sense of backquoting and unquoting.
 </pre>
 </div>
 </div></li>
-<li><a id="org295c1f9"></a>destination<br /><div class="outline-text-5" id="text-org295c1f9">
+<li><a id="org2e90b41"></a>destination<br /><div class="outline-text-5" id="text-org2e90b41">
 <p>
 I don't really like this function. It seems to be more than one level of abstraction down from mazes. Aesthetically, there should be something about x's and y's sitting in between mazes and lists. Oh well.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp" id="org0738782">(defun destination (action)
+<pre class="src src-lisp" id="org8169cc9">(defun destination (action)
   "Find the Y in '(executing (move from X to Y))"
   (fifth (second action)))
 </pre>
@@ -1399,12 +1533,12 @@ I don't really like this function. It seems to be more than one level of abstrac
 </div></li></ul>
 </div>
 </div>
-<div id="outline-container-orgffc27d0" class="outline-3">
-<h3 id="orgffc27d0">Block Ops</h3>
-<div class="outline-text-3" id="text-orgffc27d0">
-</div><div id="outline-container-org689d4f6" class="outline-4">
-<h4 id="org689d4f6">make-block-ops</h4>
-<div class="outline-text-4" id="text-org689d4f6">
+<div id="outline-container-orgd702899" class="outline-3">
+<h3 id="orgd702899">Block Ops</h3>
+<div class="outline-text-3" id="text-orgd702899">
+</div><div id="outline-container-org035126c" class="outline-4">
+<h4 id="org035126c">make-block-ops</h4>
+<div class="outline-text-4" id="text-org035126c">
 <p>
 What is interesting about this construct is how it iterates naively and just filters out the undesirable conditions rather than trying to logically avoid them.
 </p>
@@ -1414,7 +1548,7 @@ Currently, I am reading about Python because I am also working on a Python versi
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp" id="org16b482b">(defun make-block-ops (blocks)
+<pre class="src src-lisp" id="org7ad8480">(defun make-block-ops (blocks)
   (let ((ops nil))
     (dolist (a blocks)
       (dolist (b blocks)
@@ -1430,11 +1564,11 @@ Currently, I am reading about Python because I am also working on a Python versi
 </div>
 </div>
 </div>
-<div id="outline-container-orgc767aa3" class="outline-4">
-<h4 id="orgc767aa3">move-op</h4>
-<div class="outline-text-4" id="text-orgc767aa3">
+<div id="outline-container-orgad2ac47" class="outline-4">
+<h4 id="orgad2ac47">move-op</h4>
+<div class="outline-text-4" id="text-orgad2ac47">
 <div class="org-src-container">
-<pre class="src src-lisp" id="org3e566da">(defun move-op (a b c)
+<pre class="src src-lisp" id="orgbe9f15a">(defun move-op (a b c)
   "Make an operator to move A from B to C."
   (op `(move ,a from ,b to ,c)
       :preconds `((space on ,a) (space on ,c) (,a on ,b))
@@ -1444,11 +1578,11 @@ Currently, I am reading about Python because I am also working on a Python versi
 </div>
 </div>
 </div>
-<div id="outline-container-org4dc68bd" class="outline-4">
-<h4 id="org4dc68bd">move-ons</h4>
-<div class="outline-text-4" id="text-org4dc68bd">
+<div id="outline-container-org542e1b3" class="outline-4">
+<h4 id="org542e1b3">move-ons</h4>
+<div class="outline-text-4" id="text-org542e1b3">
 <div class="org-src-container">
-<pre class="src src-lisp" id="org9a885c9">(defun move-ons (a b c)
+<pre class="src src-lisp" id="org5cb8a77">(defun move-ons (a b c)
   (if (eq b 'table)
       `((,a on ,c))
       `((,a on ,c) (space on ,b))))
@@ -1458,12 +1592,12 @@ Currently, I am reading about Python because I am also working on a Python versi
 </div>
 </div>
 </div>
-<div id="outline-container-org9d1e4fa" class="outline-2">
-<h2 id="org9d1e4fa">TESTING CODE</h2>
-<div class="outline-text-2" id="text-org9d1e4fa">
-</div><div id="outline-container-org4700d4c" class="outline-3">
-<h3 id="org4700d4c">GPSv1 School Ops</h3>
-<div class="outline-text-3" id="text-org4700d4c">
+<div id="outline-container-orgbdc3dbc" class="outline-2">
+<h2 id="orgbdc3dbc">TESTING CODE</h2>
+<div class="outline-text-2" id="text-orgbdc3dbc">
+</div><div id="outline-container-org9d7c808" class="outline-3">
+<h3 id="org9d7c808">GPSv1 School Ops</h3>
+<div class="outline-text-3" id="text-org9d7c808">
 <p>
 A complete package of source and parameters (essentially an application) for the first version of GPS with the School Ops&#x2026;gotta love literate programming.
 </p>
@@ -1484,9 +1618,9 @@ A complete package of source and parameters (essentially an application) for the
 </div>
 </div>
 </div>
-<div id="outline-container-orgd046054" class="outline-3">
-<h3 id="orgd046054">GPSv2 Monkey Ops</h3>
-<div class="outline-text-3" id="text-orgd046054">
+<div id="outline-container-org036d118" class="outline-3">
+<h3 id="org036d118">GPSv2 Monkey Ops</h3>
+<div class="outline-text-3" id="text-org036d118">
 <div class="org-src-container">
 <pre class="src src-lisp">;;; THIS FILE AUTOGENERATED
 ;;;
@@ -1502,9 +1636,9 @@ A complete package of source and parameters (essentially an application) for the
 </div>
 </div>
 </div>
-<div id="outline-container-org09a0380" class="outline-3">
-<h3 id="org09a0380">GPSv3 Maze Ops</h3>
-<div class="outline-text-3" id="text-org09a0380">
+<div id="outline-container-org4ae538f" class="outline-3">
+<h3 id="org4ae538f">GPSv3 Maze Ops</h3>
+<div class="outline-text-3" id="text-org4ae538f">
 <p>
 For simplicity the higher level maze operations illustrating the use of GPS to generate data for the maze domain have been added to the general testing file. Another file to test those would just add noise to the repository&#x2026;since I have not got a handle on package management yet. That's going to wait for the next chapter of Norvig's book.
 </p>
@@ -1522,9 +1656,9 @@ For simplicity the higher level maze operations illustrating the use of GPS to g
 </div>
 </div>
 </div>
-<div id="outline-container-org8e44b26" class="outline-3">
-<h3 id="org8e44b26">GPSv3 Block Ops</h3>
-<div class="outline-text-3" id="text-org8e44b26">
+<div id="outline-container-org734e591" class="outline-3">
+<h3 id="org734e591">GPSv4 Block Ops</h3>
+<div class="outline-text-3" id="text-org734e591">
 <div class="org-src-container">
 <pre class="src src-lisp">;;; This file AUTOGENERATED
 
@@ -1543,7 +1677,7 @@ For simplicity the higher level maze operations illustrating the use of GPS to g
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-02-19 Sun 17:58</p>
+<p class="date">Created: 2017-02-19 Sun 20:28</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
