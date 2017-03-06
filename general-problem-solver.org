@@ -600,16 +600,25 @@ The blocks world shows that GPS still clobbers sibling goals. And it tries ineff
           (orderings goals)))
 #+END_SRC
 ** achieve-each
+
 #+NAME: achieve-each-v-four
 #+BEGIN_SRC lisp
   (defun achieve-each (state goals goal-stack)
     "Achieve each goal, and make sure they hold at the end."
+    ;; don't mutate the global state
     (let ((current-state state))
-      (if (and (every #'(lambda (g)
-                          (setf current-state
-                                (achieve current-state g goal-stack)))
-                      goals)
-               (subsetp goals current-state :test #'equal))
+      (if (and
+           ;; mutuate the current state
+           ;; by mapping achieve onto each goal
+           ;; and seeing if all the goals are achievable
+           (every #'(lambda (g) (setf current-state
+                                      (achieve current-state g goal-stack)))
+                  goals)
+           ;; if the goals are all achievable
+           ;; then test that the mutated current-state
+           ;; to see if any are clobbered
+           (subsetp goals current-state :test #'equal))
+          ;; if none are clobbered return the mutated current state
           current-state)))
 #+END_SRC
 ** orderings
