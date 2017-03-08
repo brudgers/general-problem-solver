@@ -644,15 +644,20 @@ The blocks world shows that GPS still clobbers sibling goals. And it tries ineff
 ** appropriate-ops
 At this point we've got lambdas inside of lambdas and that's often a code smell. I mean it's lambdas all the way down, but at some point it looks like a rabbit hole.
 #+NAME: appropriate-ops-v-four
-#+BEGIN_SRC lisp
+#+BEGIN_SRC lisp :noweb tangle
   (defun appropriate-ops (goal state)
     "Return a list of appropriate operators sorted by the number of unfilled preconditions."
     (sort (copy-list (find-all goal *ops* :test #'appropriate-p))
           #'<
-          :key (lambda (op)
-                 (count-if #'(lambda (precond)
-                               (not (member-equal precond state)))
-                           op-preconds op))))
+          :key <<appropriate-ops-key>>))
+#+END_SRC
+The key for sorting returns a number that represents how many preconditions an =op= has that are not in the state.
+#+NAME: appropriate-ops-key
+#+BEGIN_SRC lisp
+  (lambda (op)
+    (count-if #'(lambda (precond)
+                  (not (member-equal precond state)))
+              op-preconds op))
 #+END_SRC
 * KNOWLEDGE BASES
 ** Parameterize knowledge base
